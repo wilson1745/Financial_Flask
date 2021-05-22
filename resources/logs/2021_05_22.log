@@ -1,0 +1,855 @@
+2021-05-22 12:07:48,757 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:08:58,597 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:09:32,421 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:12:17,300 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:25:43,794 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:26:16,542 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:27:03,008 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:27:32,073 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:27:47,976 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:27:52,102 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x1d1b637c3d0
+2021-05-22 12:27:55,777 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x1d1b637c3d0
+2021-05-22 12:27:55,784 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'email': 'abc.def@gmail.com', 'name': 'kirai', 'id': 1, 'password': '123456'}, {'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2, 'password': '12we'}, {'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'id': 3, 'password': '123456'}, {'email': 'four@gmail1.cm', 'name': 'Four', 'id': 4, 'password': ''}, {'email': 'riley@mail.com', 'name': 'Riley', 'id': 5, 'password': 'asdf'}, {'email': 'riley@mai22l.com', 'name': 'Riley22', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 12:28:10,084 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x1d1b637c3d0
+2021-05-22 12:28:10,092 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'email': 'abc.def@gmail.com', 'name': 'kirai', 'id': 1, 'password': '123456'}, {'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2, 'password': '12we'}, {'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'id': 3, 'password': '123456'}, {'email': 'four@gmail1.cm', 'name': 'Four', 'id': 4, 'password': ''}, {'email': 'riley@mail.com', 'name': 'Riley', 'id': 5, 'password': 'asdf'}, {'email': 'riley@mai22l.com', 'name': 'Riley22', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 12:28:22,380 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x1d1b637c3d0
+2021-05-22 12:28:22,388 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'email': 'abc.def@gmail.com', 'name': 'kirai', 'id': 1, 'password': '123456'}, {'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2, 'password': '12we'}, {'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'id': 3, 'password': '123456'}, {'email': 'four@gmail1.cm', 'name': 'Four', 'id': 4, 'password': ''}, {'email': 'riley@mail.com', 'name': 'Riley', 'id': 5, 'password': 'asdf'}, {'email': 'riley@mai22l.com', 'name': 'Riley22', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 12:32:22,068 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:32:24,577 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x2157badc3d0
+2021-05-22 12:32:24,631 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x2157c6a8fd0
+2021-05-22 12:32:24,631 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'password': '123456', 'email': 'abc.def@gmail.com', 'name': 'kirai', 'id': 1}, {'password': '12we', 'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2}, {'password': '123456', 'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'id': 3}, {'password': '', 'email': 'four@gmail1.cm', 'name': 'Four', 'id': 4}, {'password': 'asdf', 'email': 'riley@mail.com', 'name': 'Riley', 'id': 5}, {'password': 'asdf22', 'email': 'riley@mai22l.com', 'name': 'Riley22', 'id': 6}]
+2021-05-22 12:37:16,110 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:37:36,542 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x11a63f1c3d0
+2021-05-22 12:37:36,552 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x11a63f1c3d0
+2021-05-22 12:37:42,454 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x11a63f1c3d0
+2021-05-22 12:37:42,466 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x11a63f1c3d0
+2021-05-22 12:37:44,031 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x11a63f1c3d0
+2021-05-22 12:37:44,043 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x11a63f1c3d0
+2021-05-22 12:38:23,603 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:38:27,575 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x17fef2fc3d0
+2021-05-22 12:38:27,585 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x17fef2fc3d0
+2021-05-22 12:38:48,978 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x17fef2fc3d0
+2021-05-22 12:38:48,988 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x17fef2fc3d0
+2021-05-22 12:39:39,430 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:39:54,817 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x21d2389c3d0
+2021-05-22 12:39:54,829 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x21d2389c3d0
+2021-05-22 12:40:00,661 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x21d2389c3d0
+2021-05-22 12:40:00,667 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x21d2389c3d0
+2021-05-22 12:40:23,077 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:40:33,328 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:40:36,552 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:41:16,929 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:42:20,870 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:42:29,886 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:42:32,981 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:14]: PrintHelloWorld static method
+2021-05-22 12:42:39,917 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:14]: PrintHelloWorld static method
+2021-05-22 12:43:06,129 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:43:09,208 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:43:10,787 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:14]: PrintHelloWorld static method
+2021-05-22 12:43:38,079 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:43:39,532 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method
+2021-05-22 12:43:53,050 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method
+2021-05-22 12:44:11,778 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:44:14,014 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method
+2021-05-22 12:44:43,621 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method
+2021-05-22 12:44:51,373 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:44:52,332 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 12:45:12,249 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:45:13,207 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 12:45:27,250 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x21683448fd0
+2021-05-22 12:45:27,250 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'password': '123456', 'id': 1}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'password': '12we', 'id': 2}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'password': '123456', 'id': 3}, {'name': 'Four', 'email': 'four@gmail1.cm', 'password': '', 'id': 4}, {'name': 'Riley', 'email': 'riley@mail.com', 'password': 'asdf', 'id': 5}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'password': 'asdf22', 'id': 6}]
+2021-05-22 12:46:08,321 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x21683448fd0
+2021-05-22 12:46:08,321 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'password': '123456', 'id': 1}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'password': '12we', 'id': 2}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'password': '123456', 'id': 3}, {'name': 'Four', 'email': 'four@gmail1.cm', 'password': '', 'id': 4}, {'name': 'Riley', 'email': 'riley@mail.com', 'password': 'asdf', 'id': 5}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'password': 'asdf22', 'id': 6}]
+2021-05-22 12:46:13,100 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 12:46:56,396 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:47:02,024 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:47:05,138 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:47:06,611 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 12:47:08,674 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 12:47:16,256 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 12:47:27,843 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x1be312924f0
+2021-05-22 12:47:27,844 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'id': 1, 'password': '123456'}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'id': 2, 'password': '12we'}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'id': 3, 'password': '123456'}, {'name': 'Four', 'email': 'four@gmail1.cm', 'id': 4, 'password': ''}, {'name': 'Riley', 'email': 'riley@mail.com', 'id': 5, 'password': 'asdf'}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 12:47:35,832 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x1be312924f0
+2021-05-22 12:47:35,832 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'id': 1, 'password': '123456'}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'id': 2, 'password': '12we'}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'id': 3, 'password': '123456'}, {'name': 'Four', 'email': 'four@gmail1.cm', 'id': 4, 'password': ''}, {'name': 'Riley', 'email': 'riley@mail.com', 'id': 5, 'password': 'asdf'}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 12:50:20,570 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:50:23,773 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:50:26,230 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:90]: Users: 0x2a7b1d814f0
+2021-05-22 12:50:26,230 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:91]: get(self):[{'password': '123456', 'email': 'abc.def@gmail.com', 'id': 1, 'name': 'kirai'}, {'password': '12we', 'email': 'jaha@gmail1.cm', 'id': 2, 'name': 'haha'}, {'password': '123456', 'email': 'abc2.def@gmail.com', 'id': 3, 'name': 'kirai2'}, {'password': '', 'email': 'four@gmail1.cm', 'id': 4, 'name': 'Four'}, {'password': 'asdf', 'email': 'riley@mail.com', 'id': 5, 'name': 'Riley'}, {'password': 'asdf22', 'email': 'riley@mai22l.com', 'id': 6, 'name': 'Riley22'}]
+2021-05-22 12:50:50,213 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 12:50:56,684 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:90]: Users: 0x2a7b1d814f0
+2021-05-22 12:50:56,684 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:91]: get(self):[{'password': '123456', 'email': 'abc.def@gmail.com', 'id': 1, 'name': 'kirai'}, {'password': '12we', 'email': 'jaha@gmail1.cm', 'id': 2, 'name': 'haha'}, {'password': '123456', 'email': 'abc2.def@gmail.com', 'id': 3, 'name': 'kirai2'}, {'password': '', 'email': 'four@gmail1.cm', 'id': 4, 'name': 'Four'}, {'password': 'asdf', 'email': 'riley@mail.com', 'id': 5, 'name': 'Riley'}, {'password': 'asdf22', 'email': 'riley@mai22l.com', 'id': 6, 'name': 'Riley22'}]
+2021-05-22 12:51:11,936 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:51:36,447 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:51:42,062 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:52:09,716 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:52:11,804 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:21]: User: 0x1ae265c9cd0
+2021-05-22 12:52:16,480 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:21]: User: 0x1ae265c9cd0
+2021-05-22 12:53:45,801 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:58:05,475 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 12:58:08,961 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 13:00:06,491 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 13:03:12,282 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:82]: Initiallize Interceptor's LOG completely
+2021-05-22 13:03:19,672 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 13:03:27,570 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:10]: PrintHelloWorld static method....
+2021-05-22 13:04:18,107 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:91]: Users: 0x169817864c0
+2021-05-22 13:04:18,108 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:92]: get(self):[{'id': 1, 'email': 'abc.def@gmail.com', 'name': 'kirai', 'password': '123456'}, {'id': 2, 'email': 'jaha@gmail1.cm', 'name': 'haha', 'password': '12we'}, {'id': 3, 'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'password': '123456'}, {'id': 4, 'email': 'four@gmail1.cm', 'name': 'Four', 'password': ''}, {'id': 5, 'email': 'riley@mail.com', 'name': 'Riley', 'password': 'asdf'}, {'id': 6, 'email': 'riley@mai22l.com', 'name': 'Riley22', 'password': 'asdf22'}]
+2021-05-22 13:05:59,671 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:87]: Initiallize Interceptor's LOG completely
+2021-05-22 13:05:59,727 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:05:59,825 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:06:00,292 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:06:12,108 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:91]: Users: 0x1735e8024c0
+2021-05-22 13:06:12,109 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:92]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'password': '123456', 'id': 1}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'password': '12we', 'id': 2}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'password': '123456', 'id': 3}, {'name': 'Four', 'email': 'four@gmail1.cm', 'password': '', 'id': 4}, {'name': 'Riley', 'email': 'riley@mail.com', 'password': 'asdf', 'id': 5}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'password': 'asdf22', 'id': 6}]
+2021-05-22 13:06:12,111 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:06:12] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:06:18,677 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:91]: Users: 0x1735e8024c0
+2021-05-22 13:06:18,678 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:92]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'password': '123456', 'id': 1}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'password': '12we', 'id': 2}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'password': '123456', 'id': 3}, {'name': 'Four', 'email': 'four@gmail1.cm', 'password': '', 'id': 4}, {'name': 'Riley', 'email': 'riley@mail.com', 'password': 'asdf', 'id': 5}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'password': 'asdf22', 'id': 6}]
+2021-05-22 13:06:18,679 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:06:18] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:06:30,131 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:91]: Users: 0x1735e8024c0
+2021-05-22 13:06:30,131 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:92]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'password': '123456', 'id': 1}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'password': '12we', 'id': 2}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'password': '123456', 'id': 3}, {'name': 'Four', 'email': 'four@gmail1.cm', 'password': '', 'id': 4}, {'name': 'Riley', 'email': 'riley@mail.com', 'password': 'asdf', 'id': 5}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'password': 'asdf22', 'id': 6}]
+2021-05-22 13:06:30,133 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:06:30] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:06:36,432 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:21]: User: 0x1735d609ca0
+2021-05-22 13:06:36,434 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:06:36] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:21:19,624 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:22:46,069 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:22:46,139 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:22:49,332 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:22:49,384 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:22:49,510 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:22:50,069 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:22:58,743 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:22:58] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:23:04,009 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:23:04] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:23:13,387 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:23:13] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:23:20,989 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: __init__() missing 1 required positional argument: 'logger'
+2021-05-22 13:23:21,002 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:23:21] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:23:50,546 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:23:50] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 13:23:50,553 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 13:23:50,554 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:23:50] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 13:24:00,848 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:24:00] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:24:15,059 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 13:24:15,139 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:24:18,412 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:24:18,504 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:24:18,630 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:24:19,150 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:24:25,114 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:24:25] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:24:29,982 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:24:29] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:24:40,349 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:24:40] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 13:24:40,357 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 13:24:40,358 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:24:40] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 13:24:55,221 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:24:55] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 13:24:55,230 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 13:24:55,231 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:24:55] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 13:25:00,350 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: __init__() missing 1 required positional argument: 'logger'
+2021-05-22 13:25:00,360 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:25:00] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:27:03,714 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:27:03,789 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:27:06,837 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:27:06,889 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:27:06,983 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:27:07,440 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:27:10,880 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: __init__() missing 1 required positional argument: 'logger'
+2021-05-22 13:27:10,889 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:27:10] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:28:07,415 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:28:07,485 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:28:10,600 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:28:10,658 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:28:10,763 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:28:11,254 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:28:29,044 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: 'Users' object has no attribute 'logger'
+2021-05-22 13:28:29,053 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:28:29] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:28:31,909 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: 'Users' object has no attribute 'logger'
+2021-05-22 13:28:31,914 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:28:31] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:28:44,045 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: 'Users' object has no attribute 'logger'
+2021-05-22 13:28:44,050 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:28:44] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:28:52,462 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:28:52,531 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:28:55,645 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:28:55,700 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:28:55,795 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:28:56,256 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:28:58,193 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: 'Users' object has no attribute 'logger'
+2021-05-22 13:28:58,201 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:28:58] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:29:17,904 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:29:17,987 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:29:21,878 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:29:21,948 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:29:22,078 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:29:22,704 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:29:43,403 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:23]: middleware exception: 'Users' object has no attribute 'logger'
+2021-05-22 13:29:43,413 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:29:43] "[35m[1mGET /users/ HTTP/1.1[0m" 500 -
+2021-05-22 13:30:42,713 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:30:42,781 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:30:46,294 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:30:46,356 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:30:46,464 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:30:46,961 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:30:49,799 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:90]: Exception: 'Users' object has no attribute 'logger'
+2021-05-22 13:30:49,801 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:30:49] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:31:09,133 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:31:09,205 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:31:12,508 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:31:12,561 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:31:12,661 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:31:13,158 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:31:21,399 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:80]: Users: 0x264ade324f0
+2021-05-22 13:31:21,400 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:81]: get(self):[{'id': 1, 'email': 'abc.def@gmail.com', 'name': 'kirai', 'password': '123456'}, {'id': 2, 'email': 'jaha@gmail1.cm', 'name': 'haha', 'password': '12we'}, {'id': 3, 'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'password': '123456'}, {'id': 4, 'email': 'four@gmail1.cm', 'name': 'Four', 'password': ''}, {'id': 5, 'email': 'riley@mail.com', 'name': 'Riley', 'password': 'asdf'}, {'id': 6, 'email': 'riley@mai22l.com', 'name': 'Riley22', 'password': 'asdf22'}]
+2021-05-22 13:31:21,402 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:31:21] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:31:40,363 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:31:40] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:32:26,667 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:32:26,740 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:32:29,814 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:32:29,869 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:32:29,971 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:32:30,444 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:32:45,384 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:32:45] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:32:51,549 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:81]: Users: 0x1768bf03490
+2021-05-22 13:32:51,549 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: get(self):[{'password': '123456', 'id': 1, 'name': 'kirai', 'email': 'abc.def@gmail.com'}, {'password': '12we', 'id': 2, 'name': 'haha', 'email': 'jaha@gmail1.cm'}, {'password': '123456', 'id': 3, 'name': 'kirai2', 'email': 'abc2.def@gmail.com'}, {'password': '', 'id': 4, 'name': 'Four', 'email': 'four@gmail1.cm'}, {'password': 'asdf', 'id': 5, 'name': 'Riley', 'email': 'riley@mail.com'}, {'password': 'asdf22', 'id': 6, 'name': 'Riley22', 'email': 'riley@mai22l.com'}]
+2021-05-22 13:32:51,551 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:32:51] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:32:55,371 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:81]: Users: 0x1768bf03490
+2021-05-22 13:32:55,372 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: get(self):[{'password': '123456', 'id': 1, 'name': 'kirai', 'email': 'abc.def@gmail.com'}, {'password': '12we', 'id': 2, 'name': 'haha', 'email': 'jaha@gmail1.cm'}, {'password': '123456', 'id': 3, 'name': 'kirai2', 'email': 'abc2.def@gmail.com'}, {'password': '', 'id': 4, 'name': 'Four', 'email': 'four@gmail1.cm'}, {'password': 'asdf', 'id': 5, 'name': 'Riley', 'email': 'riley@mail.com'}, {'password': 'asdf22', 'id': 6, 'name': 'Riley22', 'email': 'riley@mai22l.com'}]
+2021-05-22 13:32:55,374 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:32:55] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:33:00,650 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:33:00] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:33:03,084 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:33:03] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:33:52,206 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 13:33:52,318 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:33:55,577 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:33:55,630 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:33:55,735 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:33:56,222 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:34:00,775 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:34:00] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:34:07,459 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:34:07] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:35:32,970 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:35:33,043 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:35:36,068 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:35:36,123 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:35:36,217 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:35:36,678 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:36:21,892 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:36:21,962 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:36:25,186 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:36:25,277 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:36:25,397 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:36:25,942 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:36:28,837 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:36:28] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:37:50,383 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:37:50,460 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:37:53,621 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:37:53,678 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:37:53,782 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:37:54,270 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:37:55,148 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:37:55] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:38:03,565 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:87]: Users: 0x19688762490
+2021-05-22 13:38:03,565 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'password': '123456', 'id': 1, 'name': 'kirai', 'email': 'abc.def@gmail.com'}, {'password': '12we', 'id': 2, 'name': 'haha', 'email': 'jaha@gmail1.cm'}, {'password': '123456', 'id': 3, 'name': 'kirai2', 'email': 'abc2.def@gmail.com'}, {'password': '', 'id': 4, 'name': 'Four', 'email': 'four@gmail1.cm'}, {'password': 'asdf', 'id': 5, 'name': 'Riley', 'email': 'riley@mail.com'}, {'password': 'asdf22', 'id': 6, 'name': 'Riley22', 'email': 'riley@mai22l.com'}]
+2021-05-22 13:38:03,567 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:38:03] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:38:39,940 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:38:40,020 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:38:43,211 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:38:43,265 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:38:43,367 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:38:43,853 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:39:03,285 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:39:03] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:39:41,080 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 13:39:41,161 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:39:44,296 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:39:44,350 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:39:44,444 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:39:44,913 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:39:48,371 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:39:48] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:40:20,259 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:40:20] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:41:26,301 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:87]: Users: 0x1ac7c902490
+2021-05-22 13:41:26,302 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'name': 'kirai', 'id': 1, 'email': 'abc.def@gmail.com', 'password': '123456'}, {'name': 'haha', 'id': 2, 'email': 'jaha@gmail1.cm', 'password': '12we'}, {'name': 'kirai2', 'id': 3, 'email': 'abc2.def@gmail.com', 'password': '123456'}, {'name': 'Four', 'id': 4, 'email': 'four@gmail1.cm', 'password': ''}, {'name': 'Riley', 'id': 5, 'email': 'riley@mail.com', 'password': 'asdf'}, {'name': 'Riley22', 'id': 6, 'email': 'riley@mai22l.com', 'password': 'asdf22'}]
+2021-05-22 13:41:26,303 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:41:26] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:42:41,601 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\__init__.py', reloading
+2021-05-22 13:42:41,684 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:42:44,778 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:42:44,837 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:42:44,931 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:42:45,392 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:42:48,525 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:87]: Users: 0x26547e03490
+2021-05-22 13:42:48,525 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'id': 1, 'password': '123456'}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'id': 2, 'password': '12we'}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'id': 3, 'password': '123456'}, {'name': 'Four', 'email': 'four@gmail1.cm', 'id': 4, 'password': ''}, {'name': 'Riley', 'email': 'riley@mail.com', 'id': 5, 'password': 'asdf'}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 13:42:48,527 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:42:48] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:42:56,678 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:42:56] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:43:05,720 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:87]: Users: 0x26547e03490
+2021-05-22 13:43:05,720 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'id': 1, 'password': '123456'}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'id': 2, 'password': '12we'}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'id': 3, 'password': '123456'}, {'name': 'Four', 'email': 'four@gmail1.cm', 'id': 4, 'password': ''}, {'name': 'Riley', 'email': 'riley@mail.com', 'id': 5, 'password': 'asdf'}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 13:43:05,723 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:43:05] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:43:43,607 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 13:43:43,681 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:43:46,840 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:43:46,892 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:43:46,986 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:43:47,441 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:43:56,406 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:43:56] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:44:03,136 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:44:03] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:45:28,041 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:87]: Users: 0x19af3042490
+2021-05-22 13:45:28,041 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: get(self):[{'password': '123456', 'id': 1, 'name': 'kirai', 'email': 'abc.def@gmail.com'}, {'password': '12we', 'id': 2, 'name': 'haha', 'email': 'jaha@gmail1.cm'}, {'password': '123456', 'id': 3, 'name': 'kirai2', 'email': 'abc2.def@gmail.com'}, {'password': '', 'id': 4, 'name': 'Four', 'email': 'four@gmail1.cm'}, {'password': 'asdf', 'id': 5, 'name': 'Riley', 'email': 'riley@mail.com'}, {'password': 'asdf22', 'id': 6, 'name': 'Riley22', 'email': 'riley@mai22l.com'}]
+2021-05-22 13:45:28,044 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:45:28] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:45:50,413 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 13:45:50,494 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:45:53,794 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:45:53,862 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:45:53,959 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:45:54,481 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:45:59,427 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x1b38ac91490
+2021-05-22 13:45:59,431 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:45:59] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:46:38,586 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:46:38,645 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:46:41,552 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x298c838ebe0
+2021-05-22 13:46:41,556 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:46:41] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:47:07,889 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:47:07,956 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:47:14,269 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:47:14,335 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:47:17,390 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:47:17,442 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:47:17,536 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:47:17,996 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:47:19,088 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x2156fc53af0
+2021-05-22 13:47:19,091 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:47:19] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:47:44,504 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 13:47:44,577 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:47:47,604 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:47:47,608 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:14]: resources 初始化
+2021-05-22 13:47:47,657 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:47:47,756 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:47:48,252 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:47:53,015 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x192b53b4af0
+2021-05-22 13:47:53,015 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:25]: User log: 0x192b53b4af0
+2021-05-22 13:47:53,017 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:26]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 13:47:53,019 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:47:53] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:48:03,014 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x192b53b4af0
+2021-05-22 13:48:03,015 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:25]: User log: 0x192b53b4af0
+2021-05-22 13:48:03,017 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:26]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 13:48:03,018 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:48:03] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:48:43,014 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x192b53b4af0
+2021-05-22 13:48:43,015 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'id': 1, 'password': '123456', 'name': 'kirai', 'email': 'abc.def@gmail.com'}, {'id': 2, 'password': '12we', 'name': 'haha', 'email': 'jaha@gmail1.cm'}, {'id': 3, 'password': '123456', 'name': 'kirai2', 'email': 'abc2.def@gmail.com'}, {'id': 4, 'password': '', 'name': 'Four', 'email': 'four@gmail1.cm'}, {'id': 5, 'password': 'asdf', 'name': 'Riley', 'email': 'riley@mail.com'}, {'id': 6, 'password': 'asdf22', 'name': 'Riley22', 'email': 'riley@mai22l.com'}]
+2021-05-22 13:48:43,016 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:48:43] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:48:54,999 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x192b53b4af0
+2021-05-22 13:48:54,999 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'id': 1, 'password': '123456', 'name': 'kirai', 'email': 'abc.def@gmail.com'}, {'id': 2, 'password': '12we', 'name': 'haha', 'email': 'jaha@gmail1.cm'}, {'id': 3, 'password': '123456', 'name': 'kirai2', 'email': 'abc2.def@gmail.com'}, {'id': 4, 'password': '', 'name': 'Four', 'email': 'four@gmail1.cm'}, {'id': 5, 'password': 'asdf', 'name': 'Riley', 'email': 'riley@mail.com'}, {'id': 6, 'password': 'asdf22', 'name': 'Riley22', 'email': 'riley@mai22l.com'}]
+2021-05-22 13:48:55,001 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:48:55] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:48:58,811 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x192b53b4af0
+2021-05-22 13:48:58,811 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:25]: User log: 0x192b53b4af0
+2021-05-22 13:48:58,812 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:26]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 13:48:58,813 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:48:58] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:54:10,568 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 13:54:10,651 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:54:14,481 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:54:14,487 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:13]: resources 初始化
+2021-05-22 13:54:14,553 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:54:14,687 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:54:15,285 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:54:21,601 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 13:54:21,678 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:55:17,657 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:55:17,661 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 13:55:17,725 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:55:20,780 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:55:20,784 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 13:55:20,838 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:55:20,941 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:55:21,419 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:55:26,269 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: middleware: 0x14a9930aaf0
+2021-05-22 13:55:26,326 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x14a9930aaf0
+2021-05-22 13:55:26,326 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:25]: User log: 0x14a9930aaf0
+2021-05-22 13:55:26,328 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:26]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 13:55:26,329 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:55:26] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 13:55:47,025 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: middleware: 0x14a9930aaf0
+2021-05-22 13:55:47,036 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x14a9930aaf0
+2021-05-22 13:55:47,037 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'id': 1, 'email': 'abc.def@gmail.com', 'name': 'kirai', 'password': '123456'}, {'id': 2, 'email': 'jaha@gmail1.cm', 'name': 'haha', 'password': '12we'}, {'id': 3, 'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'password': '123456'}, {'id': 4, 'email': 'four@gmail1.cm', 'name': 'Four', 'password': ''}, {'id': 5, 'email': 'riley@mail.com', 'name': 'Riley', 'password': 'asdf'}, {'id': 6, 'email': 'riley@mai22l.com', 'name': 'Riley22', 'password': 'asdf22'}]
+2021-05-22 13:55:47,040 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:55:47] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:56:54,382 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\common\\middleware.py', reloading
+2021-05-22 13:56:54,468 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 13:56:57,933 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 13:56:57,938 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 13:56:58,001 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 13:56:58,102 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 13:56:58,567 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 13:57:03,871 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:20]: middleware: 0x297d299aaf0
+2021-05-22 13:57:03,927 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:88]: Users: 0x297d299aaf0
+2021-05-22 13:57:03,927 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:89]: get(self):[{'password': '123456', 'id': 1, 'email': 'abc.def@gmail.com', 'name': 'kirai'}, {'password': '12we', 'id': 2, 'email': 'jaha@gmail1.cm', 'name': 'haha'}, {'password': '123456', 'id': 3, 'email': 'abc2.def@gmail.com', 'name': 'kirai2'}, {'password': '', 'id': 4, 'email': 'four@gmail1.cm', 'name': 'Four'}, {'password': 'asdf', 'id': 5, 'email': 'riley@mail.com', 'name': 'Riley'}, {'password': 'asdf22', 'id': 6, 'email': 'riley@mai22l.com', 'name': 'Riley22'}]
+2021-05-22 13:57:03,930 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:57:03] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 13:57:37,440 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:20]: middleware: 0x297d299aaf0
+2021-05-22 13:57:37,450 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:24]: Users: 0x297d299aaf0
+2021-05-22 13:57:37,450 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:25]: User log: 0x297d299aaf0
+2021-05-22 13:57:37,452 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:26]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 13:57:37,453 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 13:57:37] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:06:33,075 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:06:33,079 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:06:33,149 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:06:36,206 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:06:36,210 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:06:36,261 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:06:36,359 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:06:36,823 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:06:40,722 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: middleware: 0x14d9f54bd30
+2021-05-22 14:06:40,781 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:06:40,783 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:06:40] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:06:52,304 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: middleware: 0x14d9f54bd30
+2021-05-22 14:06:52,311 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x14d9f54bd30
+2021-05-22 14:06:52,312 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'password': '123456', 'id': 1, 'email': 'abc.def@gmail.com', 'name': 'kirai'}, {'password': '12we', 'id': 2, 'email': 'jaha@gmail1.cm', 'name': 'haha'}, {'password': '123456', 'id': 3, 'email': 'abc2.def@gmail.com', 'name': 'kirai2'}, {'password': '', 'id': 4, 'email': 'four@gmail1.cm', 'name': 'Four'}, {'password': 'asdf', 'id': 5, 'email': 'riley@mail.com', 'name': 'Riley'}, {'password': 'asdf22', 'id': 6, 'email': 'riley@mai22l.com', 'name': 'Riley22'}]
+2021-05-22 14:06:52,314 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:06:52] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:08:18,061 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:08:18,065 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:08:18,134 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:08:21,418 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:08:21,422 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:08:21,475 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:08:21,578 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:08:22,142 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:08:24,031 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x27f2d4cbd30
+2021-05-22 14:08:24,031 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x0000027F2E9B7670>
+2021-05-22 14:08:24,092 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x27f2d4cbd30
+2021-05-22 14:08:24,092 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'password': '123456', 'name': 'kirai', 'id': 1, 'email': 'abc.def@gmail.com'}, {'password': '12we', 'name': 'haha', 'id': 2, 'email': 'jaha@gmail1.cm'}, {'password': '123456', 'name': 'kirai2', 'id': 3, 'email': 'abc2.def@gmail.com'}, {'password': '', 'name': 'Four', 'id': 4, 'email': 'four@gmail1.cm'}, {'password': 'asdf', 'name': 'Riley', 'id': 5, 'email': 'riley@mail.com'}, {'password': 'asdf22', 'name': 'Riley22', 'id': 6, 'email': 'riley@mai22l.com'}]
+2021-05-22 14:08:24,095 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:08:24] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:08:35,792 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x27f2d4cbd30
+2021-05-22 14:08:35,793 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x0000027F2EAB2280>
+2021-05-22 14:08:35,799 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x27f2d4cbd30
+2021-05-22 14:08:35,800 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'password': '123456', 'name': 'kirai', 'id': 1, 'email': 'abc.def@gmail.com'}, {'password': '12we', 'name': 'haha', 'id': 2, 'email': 'jaha@gmail1.cm'}, {'password': '123456', 'name': 'kirai2', 'id': 3, 'email': 'abc2.def@gmail.com'}, {'password': '', 'name': 'Four', 'id': 4, 'email': 'four@gmail1.cm'}, {'password': 'asdf', 'name': 'Riley', 'id': 5, 'email': 'riley@mail.com'}, {'password': 'asdf22', 'name': 'Riley22', 'id': 6, 'email': 'riley@mai22l.com'}]
+2021-05-22 14:08:35,802 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:08:35] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:08:48,898 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\common\\middleware.py', reloading
+2021-05-22 14:08:48,976 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:08:52,333 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:08:52,338 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:08:52,396 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:08:52,512 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:08:53,079 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:08:56,863 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x165fecfad30
+2021-05-22 14:08:56,863 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x0000016580232AF0>
+2021-05-22 14:08:56,864 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: start_response: {'wsgi.version': (1, 0), 'wsgi.url_scheme': 'http', 'wsgi.input': <_io.BufferedReader name=1184>, 'wsgi.errors': <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>, 'wsgi.multithread': True, 'wsgi.multiprocess': False, 'wsgi.run_once': False, 'werkzeug.server.shutdown': <function WSGIRequestHandler.make_environ.<locals>.shutdown_server at 0x0000016580232B80>, 'werkzeug.socket': <socket.socket fd=1184, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5000), raddr=('127.0.0.1', 13902)>, 'SERVER_SOFTWARE': 'Werkzeug/2.0.1', 'REQUEST_METHOD': 'GET', 'SCRIPT_NAME': '', 'PATH_INFO': '/users/', 'QUERY_STRING': '', 'REQUEST_URI': '/users/', 'RAW_URI': '/users/', 'REMOTE_ADDR': '127.0.0.1', 'REMOTE_PORT': 13902, 'SERVER_NAME': '127.0.0.1', 'SERVER_PORT': '5000', 'SERVER_PROTOCOL': 'HTTP/1.1', 'HTTP_HOST': '127.0.0.1:5000', 'HTTP_CONNECTION': 'keep-alive', 'HTTP_SEC_CH_UA': '" Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"', 'HTTP_CACHE_CONTROL': 'no-cache', 'HTTP_SEC_CH_UA_MOBILE': '?0', 'HTTP_USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36', 'HTTP_POSTMAN_TOKEN': '2a1d060c-bc9a-eb62-b7bc-4260927e2e32', 'HTTP_ACCEPT': '*/*', 'HTTP_SEC_FETCH_SITE': 'none', 'HTTP_SEC_FETCH_MODE': 'cors', 'HTTP_SEC_FETCH_DEST': 'empty', 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, br', 'HTTP_ACCEPT_LANGUAGE': 'en-GB,en;q=0.9,zh-TW;q=0.8,zh;q=0.7,en-US;q=0.6', 'werkzeug.request': <Request 'http://127.0.0.1:5000/users/' [GET]>}
+2021-05-22 14:08:56,944 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x165fecfad30
+2021-05-22 14:08:56,945 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'id': 1, 'password': '123456', 'email': 'abc.def@gmail.com', 'name': 'kirai'}, {'id': 2, 'password': '12we', 'email': 'jaha@gmail1.cm', 'name': 'haha'}, {'id': 3, 'password': '123456', 'email': 'abc2.def@gmail.com', 'name': 'kirai2'}, {'id': 4, 'password': '', 'email': 'four@gmail1.cm', 'name': 'Four'}, {'id': 5, 'password': 'asdf', 'email': 'riley@mail.com', 'name': 'Riley'}, {'id': 6, 'password': 'asdf22', 'email': 'riley@mai22l.com', 'name': 'Riley22'}]
+2021-05-22 14:08:56,947 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:08:56] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:09:22,026 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x165fecfad30
+2021-05-22 14:09:22,027 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x000001658031FC10>
+2021-05-22 14:10:22,387 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: start_response: {'wsgi.version': (1, 0), 'wsgi.url_scheme': 'http', 'wsgi.input': <_io.BufferedReader name=1252>, 'wsgi.errors': <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>, 'wsgi.multithread': True, 'wsgi.multiprocess': False, 'wsgi.run_once': False, 'werkzeug.server.shutdown': <function WSGIRequestHandler.make_environ.<locals>.shutdown_server at 0x0000016580232CA0>, 'werkzeug.socket': <socket.socket fd=1252, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5000), raddr=('127.0.0.1', 13904)>, 'SERVER_SOFTWARE': 'Werkzeug/2.0.1', 'REQUEST_METHOD': 'GET', 'SCRIPT_NAME': '', 'PATH_INFO': '/users/', 'QUERY_STRING': '', 'REQUEST_URI': '/users/', 'RAW_URI': '/users/', 'REMOTE_ADDR': '127.0.0.1', 'REMOTE_PORT': 13904, 'SERVER_NAME': '127.0.0.1', 'SERVER_PORT': '5000', 'SERVER_PROTOCOL': 'HTTP/1.1', 'HTTP_HOST': '127.0.0.1:5000', 'HTTP_CONNECTION': 'keep-alive', 'HTTP_SEC_CH_UA': '" Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"', 'HTTP_CACHE_CONTROL': 'no-cache', 'HTTP_SEC_CH_UA_MOBILE': '?0', 'HTTP_USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36', 'HTTP_POSTMAN_TOKEN': '33a58ab9-d066-f70e-cb59-bf36d6110ffe', 'HTTP_ACCEPT': '*/*', 'HTTP_SEC_FETCH_SITE': 'none', 'HTTP_SEC_FETCH_MODE': 'cors', 'HTTP_SEC_FETCH_DEST': 'empty', 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, br', 'HTTP_ACCEPT_LANGUAGE': 'en-GB,en;q=0.9,zh-TW;q=0.8,zh;q=0.7,en-US;q=0.6', 'werkzeug.request': <Request 'http://127.0.0.1:5000/users/' [GET]>}
+2021-05-22 14:10:22,393 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x165fecfad30
+2021-05-22 14:10:22,393 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'id': 1, 'password': '123456', 'email': 'abc.def@gmail.com', 'name': 'kirai'}, {'id': 2, 'password': '12we', 'email': 'jaha@gmail1.cm', 'name': 'haha'}, {'id': 3, 'password': '123456', 'email': 'abc2.def@gmail.com', 'name': 'kirai2'}, {'id': 4, 'password': '', 'email': 'four@gmail1.cm', 'name': 'Four'}, {'id': 5, 'password': 'asdf', 'email': 'riley@mail.com', 'name': 'Riley'}, {'id': 6, 'password': 'asdf22', 'email': 'riley@mai22l.com', 'name': 'Riley22'}]
+2021-05-22 14:10:22,395 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:10:22] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:10:36,617 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\common\\middleware.py', reloading
+2021-05-22 14:10:36,692 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:10:39,974 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:10:39,979 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:10:40,032 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:10:40,135 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:10:40,624 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:10:42,395 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x1bfa32e8d90
+2021-05-22 14:10:42,396 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x000001BFA4891040>
+2021-05-22 14:10:46,246 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: start_response: <Request 'http://127.0.0.1:5000/users/' [GET]>
+2021-05-22 14:10:46,305 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x1bfa32e8d90
+2021-05-22 14:10:46,305 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'password': '123456', 'name': 'kirai', 'id': 1, 'email': 'abc.def@gmail.com'}, {'password': '12we', 'name': 'haha', 'id': 2, 'email': 'jaha@gmail1.cm'}, {'password': '123456', 'name': 'kirai2', 'id': 3, 'email': 'abc2.def@gmail.com'}, {'password': '', 'name': 'Four', 'id': 4, 'email': 'four@gmail1.cm'}, {'password': 'asdf', 'name': 'Riley', 'id': 5, 'email': 'riley@mail.com'}, {'password': 'asdf22', 'name': 'Riley22', 'id': 6, 'email': 'riley@mai22l.com'}]
+2021-05-22 14:10:46,309 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:10:46] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:11:24,139 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\common\\middleware.py', reloading
+2021-05-22 14:11:24,230 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:11:28,169 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:11:28,175 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:11:28,239 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:11:28,366 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:11:28,991 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:11:34,428 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x2277f8fad30
+2021-05-22 14:11:34,428 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x0000022700E08670>
+2021-05-22 14:11:34,429 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: start_response: <Request 'http://127.0.0.1:5000/users/' [GET]>
+2021-05-22 14:11:34,498 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x2277f8fad30
+2021-05-22 14:11:34,498 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'id': 1, 'password': '123456', 'email': 'abc.def@gmail.com', 'name': 'kirai'}, {'id': 2, 'password': '12we', 'email': 'jaha@gmail1.cm', 'name': 'haha'}, {'id': 3, 'password': '123456', 'email': 'abc2.def@gmail.com', 'name': 'kirai2'}, {'id': 4, 'password': '', 'email': 'four@gmail1.cm', 'name': 'Four'}, {'id': 5, 'password': 'asdf', 'email': 'riley@mail.com', 'name': 'Riley'}, {'id': 6, 'password': 'asdf22', 'email': 'riley@mai22l.com', 'name': 'Riley22'}]
+2021-05-22 14:11:34,500 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:27]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:11:34,500 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:11:34] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:11:52,595 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x2277f8fad30
+2021-05-22 14:11:52,595 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x0000022700F50AF0>
+2021-05-22 14:11:52,596 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: start_response: <Request 'http://127.0.0.1:5000/users/' [GET]>
+2021-05-22 14:11:52,604 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x2277f8fad30
+2021-05-22 14:11:52,604 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'id': 1, 'password': '123456', 'email': 'abc.def@gmail.com', 'name': 'kirai'}, {'id': 2, 'password': '12we', 'email': 'jaha@gmail1.cm', 'name': 'haha'}, {'id': 3, 'password': '123456', 'email': 'abc2.def@gmail.com', 'name': 'kirai2'}, {'id': 4, 'password': '', 'email': 'four@gmail1.cm', 'name': 'Four'}, {'id': 5, 'password': 'asdf', 'email': 'riley@mail.com', 'name': 'Riley'}, {'id': 6, 'password': 'asdf22', 'email': 'riley@mai22l.com', 'name': 'Riley22'}]
+2021-05-22 14:11:52,608 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:27]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:11:52,608 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:11:52] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:12:17,857 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:17]: middleware: 0x2277f8fad30
+2021-05-22 14:12:17,858 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:18]: start_response: <function WSGIRequestHandler.run_wsgi.<locals>.start_response at 0x0000022700F50EE0>
+2021-05-22 14:12:17,859 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: start_response: <Request 'http://127.0.0.1:5000/users/' [GET]>
+2021-05-22 14:12:17,867 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x2277f8fad30
+2021-05-22 14:12:17,868 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'id': 1, 'password': '123456', 'email': 'abc.def@gmail.com', 'name': 'kirai'}, {'id': 2, 'password': '12we', 'email': 'jaha@gmail1.cm', 'name': 'haha'}, {'id': 3, 'password': '123456', 'email': 'abc2.def@gmail.com', 'name': 'kirai2'}, {'id': 4, 'password': '', 'email': 'four@gmail1.cm', 'name': 'Four'}, {'id': 5, 'password': 'asdf', 'email': 'riley@mail.com', 'name': 'Riley'}, {'id': 6, 'password': 'asdf22', 'email': 'riley@mai22l.com', 'name': 'Riley22'}]
+2021-05-22 14:12:17,870 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:27]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:12:17,871 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:12:17] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:23:51,274 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:23:51,280 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:23:51,347 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:23:54,510 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:23:54,515 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:23:54,568 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:23:54,666 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:23:55,127 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:24:07,447 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: ====== Start <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:24:07,506 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x1f01915ad30
+2021-05-22 14:24:07,506 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'password': '123456', 'id': 1}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'password': '12we', 'id': 2}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'password': '123456', 'id': 3}, {'name': 'Four', 'email': 'four@gmail1.cm', 'password': '', 'id': 4}, {'name': 'Riley', 'email': 'riley@mail.com', 'password': 'asdf', 'id': 5}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'password': 'asdf22', 'id': 6}]
+2021-05-22 14:24:07,508 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:26]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:24:07,509 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:24:07] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:25:02,676 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:25:02,689 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:25:02,691 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:26]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:25:02,691 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:25:02] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:25:16,260 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:25:16,264 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:25:16,332 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:25:19,489 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:25:19,494 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:25:19,543 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:25:19,643 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:25:20,113 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:28:36,706 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:28:36,710 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:28:36,784 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:28:40,211 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:28:40,215 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:28:40,264 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:28:40,368 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:28:40,888 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:29:12,999 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:29:13,094 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:29:13,097 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:26]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:29:13,098 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:29:13] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:29:55,241 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:29:55,245 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:29:55,312 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:30:01,515 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:30:01,520 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:30:01,574 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:30:01,689 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:30:02,185 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:30:14,325 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\common\\__init__.py', reloading
+2021-05-22 14:30:14,399 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:30:17,703 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:30:17,709 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:30:17,764 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:30:17,874 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:30:18,397 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:30:29,671 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:30:29,732 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:30:29,734 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:26]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:30:29,734 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:30:29] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:30:44,857 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\common\\__init__.py', reloading
+2021-05-22 14:30:44,944 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:30:48,087 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:30:48,091 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: resources 初始化
+2021-05-22 14:30:48,141 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:30:48,237 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:30:48,706 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:30:51,549 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:30:51,607 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:30:51,609 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:26]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:30:51,609 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:30:51] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:31:01,065 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:19]: ====== Start <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:31:01,073 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x227f8b2bd30
+2021-05-22 14:31:01,073 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'email': 'abc.def@gmail.com', 'id': 1, 'name': 'kirai', 'password': '123456'}, {'email': 'jaha@gmail1.cm', 'id': 2, 'name': 'haha', 'password': '12we'}, {'email': 'abc2.def@gmail.com', 'id': 3, 'name': 'kirai2', 'password': '123456'}, {'email': 'four@gmail1.cm', 'id': 4, 'name': 'Four', 'password': ''}, {'email': 'riley@mail.com', 'id': 5, 'name': 'Riley', 'password': 'asdf'}, {'email': 'riley@mai22l.com', 'id': 6, 'name': 'Riley22', 'password': 'asdf22'}]
+2021-05-22 14:31:01,075 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:26]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:31:01,075 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:31:01] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:32:31,528 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 14:32:31,611 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:32:35,167 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:32:35,172 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:15]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:32:35,231 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:32:35,344 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:32:35,863 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:33:11,364 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\__init__.py', reloading
+2021-05-22 14:33:11,436 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:33:14,862 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:81]: Initiallize Interceptor's LOG completely
+2021-05-22 14:33:14,867 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:11]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:33:14,925 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:33:15,038 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:33:15,543 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:38:46,512 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Initiallize Interceptor's LOG completely
+2021-05-22 14:38:47,152 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:38:47,532 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:38:47,548 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:38:47,641 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:38:50,855 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Initiallize Interceptor's LOG completely
+2021-05-22 14:38:51,613 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:38:51,997 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:38:52,014 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:38:52,090 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:38:52,225 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:38:52,863 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:39:11,732 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:39:11,808 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x1f1de1dec70
+2021-05-22 14:39:11,809 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'email': 'abc.def@gmail.com', 'name': 'kirai', 'id': 1, 'password': '123456'}, {'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2, 'password': '12we'}, {'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'id': 3, 'password': '123456'}, {'email': 'four@gmail1.cm', 'name': 'Four', 'id': 4, 'password': ''}, {'email': 'riley@mail.com', 'name': 'Riley', 'id': 5, 'password': 'asdf'}, {'email': 'riley@mai22l.com', 'name': 'Riley22', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 14:39:11,811 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:39:11,811 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:11] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:39:18,780 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:18,786 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:18,787 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:18] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 14:39:18,800 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:18,800 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 14:39:18,801 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:18,802 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:18] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 14:39:29,122 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:29,126 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:29,126 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:29] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 14:39:29,141 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:29,142 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 14:39:29,142 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:29,143 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:29] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 14:39:31,949 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:31,951 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:31,951 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:31] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 14:39:31,964 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:31,964 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 14:39:31,965 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:31,965 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:31] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 14:39:36,228 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:36,231 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:39:36,232 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:36] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 14:39:36,241 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:36,242 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 14:39:36,243 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:39:36,243 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:39:36] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 14:40:14,887 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:40:14,896 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x1f1de1dec70
+2021-05-22 14:40:14,896 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'email': 'abc.def@gmail.com', 'name': 'kirai', 'id': 1, 'password': '123456'}, {'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2, 'password': '12we'}, {'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'id': 3, 'password': '123456'}, {'email': 'four@gmail1.cm', 'name': 'Four', 'id': 4, 'password': ''}, {'email': 'riley@mail.com', 'name': 'Riley', 'id': 5, 'password': 'asdf'}, {'email': 'riley@mai22l.com', 'name': 'Riley22', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 14:40:14,898 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:40:14,898 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:40:14] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:40:23,947 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:40:23,957 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x1f1de1dec70
+2021-05-22 14:40:23,957 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'email': 'abc.def@gmail.com', 'name': 'kirai', 'id': 1, 'password': '123456'}, {'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2, 'password': '12we'}, {'email': 'abc2.def@gmail.com', 'name': 'kirai2', 'id': 3, 'password': '123456'}, {'email': 'four@gmail1.cm', 'name': 'Four', 'id': 4, 'password': ''}, {'email': 'riley@mail.com', 'name': 'Riley', 'id': 5, 'password': 'asdf'}, {'email': 'riley@mai22l.com', 'name': 'Riley22', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 14:40:23,960 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:40:23,960 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:40:23] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:40:28,438 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:40:28,451 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:40:28,452 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:40:28,452 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:40:28] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:40:35,783 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:40:35,786 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:40:35,786 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:40:35] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 14:40:35,796 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:40:35,797 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 14:40:35,797 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:40:35,798 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:40:35] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 14:42:05,188 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\__init__.py', reloading
+2021-05-22 14:42:05,308 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:42:08,916 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init Interceptor's LOG completely
+2021-05-22 14:42:09,577 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:42:09,971 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:42:09,990 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:42:10,062 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:42:10,211 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:42:10,849 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:43:09,331 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\__init__.py', reloading
+2021-05-22 14:43:09,440 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:43:12,590 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:43:13,489 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:43:14,261 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:43:14,298 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:43:14,452 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:43:14,728 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:43:15,536 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:45:23,725 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:45:24,234 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:45:24,537 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:45:24,551 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:45:24,626 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:45:27,338 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:45:27,857 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:45:28,240 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:45:28,252 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:45:28,308 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:45:28,414 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:45:28,932 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:45:30,353 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:45:30,358 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world//' [GET]> ======
+2021-05-22 14:45:30,359 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:45:30] "[32mGET //print_hello_world// HTTP/1.1[0m" 308 -
+2021-05-22 14:45:30,363 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:45:30,364 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\hello_world.py[line:11]: PrintHelloWorld static method....
+2021-05-22 14:45:30,365 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/print_hello_world/' [GET]> ======
+2021-05-22 14:45:30,366 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:45:30] "GET /print_hello_world/ HTTP/1.1" 200 -
+2021-05-22 14:50:39,486 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:50:40,131 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:50:40,493 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:50:40,508 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:50:40,604 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:50:44,065 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:50:44,876 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:50:45,272 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:50:45,291 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:50:45,376 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:50:45,516 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:50:46,200 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:50:51,673 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:50:51,674 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 14:50:51,744 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 14:50:51,745 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 14:50:51,746 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 14:50:51,746 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:50:51,749 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:50:51,750 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:50:51] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:51:02,090 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:51:02,099 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:82]: Users: 0x25c3550fc70
+2021-05-22 14:51:02,100 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:83]: get(self):[{'name': 'kirai', 'email': 'abc.def@gmail.com', 'id': 1, 'password': '123456'}, {'name': 'haha', 'email': 'jaha@gmail1.cm', 'id': 2, 'password': '12we'}, {'name': 'kirai2', 'email': 'abc2.def@gmail.com', 'id': 3, 'password': '123456'}, {'name': 'Four', 'email': 'four@gmail1.cm', 'id': 4, 'password': ''}, {'name': 'Riley', 'email': 'riley@mail.com', 'id': 5, 'password': 'asdf'}, {'name': 'Riley22', 'email': 'riley@mai22l.com', 'id': 6, 'password': 'asdf22'}]
+2021-05-22 14:51:02,103 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/users/' [GET]> ======
+2021-05-22 14:51:02,103 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:51:02] "GET /users/ HTTP/1.1" 200 -
+2021-05-22 14:51:10,163 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:51:10,164 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 14:51:10,173 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 14:51:10,173 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 14:51:10,175 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 14:51:10,175 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:51:10,177 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:51:10,177 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:51:10] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:51:37,672 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:51:37,772 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:51:40,788 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:51:41,383 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:51:41,715 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:51:41,729 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:51:41,797 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:51:41,932 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:51:42,571 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:51:48,397 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:51:48,398 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 14:51:48,466 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 14:51:48,466 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:51:48,469 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:51:48,469 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:51:48] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:53:28,865 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\models\\user_model.py', reloading
+2021-05-22 14:53:28,959 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:53:31,980 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:53:32,580 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:53:32,926 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:53:32,942 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:53:33,012 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:53:33,135 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:53:33,753 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:53:56,680 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\models\\user_model.py', reloading
+2021-05-22 14:53:56,763 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:53:59,790 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:54:00,560 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:54:00,980 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:54:01,009 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:54:01,097 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:54:01,238 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:54:01,901 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:54:04,696 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:54:04,696 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 14:54:04,696 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\models\user_model.py[line:39]: get_user name: haha
+2021-05-22 14:54:04,765 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 14:54:04,766 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:19]: UserModel.get_user(name): <UserModel 2>
+2021-05-22 14:54:04,767 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:54:04,767 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:54:04] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:54:45,131 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:54:45,223 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:54:48,434 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:54:49,081 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:54:49,406 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:54:49,421 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:54:49,486 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:54:49,610 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:54:50,174 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:54:51,625 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:54:51,626 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 14:54:51,626 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\models\user_model.py[line:39]: get_user name: haha
+2021-05-22 14:54:51,686 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 14:54:51,686 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user.py[line:20]: UserModel.get_user(name): {'password': '12we', 'email': 'jaha@gmail1.cm', 'name': 'haha', 'id': 2}
+2021-05-22 14:54:51,687 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user/haha' [GET]> ======
+2021-05-22 14:54:51,688 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 14:54:51] "GET /user/haha HTTP/1.1" 200 -
+2021-05-22 14:55:29,817 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:55:29,914 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:55:32,909 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:55:33,572 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:55:33,959 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:55:33,975 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:55:34,045 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:55:34,176 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:55:34,776 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:55:57,858 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:55:57,965 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:56:01,005 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:56:01,693 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:56:02,036 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:56:02,051 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:56:02,118 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:56:02,239 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:56:02,939 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:56:57,455 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:56:57,547 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:57:00,407 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:57:01,010 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:57:01,341 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:57:01,355 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:57:01,417 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:57:01,542 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:57:02,122 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:57:24,441 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:57:24,536 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:57:27,394 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:57:28,011 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:57:28,369 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:57:28,386 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:57:28,456 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:57:28,586 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:57:29,168 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:57:48,904 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:57:48,993 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:57:51,786 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:57:52,397 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:57:52,735 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:57:52,751 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:57:52,817 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:57:52,955 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:57:53,549 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 14:58:20,550 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user.py', reloading
+2021-05-22 14:58:20,643 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 14:58:23,775 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:78]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 14:58:24,414 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 14:58:24,749 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 14:58:24,764 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\__init__.py[line:10]: C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources 初始化
+2021-05-22 14:58:24,831 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 14:58:24,991 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 14:58:25,602 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 15:15:51,441 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:15:51,445 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:15:51,450 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:17:49,323 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:17:49,327 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:17:49,331 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:18:13,952 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:18:13,956 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:18:13,960 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:20:14,131 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:20:14,137 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:20:14,142 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:22:12,347 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:22:12,355 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:22:12,361 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:23:03,498 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:23:03,504 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:23:03,508 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:23:40,615 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:23:40,621 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:23:40,625 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:23:40,721 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 15:23:44,913 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:23:44,919 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\db.py[line:8]: Init db SQLAlchemy() sucessful
+2021-05-22 15:23:44,923 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\ma.py[line:8]: Init ma Marshmallow() sucessful
+2021-05-22 15:23:44,998 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 15:23:45,140 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 15:23:45,774 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 15:24:01,063 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user_bp/haha' [GET]> ======
+2021-05-22 15:24:01,068 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\exception\core_exception.py[line:16]: Exception: type object 'UserModel' has no attribute 'get_user'
+2021-05-22 15:24:01,068 - ERROR - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\exception\core_exception.py[line:17]: Exception: Traceback (most recent call last):
+  File "C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user_bp.py", line 19, in userget
+    data = UserModel.get_user(name)
+AttributeError: type object 'UserModel' has no attribute 'get_user'
+
+2021-05-22 15:24:01,069 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user_bp/haha' [GET]> ======
+2021-05-22 15:24:01,070 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 15:24:01] "GET /user_bp/haha HTTP/1.1" 200 -
+2021-05-22 15:24:59,360 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Detected change in 'C:\\Users\\wilso\\PycharmProjects\\Financial_Flask\\projects\\resources\\user_bp.py', reloading
+2021-05-22 15:24:59,442 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Restarting with stat
+2021-05-22 15:25:03,107 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\__init__.py[line:80]: Init projects log completely at <Logger projects (DEBUG)>
+2021-05-22 15:25:03,154 - WARNING - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger is active!
+2021-05-22 15:25:03,277 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Debugger PIN: 757-403-653
+2021-05-22 15:25:03,815 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2021-05-22 15:25:08,707 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user_bp/haha' [GET]> ======
+2021-05-22 15:25:08,708 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 15:25:08,708 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\models\user_model.py[line:39]: get_user name: haha
+2021-05-22 15:25:08,769 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 15:25:08,769 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user_bp.py[line:22]: UserModel.get_user(name): {'name': 'haha', 'email': 'jaha@gmail1.cm', 'id': 2, 'password': '12we'}
+2021-05-22 15:25:08,771 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user_bp/haha' [GET]> ======
+2021-05-22 15:25:08,771 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 15:25:08] "GET /user_bp/haha HTTP/1.1" 200 -
+2021-05-22 15:25:17,973 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:21]: ====== Start <Request 'http://127.0.0.1:5000/user_bp/haha' [GET]> ======
+2021-05-22 15:25:17,974 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:10]: ====== Start get_user ======
+2021-05-22 15:25:17,974 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\models\user_model.py[line:39]: get_user name: haha
+2021-05-22 15:25:17,980 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\interceptor.py[line:12]: ====== End get_user ======
+2021-05-22 15:25:17,980 - DEBUG - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\resources\user_bp.py[line:22]: UserModel.get_user(name): {'name': 'haha', 'email': 'jaha@gmail1.cm', 'id': 2, 'password': '12we'}
+2021-05-22 15:25:17,981 - INFO - C:\Users\wilso\PycharmProjects\Financial_Flask\projects\common\middleware.py[line:28]: ====== End <Request 'http://127.0.0.1:5000/user_bp/haha' [GET]> ======
+2021-05-22 15:25:17,981 - INFO - C:\Users\wilso\.virtualenvs\Financial_Flask-OYIMoW_R\lib\site-packages\werkzeug\_internal.py[line:225]: 127.0.0.1 - - [22/May/2021 15:25:17] "GET /user_bp/haha HTTP/1.1" 200 -
