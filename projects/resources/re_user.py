@@ -4,7 +4,7 @@ import traceback
 from flask import current_app as app, request
 from flask_restful import Resource
 
-from projects.common.exception.core_exception import CoreException
+from projects.common.exceptions.core_exception import CoreException
 from projects.models.schema.user_schema import UserSchema
 from projects.models.user_model import UserModel
 from projects.resources import log

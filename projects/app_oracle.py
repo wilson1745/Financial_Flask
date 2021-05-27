@@ -4,7 +4,8 @@ import platform
 
 import cx_Oracle
 import pandas as pd
-from flask import Flask
+from flasgger import Swagger, swag_from
+from flask import Flask, jsonify
 from flask_marshmallow import Marshmallow
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
@@ -19,6 +20,17 @@ db = SQLAlchemy()
 ma = Marshmallow()
 
 app = Flask(__name__)
+
+app.config['SWAGGER'] = {
+    "title": "My API",
+    "description": "My API",
+    "version": "1.0.2",
+    "termsOfService": "",
+    "hide_top_bar": False
+}
+
+# http://localhost:5000/apidocs/
+swagger = Swagger(app)
 
 
 def initOracle():
@@ -74,8 +86,22 @@ def genDataFrame(datas: list) -> DataFrame:
         print(str(e))
 
 
-@app.route('/')
-def index():
+# @app.route('/')
+# def index():
+#     # sql_cmd = """
+#     #     SELECT *
+#     #     FROM DAILYSTOCK d WHERE d.SYMBOL = '2330' ORDER BY d.MARKET_DATE ASC
+#     #     """
+#     #
+#     # query_data = db.engine.execute(sql_cmd)
+#     # df = genDataFrame(query_data.fetchall())
+#     # return df.to_json(orient='records', force_ascii=False)
+#     return "Route OK!!!!!!!!!!!!!!!!!!!!!"
+
+
+@app.route('/colorsssss/')
+# @swag_from('index.yml')
+def colorsssss(palette):
     # sql_cmd = """
     #     SELECT *
     #     FROM DAILYSTOCK d WHERE d.SYMBOL = '2330' ORDER BY d.MARKET_DATE ASC
@@ -85,6 +111,48 @@ def index():
     # df = genDataFrame(query_data.fetchall())
     # return df.to_json(orient='records', force_ascii=False)
     return "Route OK!!!!!!!!!!!!!!!!!!!!!"
+
+
+# @app.route('/colors/<palette>/')
+# def colors(palette):
+#     """Example endpoint returning a list of colors by palette
+#     This is using docstrings for specifications.
+#     ---
+#     parameters:
+#       - name: palette
+#         in: path
+#         type: string
+#         enum: ['all', 'rgb', 'cmyk']
+#         required: true
+#         default: all
+#     definitions:
+#       Palette:
+#         type: object
+#         properties:
+#           palette_name:
+#             type: array
+#             items:
+#               $ref: '#/definitions/Color'
+#       Color:
+#         type: string
+#     responses:
+#       200:
+#         description: A list of colors (may be filtered by palette)
+#         schema:
+#           $ref: '#/definitions/Palette'
+#         examples:
+#           rgb: ['red', 'green', 'blue']
+#     """
+#     all_colors = {
+#         'cmyk': ['cian', 'magenta', 'yellow', 'black'],
+#         'rgb': ['red', 'green', 'blue']
+#     }
+#     if palette == 'all':
+#         result = all_colors
+#     else:
+#         result = {palette: all_colors.get(palette)}
+#
+#     return jsonify(result)
 
 
 if __name__ == '__main__':

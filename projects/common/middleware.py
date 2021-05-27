@@ -2,9 +2,10 @@
 import logging
 import traceback
 
-from projects.common.exception.core_exception import CoreException
+from projects.common.constants import LOG_PROJECTS
+from projects.common.exceptions.core_exception import CoreException
 
-log = logging.getLogger("projects")
+log = logging.getLogger(LOG_PROJECTS)
 
 
 class MiddleWare(object):

@@ -4,7 +4,7 @@ from flask import Blueprint
 
 from projects.models.schema.user_schema import UserSchema
 from projects.models.user_model import UserModel
-from projects.common.exception.core_exception import CoreException
+from projects.common.exceptions.core_exception import CoreException
 from projects.resources import log
 
 """藍圖物件可看做一個縮小版的app物件"""
