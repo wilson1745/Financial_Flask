@@ -55,3 +55,7 @@ RILEY_STOCKS = ["0050", "0056", "00881", "1802", "2303", "2330", "2324", "2375",
 
 # DB_PATH = "../resources/user.db"
 DB_PATH = "user.db"
+
+# Mac, Linux
+LIB_DIR = '/Users/WilsonLo/Downloads/instantclient_19_8'
+CONFIG_DIR = '/Users/WilsonLo/oracle/Wallet_financialDB'

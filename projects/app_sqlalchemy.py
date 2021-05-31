@@ -7,7 +7,7 @@ from sqlalchemy import Column, Integer, String
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.database'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -17,10 +17,10 @@ ma = Marshmallow(app)
 # this is our database model
 class UserModel(db.Model):
     __tablename__ = 'users'
-    # id = db.Column(db.Integer, primary_key=True)
-    # name = db.Column(db.String(80), unique=True, nullable=False)
-    # email = db.Column(db.String(120), unique=True, nullable=False)
-    # password = db.Column(db.String(120))
+    # id = database.Column(database.Integer, primary_key=True)
+    # name = database.Column(database.String(80), unique=True, nullable=False)
+    # email = database.Column(database.String(120), unique=True, nullable=False)
+    # password = database.Column(database.String(120))
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)

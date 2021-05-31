@@ -8,12 +8,12 @@ from projects.common.exceptions.core_exception import CoreException
 from projects.resources import log
 
 """藍圖物件可看做一個縮小版的app物件"""
-bp = Blueprint('user_bp', __name__)  # 第一個引數為藍圖名稱，隨便取
+user_bp = Blueprint('user_bp', __name__)  # 第一個引數為藍圖名稱，隨便取
 
 user_schema = UserSchema(many=False)
 
 
-@bp.route('/user_bp/<string:name>')
+@user_bp.route('/user_bp/<string:name>')
 def userget(name):
     try:
         # name = "haha"

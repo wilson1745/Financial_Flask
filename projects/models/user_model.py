@@ -11,10 +11,6 @@ log = logging.getLogger(constants.LOG_PROJECTS)
 
 class UserModel(db_sqlalchemy.Model):
     __tablename__ = 'users'
-    # id = db.Column(db.Integer, primary_key=True)
-    # name = db.Column(db.String(80), unique=True, nullable=False)
-    # email = db.Column(db.String(120), unique=True, nullable=False)
-    # password = db.Column(db.String(120))
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)

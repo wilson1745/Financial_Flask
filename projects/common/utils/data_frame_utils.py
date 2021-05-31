@@ -1,19 +1,24 @@
 import csv
 import logging
+import traceback
 
 import pandas as pd
 from pandas import DataFrame
 
-from projects.common.constants import HEADERS, LOG_PROJECTS
+from projects.common import constants
+from projects.common.exceptions.core_exception import CoreException
 from projects.common.interceptor import interceptor
 
-log = logging.getLogger(LOG_PROJECTS)
+log = logging.getLogger(constants.LOG_PROJECTS)
 
 pd.set_option('display.width', 320)
 pd.set_option('display.max_columns', 20)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.unicode.ambiguous_as_wide', True)
 pd.set_option('display.unicode.east_asian_width', True)
+
+HEADERS = ['market_date', 'stock_name', 'symbol', 'deal_stock', 'deal_price', 'opening_price', 'highest_price',
+           'lowest_price', 'close_price', 'ups_and_downs', 'volume', 'createtime']
 
 
 class DataFrameUtils:
@@ -22,7 +27,6 @@ class DataFrameUtils:
     @interceptor
     def arrangeMiIndex(rows) -> list:
         """ 處理爬蟲完的資料 """
-
         try:
             data_row = []
 
@@ -54,7 +58,6 @@ class DataFrameUtils:
                 # print(row)
 
             return data_row
-
         except Exception:
             raise
 
@@ -62,7 +65,6 @@ class DataFrameUtils:
     @interceptor
     def arrangeMiIndexHtml(rows) -> list:
         """ 處理爬蟲完的資料 """
-
         try:
             data_row = []
 
@@ -94,7 +96,6 @@ class DataFrameUtils:
                 # print(row)
 
             return data_row
-
         except Exception:
             raise
 
@@ -102,7 +103,6 @@ class DataFrameUtils:
     @interceptor
     def arrangeHtmlToDataFrame(cls, rows, date) -> DataFrame:
         """ 處理爬蟲完的資料 """
-
         try:
             data_row = cls.arrangeMiIndexHtml(rows)
 
@@ -114,17 +114,16 @@ class DataFrameUtils:
             df.fillna(0, inplace=True)
 
             # 塞入第一欄[日期] (market_date)
-            df.insert(0, HEADERS[0], date)
-            # log.debug(f"df.columns: {dataFrame.columns}")
+            df.insert(0, constants.HEADERS[0], date)
+            # log.debug(f'df.columns: {dataFrame.columns}')
 
             # 先儲存CSV
-            df.columns = HEADERS
+            df.columns = constants.HEADERS
             # df.to_csv((CSV_FINAL_PATH % date), index=False, header=True)
             # df.columns = CollectionUtils.header_daily_stock(HEADERS)
             log.debug(df)
 
             return df
-
         except Exception:
             raise
 
@@ -132,9 +131,8 @@ class DataFrameUtils:
     @interceptor
     def listDataRows(filepath):
         """ Review file data """
-
         try:
-            with open(filepath, encoding="utf-8", errors="ignore") as csvfile:
+            with open(filepath, encoding='utf-8', errors='ignore') as csvfile:
                 # 讀取 CSV 檔案內容
                 rows = csv.reader(csvfile)
 
@@ -143,3 +141,21 @@ class DataFrameUtils:
                     log.debug(row)
         except Exception:
             raise
+
+    @staticmethod
+    @interceptor
+    def genDataFrame(datas: list) -> DataFrame:
+        """ Generate pandas dataframe """
+        try:
+            df = pd.DataFrame(datas)
+            if df.empty:
+                log.warning('No data exist!')
+            else:
+                df.columns = HEADERS
+                df.index = pd.to_datetime(df['market_date'])
+                log.debug(df)
+
+            return df
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
+            raise e

@@ -1,9 +1,4 @@
-""" __init__.py
-改變創建app實例的方式,不之間創建app,而是通過create_app函數里面創建,
-再返回app對象,這樣的好處就是調用的時候才創建,想創建多少就調用多少,
-而且每次調用都能應用不同的配置參數,這裡面這個create_app()就是應用的工廠方法!
-在工廠方法裡面我們分別加載了配置擴展和藍圖
-"""
+""" This file contains your app, routes and blueprints """
 
 import logging
 from datetime import datetime
@@ -21,41 +16,6 @@ from projects.resources.bp_dailystock import dailystock_bp
 from projects.resources.bp_user import user_bp
 
 
-# database = SQLAlchemy()
-# cors = CORS()
-
-
-def create_app(config_name=None):
-    """ Start initialize the application """
-    # TODO 之後導入系統環境 加載配置
-    if config_name is None:
-        # config_name = os.getenv("FLASK_CONFIG", "dev")
-        config_name = 'dev'
-
-    app = Flask(__name__)
-    # 暫定預設配置 => flask\app.py
-    # app.config.from_object(config_choice.get(config_name))
-
-    # 加載Swagger
-    register_swagger(app)
-    # 加載日誌處理器
-    register_logging(app)
-    # 註冊擴展
-    register_extensions(app)
-    # 註冊API或者藍圖
-    register_api(app)
-    # 註冊錯誤處理
-    register_errors(app)
-    # 註冊click或script命令
-    register_commands(app)
-    # 註冊shell上下文
-    register_shell_context(app)
-    # 註冊模板上下文
-    register_template_context(app)
-
-    return app
-
-
 def register_swagger(app):
     """ Set swagger """
     app.config['SWAGGER'] = {
@@ -65,7 +25,6 @@ def register_swagger(app):
         'termsOfService': '',
         'hide_top_bar': False
     }
-
     # http://localhost:5000/apidocs/
     swagger = Swagger(app)
 
@@ -111,7 +70,8 @@ def register_extensions(app: Flask):
     app.wsgi_app = MiddleWare(app.wsgi_app)
 
     # Set database
-    db_init.init_database(app, Databases.ORACLE_CLOUD)
+    db_init.init_database(app, Databases.USER)
+
     db_sqlalchemy.init_app(app)
 
     # Set schema
@@ -132,23 +92,13 @@ def register_api(app: Flask):
     api = Api(app)
 
     # Ex: Bind User to rout /print_hello_world/
+    # Resources
     api.add_resource(PrintHelloWorld, '/print_hello_world/')
     api.add_resource(User, '/user/<string:name>')
     api.add_resource(Users, '/users/')
 
-    # You can insert args into resources
-    # api.add_resource(Users, '/users/', resource_class_args={app.logger})
-
-    # TODO more useful with routing????
-    # app.register_blueprint(index)
-    # app.register_blueprint(admin)
+    # Blueprints
     app.register_blueprint(blueprint=user_bp)
-    app.register_blueprint(blueprint=dailystock_bp)
-
-    # 觀看有多少log存在於logging中 => 寫入file的log名稱為'projects'
-    # loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
-    # for item in loggers:
-    #     app.logger.debug(f'name: {item}, address: {hex(id(item))}')
 
     app.logger.info(f'Register api completely')
 
@@ -174,3 +124,34 @@ def register_shell_context(app: Flask):
 def register_template_context(app: Flask):
     """ Set template context """
     pass
+
+
+def create_app(config_name=None):
+    """ Start initialize the application """
+    # TODO 之後導入系統環境 加載配置
+    if config_name is None:
+        # config_name = os.getenv("FLASK_CONFIG", "dev")
+        config_name = "dev"
+
+    app = Flask(__name__)
+    # 暫定預設配置 => flask\app.py
+    # app.config.from_object(config_choice.get(config_name))
+
+    register_swagger(app)
+    register_logging(app)
+    register_extensions(app)
+    register_api(app)
+    register_errors(app)
+    register_commands(app)
+    register_shell_context(app)
+    register_template_context(app)
+
+    return app
+
+
+if __name__ == '__main__':
+    APP = create_app()
+
+    """ debug=True => Detected change """
+    APP.run(debug=True)
+    # APP.run()

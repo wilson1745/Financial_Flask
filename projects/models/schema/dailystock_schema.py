@@ -4,15 +4,18 @@ from projects.common.ma import ma_marshmallow
 
 
 class DailyStockSchema(ma_marshmallow.Schema):
-    marketDate = fields.Str()
-    stockName = fields.Str()
+    class Meta:
+        ordered = True
+
+    market_date = fields.Str()
+    stock_name = fields.Str()
     symbol = fields.Str()
-    dealStock = fields.Float()
-    dealPrice = fields.Float()
-    openingPrice = fields.Float()
-    highestPrice = fields.Float()
-    lowestPrice = fields.Float()
-    closePrice = fields.Float()
-    upsAndDowns = fields.Float()
+    deal_stock = fields.Float()
+    deal_price = fields.Float()
+    opening_price = fields.Float()
+    highest_price = fields.Float()
+    lowest_price = fields.Float()
+    close_price = fields.Float()
+    ups_and_downs = fields.Float()
     volume = fields.Float()
     createtime = fields.DateTime()

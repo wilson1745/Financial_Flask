@@ -1,4 +1,5 @@
 """ This file contains your app, routes and blueprints """
+
 from projects import create_app
 
 if __name__ == '__main__':
