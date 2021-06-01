@@ -3,12 +3,15 @@ import traceback
 
 from flask import Blueprint
 
+from projects.common import constants
 from projects.common.exceptions.core_exception import CoreException
 from projects.common.utils.data_frame_utils import DataFrameUtils
+from projects.common.utils.resp_utils import Response
 from projects.models.dailystock_model import DailyStockModel
 from projects.models.schema.dailystock_schema import DailyStockSchema
 
 # AttributeError: 'function' object has no attribute 'name' => 藍圖名字和系統名字出現重疊
+
 dailystock_bp = Blueprint('dailystock', __name__)
 
 dailystock_schema = DailyStockSchema(many=True)
@@ -19,20 +22,14 @@ def symbol_get(symbol: str):
     try:
         data = DailyStockModel.find_by_symbol(symbol)
         if not data:
-            return {
-                       'message': 'username not exist!'
-                   }, 403
+            return Response.warn(message=constants.DATA_NOT_EXIST % symbol, code=403)
 
         result = dailystock_schema.dump(data, many=True)
-        return {
-            'message': '',
-            'result': result
-        }
+
+        return Response.ok('', result)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
-        return {
-            'Exception message': str(e)
-        }
+        return Response.fail(str(e))
 
 
 @dailystock_bp.route('/dailystock_bp/symbol_get_df/<string:symbol>')
@@ -40,22 +37,16 @@ def symbol_get_df(symbol: str):
     try:
         data = DailyStockModel.find_by_symbol(symbol)
         if not data:
-            return {
-                       'message': 'username not exist!'
-                   }, 403
+            return Response.warn(message=constants.DATA_NOT_EXIST % symbol, code=403)
 
         result = dailystock_schema.dump(data, many=True)
         df = DataFrameUtils.genDataFrame(result)
-        return {
-            'message': '',
-            'result': df.to_json(orient='index', force_ascii=False)
-        }
+
+        return Response.ok('', result)
         # return df.to_json(orient='index', force_ascii=False)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
-        return {
-            'Exception message': str(e)
-        }
+        return Response.fail(str(e))
 
 # @dailystock_bp.route('/dailystock_bp/raw_sql/')
 # # @swag_from('index.yml')

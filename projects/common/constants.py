@@ -12,22 +12,23 @@ TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?respon
 
 # Oracle Client Path
 # 先暫時用絕對路徑 => 不然multiprocessing吃不到
-ORACLE_CLIENT_PATH = r"/resources/instantclient_19_8"
-# ORACLE_CLIENT_PATH = "../resources/instantclient_19_8"
+ORACLE_CLIENT_PATH = r"/routes/instantclient_19_8"
+# ORACLE_CLIENT_PATH = "../routes/instantclient_19_8"
 ORACLE_CLIENT_NETWORK_PATH = ORACLE_CLIENT_PATH + "/network/admin"
 
 # Log Path
 LOG_PROJECTS = "projects"
-LOG_PATH = r"\resources\logs\%s.log"
-# LOG_PATH = "../resources/logs/%s.log"
+LOG_PATH = r"\files\logs\%s.log"
+# LOG_PATH = r"\routes\logs\%s.log"
+# LOG_PATH = "../routes/logs/%s.log"
 
 # TXT Path
-URL_ERROR_TXT_PATH = "../resources/logs/URLError_%s.txt"
+URL_ERROR_TXT_PATH = "../routes/logs/URLError_%s.txt"
 
 # File Folder Path
-HTML_PATH = "../resources/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
-CSV_PATH = "../resources/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
-CSV_FINAL_PATH = "../resources/scrapy_files/STOCK_DAY_ALL_%s.csv"
+HTML_PATH = "../routes/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
+CSV_PATH = "../routes/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
+CSV_FINAL_PATH = "../routes/scrapy_files/STOCK_DAY_ALL_%s.csv"
 
 # DailyStock headers
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
@@ -53,7 +54,7 @@ RILEY_STOCKS = ["0050", "0056", "00881", "1802", "2303", "2330", "2324", "2375",
 # RILEY_STOCKS = ["020008", "1312A", "1316", "1419", "1459", "1538", "1603", "1713", "2207", "2849", "2851", "2887", "2908", "3026", "3701", "4148",
 #                 "4426", "5876", "6172", "9110", "911616"]
 
-# DB_PATH = "../resources/user.db"
+# DB_PATH = "../routes/user.db"
 DB_PATH = "user.db"
 
 # Mac, Linux

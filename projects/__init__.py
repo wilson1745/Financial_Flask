@@ -17,8 +17,8 @@ from flask_restful import Api
 from projects.common import constants
 from projects.common.database import db_init
 from projects.common.enums.enum_db import Databases
-from projects.resources.bp_dailystock import dailystock_bp
-from projects.resources.bp_user import user_bp
+from projects.routes.blueprints.bp_dailystock import dailystock_bp
+from projects.routes.blueprints.bp_user import user_bp
 
 
 # database = SQLAlchemy()
@@ -124,9 +124,9 @@ def register_extensions(app: Flask):
 
 
 def register_api(app: Flask):
-    """ Set resources(routes and blueprints) """
-    from projects.resources.re_hello_world import PrintHelloWorld
-    from projects.resources.re_user import User, Users
+    """ Set routes(routes and blueprints) """
+    from projects.routes.resources.re_hello_world import PrintHelloWorld
+    from projects.routes.resources.re_user import User, Users
 
     # The main entry point for the application
     api = Api(app)
@@ -136,7 +136,7 @@ def register_api(app: Flask):
     api.add_resource(User, '/user/<string:name>')
     api.add_resource(Users, '/users/')
 
-    # You can insert args into resources
+    # You can insert args into routes
     # api.add_resource(Users, '/users/', resource_class_args={app.logger})
 
     # TODO more useful with routing????
