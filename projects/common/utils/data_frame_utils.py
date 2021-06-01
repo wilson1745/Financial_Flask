@@ -8,6 +8,7 @@ from pandas import DataFrame
 from projects.common import constants
 from projects.common.exceptions.core_exception import CoreException
 from projects.common.interceptor import interceptor
+from projects.models.schema.dailystock_schema import DailyStockSchema
 
 log = logging.getLogger(constants.LOG_PROJECTS)
 
@@ -19,6 +20,8 @@ pd.set_option('display.unicode.east_asian_width', True)
 
 HEADERS = ['market_date', 'stock_name', 'symbol', 'deal_stock', 'deal_price', 'opening_price', 'highest_price',
            'lowest_price', 'close_price', 'ups_and_downs', 'volume', 'createtime']
+
+dailystock_schema = DailyStockSchema(many=True)
 
 
 class DataFrameUtils:
@@ -156,6 +159,17 @@ class DataFrameUtils:
                 log.debug(df)
 
             return df
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
+            raise e
+
+    @classmethod
+    @interceptor
+    def dump_to_df(cls, data) -> DataFrame:
+        """ Dump serial and generate dataframe """
+        try:
+            dump_data = dailystock_schema.dump(data, many=True)
+            return cls.genDataFrame(dump_data)
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
             raise e

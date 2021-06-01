@@ -31,6 +31,7 @@ def init_database(app: Flask, db_name: Databases):
                                                 f"{os.environ.get('ORACLE_ADW_USER')}:" \
                                                 f"{os.environ.get('ORACLE_ADW_PASS')}" \
                                                 f"@financialdb_high "
+
         # v2.4 開始新增 SQLALCHEMY_ENGINE_OPTIONS
         app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
             'pool_pre_ping': True,

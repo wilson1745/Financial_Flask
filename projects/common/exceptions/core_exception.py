@@ -21,7 +21,7 @@ class CoreException:
     def show(get_result):
         log.debug("Callback: {} PID: {}".format(get_result, os.getpid()))
 
-    # # @interceptor
-    # @staticmethod
-    # def show_error(value):
-    #     log.error("error: {}".format(value))
+    # @interceptor
+    @staticmethod
+    def error(value):
+        log.error("error: {}".format(value))
