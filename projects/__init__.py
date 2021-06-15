@@ -81,7 +81,7 @@ def register_logging(app: Flask):
     formatter = logging.Formatter(fmt)
     # Generate log day by day
     file_handler = TimedRotatingFileHandler(
-        filename=((str(Path(Path(__file__).resolve().parents[1])) + constants.LOG_PATH) % datetime.now().strftime('%Y_%m_%d')),
+        filename=((str(Path(Path(__file__).resolve().parents[0])) + constants.LOG_PATH) % datetime.now().strftime('%Y_%m_%d')),
         when='D',
         backupCount=30,
         encoding='utf-8')

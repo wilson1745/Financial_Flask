@@ -1,18 +1,17 @@
 from functools import wraps
 
-from calculations.core import LOG
+from calculations import log
 
 
 def interceptor(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        LOG.info(f"====== Start {func.__name__} ======")
+        log.info(f"====== Start {func.__name__} ======")
         result = func(*args, **kwargs)
-        LOG.info(f"====== End {func.__name__} ======")
+        log.info(f"====== End {func.__name__} ======")
         return result
 
     return wrapper
-
 
 # def interceptor_log(variable):
 #     def decorator(func):
@@ -30,7 +29,7 @@ def interceptor(func):
 #     return decorator
 
 
-def getLogger():
-    # TODO check if LOG has not initialized!!!
-    # LOG.debug(f"id(log): {hex(id(LOG))}")
-    return LOG
+# def getLogger():
+#     # TODO check if LOG has not initialized!!!
+#     # LOG.debug(f"id(log): {hex(id(LOG))}")
+#     return log
