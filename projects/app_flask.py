@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # MySql datebase
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///product.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///product.database'
 
 db = SQLAlchemy(app)
 
@@ -43,8 +43,8 @@ def index():
 # def add():
 #     # Add data
 #     product_max = Product('Max', 8888, 'https://picsum.photos/id/1047/1200/600', '', '')
-#     db.session.add(product_max)
-#     db.session.commit()
+#     database.session.add(product_max)
+#     database.session.commit()
 #     return 'ok'
 
 

@@ -2,7 +2,7 @@ import logging
 
 from flask_sqlalchemy import SQLAlchemy
 
-log = logging.getLogger("projects")
+log = logging.getLogger('projects')
 
 db_sqlalchemy = SQLAlchemy()
-log.info("Init db SQLAlchemy() sucessful")
+log.info('Init database SQLAlchemy() sucessful')
