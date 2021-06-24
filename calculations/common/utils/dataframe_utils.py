@@ -135,3 +135,13 @@ class DataFrameUtils:
                     log.debug(row)
         except Exception:
             raise
+
+    @staticmethod
+    @interceptor
+    def dfForTalib(df: DataFrame) -> DataFrame:
+        try:
+            df = df.drop(["market_date", "stock_name", "symbol", "deal_stock", "deal_price", "ups_and_downs", "createtime"], axis=1)
+            df = df.rename(columns={"opening_price": "open", "highest_price": "high", "lowest_price": "low", "close_price": "close"})
+            return df
+        except Exception:
+            raise

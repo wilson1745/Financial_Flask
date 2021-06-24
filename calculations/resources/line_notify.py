@@ -48,7 +48,7 @@ def sendMsg(msg: list):
         CoreException.show_error(ex, traceback.format_exc())
         time.sleep(10)
     finally:
-        time.sleep(5)
+        time.sleep(2)
 
 
 # @interceptor
