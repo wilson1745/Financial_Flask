@@ -6,25 +6,24 @@ import pandas
 from pandas import DataFrame
 
 from calculations import log
+from calculations.common.utils.constants import CLOSE_PRICE, D, HIGHEST_PRICE, K, LOWEST_PRICE
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-
-
-# 計算KD線
 from calculations.repository import dailystock_repo
 
 
 @interceptor
 def GetDataKD(data) -> DataFrame:
     """
+    計算KD線
     Step1:計算RSV:(今日收盤價-最近9天的最低價)/(最近9天的最高價-最近9天的最低價)
     Step2:計算K: K = 2/3 X (昨日K值) + 1/3 X (今日RSV)
     Step3:計算D: D = 2/3 X (昨日D值) + 1/3 X (今日K值)
     """
     data_df = data.copy()
-    data_df["min"] = data_df["lowest_price"].rolling(9).min()
-    data_df["max"] = data_df["highest_price"].rolling(9).max()
-    data_df["RSV"] = (data_df["close_price"] - data_df["min"]) / (data_df["max"] - data_df["min"])
+    data_df["min"] = data_df[LOWEST_PRICE].rolling(9).min()
+    data_df["max"] = data_df[HIGHEST_PRICE].rolling(9).max()
+    data_df["RSV"] = (data_df[CLOSE_PRICE] - data_df["min"]) / (data_df["max"] - data_df["min"])
     data_df = data_df.dropna()
 
     # 計算K
@@ -34,22 +33,22 @@ def GetDataKD(data) -> DataFrame:
         K_yestarday = K_list[num]
         K_today = 2 / 3 * K_yestarday + 1 / 3 * rsv
         K_list.append(K_today)
-    data_df["K"] = K_list[1:]
+    data_df[K] = K_list[1:]
 
     # 計算D
     # D的初始值定為50
     D_list = [50]
-    for num, K in enumerate(list(data_df["K"])):
+    for num, k_value in enumerate(list(data_df[K])):
         D_yestarday = D_list[num]
-        D_today = 2 / 3 * D_yestarday + 1 / 3 * K
+        D_today = 2 / 3 * D_yestarday + 1 / 3 * k_value
         D_list.append(D_today)
-    data_df["D"] = D_list[1:]
+    data_df[D] = D_list[1:]
 
     # 調整百分比和小數點
-    data_df[["K", "D"]] = data_df[["K", "D"]].apply(lambda rs: round(rs * 100, 2))
+    data_df[[K, D]] = data_df[[K, D]].apply(lambda rs: round(rs * 100, 2))
     # log.debug(data_df)
 
-    use_df = pandas.merge(data, data_df[["K", "D"]], left_index=True, right_index=True, how="left")
+    use_df = pandas.merge(data, data_df[[K, D]], left_index=True, right_index=True, how="left")
     # use_df = use_df.dropna()
     # log.debug(f"KD data: {use_df}")
 

@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from pandas import DataFrame
 
 from calculations import log
+from calculations.common.utils.constants import CLOSE_PRICE, RSI
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.repository import dailystock_repo
@@ -32,7 +33,7 @@ def cal_D(num):
 def plot(data):
     """ Render plot """
     plt.figure(figsize=(10, 10))
-    data["RSI"].plot()
+    data[RSI].plot()
     plt.plot(stock.index, [70] * len(stock.index))
     plt.plot(stock.index, [30] * len(stock.index))
     plt.legend()
@@ -53,7 +54,7 @@ def GetDataRSI(data: DataFrame):
     # stock = stock["2021-01-20":]
 
     """ Get the Diff price. Important!!!!! """
-    data["Dif"] = data["close_price"].diff()
+    data["Dif"] = data[CLOSE_PRICE].diff()
     # print(stock)
 
     data["cal_U"] = data["Dif"].apply(cal_U)
@@ -61,8 +62,8 @@ def GetDataRSI(data: DataFrame):
     data["ema_U"] = data["cal_U"].ewm(span=14).mean()
     data["ema_D"] = data["cal_D"].ewm(span=14).mean()
     data["RS"] = data["ema_U"].div(data["ema_D"])
-    data["RSI"] = data["RS"].apply(lambda rs: round(rs / (1 + rs) * 100, 2))
-    log.debug(f"RSI data: {data}")
+    data[RSI] = data["RS"].apply(lambda rs: round(rs / (1 + rs) * 100, 2))
+    # log.debug(f"RSI data: {data}")
 
 
 # ------------------- App Start -------------------

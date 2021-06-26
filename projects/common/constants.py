@@ -30,9 +30,6 @@ HTML_PATH = "../routes/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
 CSV_PATH = "../routes/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
 CSV_FINAL_PATH = "../routes/scrapy_files/STOCK_DAY_ALL_%s.csv"
 
-# DailyStock headers
-HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
-
 # Line Notify
 TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
 TOKEN_SENSATIONAL = "hlFjUiKkT9jWw1FfnLAVgnwaWJ4CY5DzIg7J33X2vdc"
@@ -60,3 +57,27 @@ DB_PATH = "user.db"
 # Mac, Linux
 LIB_DIR = '/Users/WilsonLo/Downloads/instantclient_19_8'
 CONFIG_DIR = '/Users/WilsonLo/oracle/Wallet_financialDB'
+
+# DailyStock
+MARKET_DATE = 'market_date'
+STOCK_NAME = 'stock_name'
+SYMBOL = 'symbol'
+DEAL_STOCK = 'deal_stock'
+DEAL_PRICE = 'deal_price'
+OPENING_PRICE = 'opening_price'
+HIGHEST_PRICE = 'highest_price'
+LOWEST_PRICE = 'lowest_price'
+CLOSE_PRICE = 'close_price'
+UPS_AND_DOWNS = 'ups_and_downs'
+VOLUME = 'volume'
+CREATETIME = 'createtime'
+
+POS = 'POS'
+RSI = 'RSI'
+K = 'K'
+D = 'D'
+
+# DailyStock headers
+HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
+HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, UPS_AND_DOWNS,
+             VOLUME, CREATETIME]

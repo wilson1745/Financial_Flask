@@ -4,7 +4,8 @@ import pandas
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import HEADERS
+from calculations.common.utils.constants import HEADERS, MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME, \
+    OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE
 from calculations.core.Interceptor import interceptor
 
 pandas.set_option('display.width', 320)
@@ -140,8 +141,8 @@ class DataFrameUtils:
     @interceptor
     def dfForTalib(df: DataFrame) -> DataFrame:
         try:
-            df = df.drop(["market_date", "stock_name", "symbol", "deal_stock", "deal_price", "ups_and_downs", "createtime"], axis=1)
-            df = df.rename(columns={"opening_price": "open", "highest_price": "high", "lowest_price": "low", "close_price": "close"})
+            df = df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1)
+            df = df.rename(columns={OPENING_PRICE: "open", HIGHEST_PRICE: "high", LOWEST_PRICE: "low", CLOSE_PRICE: "close"})
             return df
         except Exception:
             raise

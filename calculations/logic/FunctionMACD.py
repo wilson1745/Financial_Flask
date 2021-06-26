@@ -5,6 +5,7 @@ import os
 import matplotlib.dates as mdates
 import numpy as np
 import requests
+import talib
 from bs4 import BeautifulSoup
 
 from calculations.core.Interceptor import interceptor
@@ -362,50 +363,51 @@ class KBar:
     def GetVolume(self):
         return self.TAKBar['volume']
 
-    # 取MA值(MA期數)
+        # 取MA值(MA期數)
+
     @interceptor
     def GetMA(self, n, matype):
-        return MA(self.TAKBar, n, matype)
+        return talib.MA(self.TAKBar, n, matype)
         # 取SMA值(SMA期數)
 
     @interceptor
     def GetSMA(self, n):
-        return SMA(self.TAKBar, n)
+        return talib.SMA(self.TAKBar, n)
 
     # 取WMA值(WMA期數)
     @interceptor
     def GetWMA(self, n):
-        return WMA(self.TAKBar, n)
+        return talib.WMA(self.TAKBar, n)
 
     # 取EMA值(EMA期數)
     @interceptor
     def GetEMA(self, n):
-        return EMA(self.TAKBar, n)
+        return talib.EMA(self.TAKBar, n)
         # 取MACD值
 
     @interceptor
     def GetMACD(self, fast_P, slow_P, macd_P):
-        return MACD(self.TAKBar, fast_P, slow_P, macd_P)
+        return talib.MACD(self.TAKBar, fast_P, slow_P, macd_P)
 
     # 取布林通道值(中線期數)
     @interceptor
     def GetBBands(self, n):
-        return BBANDS(self.TAKBar, n)
+        return talib.BBANDS(self.TAKBar, n)
 
     # 取KD值(RSV期數,K值期數,D值期數)
     @interceptor
     def GetKD(self, rsv, k, d):
-        return STOCH(self.TAKBar, fastk_period=rsv, slowk_period=k, slowd_period=d)
+        return talib.STOCH(self.TAKBar, fastk_period=rsv, slowk_period=k, slowd_period=d)
 
     # RSI(RSI期數)
     @interceptor
     def GetRSI(self, n):
-        return RSI(self.TAKBar, n)
+        return talib.RSI(self.TAKBar, n)
 
     # 取得乖離率
     @interceptor
     def GetBIAS(self, tn=10):
-        mavalue = MA(self.TAKBar, timeperiod=tn, matype=0)
+        mavalue = talib.MA(self.TAKBar, timeperiod=tn, matype=0)
         return (self.TAKBar['close'] - mavalue) / mavalue
 
     # 取得繪圖的格式(時間開高低收)(應用在回測章節)

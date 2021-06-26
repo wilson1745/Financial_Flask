@@ -6,6 +6,7 @@ import pandas as pd
 from pandas import DataFrame
 
 from projects.common import constants
+from projects.common.constants import HEADERS_T
 from projects.common.exceptions.core_exception import CoreException
 from projects.common.interceptor import interceptor
 from projects.models.schema.dailystock_schema import DailyStockSchema
@@ -17,9 +18,6 @@ pd.set_option('display.max_columns', 20)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.unicode.ambiguous_as_wide', True)
 pd.set_option('display.unicode.east_asian_width', True)
-
-HEADERS = ['market_date', 'stock_name', 'symbol', 'deal_stock', 'deal_price', 'opening_price', 'highest_price',
-           'lowest_price', 'close_price', 'ups_and_downs', 'volume', 'createtime']
 
 dailystock_schema = DailyStockSchema(many=True)
 
@@ -154,7 +152,7 @@ class DataFrameUtils:
             if df.empty:
                 log.warning('No data exist!')
             else:
-                df.columns = HEADERS
+                df.columns = HEADERS_T
                 df.index = pd.to_datetime(df['market_date'])
                 log.debug(df)
 

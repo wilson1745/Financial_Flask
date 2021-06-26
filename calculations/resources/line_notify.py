@@ -20,8 +20,9 @@ from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.logic import FunctionKD, FunctionRSI
+from calculations.logic import FunctionKD, FunctionRSI, FunctionMA
 from calculations.repository import dailystock_repo
+from calculations.common.utils.constants import CLOSE_PRICE, STOCK_NAME, SYMBOL, RSI, K, D, MARKET_DATE, POS
 
 
 @interceptor
@@ -56,11 +57,11 @@ def genStringRow(row) -> str:
     """ 建立每隻股票的格式 """
 
     rowStr = ""
-    rowStr += f"\n名稱: {row['stock_name']} ({row['symbol']})"
-    rowStr += f"\n日期: {DateUtils.strformat(row['market_date'], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
-    rowStr += f"\n收盤價: {row['close_price']}"
-    rowStr += f"\nRSI值: {row['RSI']}%"
-    rowStr += f"\nKD值: {row['K']}%, {row['D']}%"
+    rowStr += f"\n名稱: {row[STOCK_NAME]} ({row[SYMBOL]})"
+    rowStr += f"\n日期: {DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
+    rowStr += f"\n收盤價: {row[CLOSE_PRICE]}"
+    rowStr += f"\nRSI值: {row[RSI]}%"
+    rowStr += f"\nKD值: {row[K]}%, {row[D]}%"
 
     return rowStr
 
@@ -101,6 +102,7 @@ def genNotifyData(symbol: str):
     data = dailystock_repo.findBySymbol(symbol)
     FunctionRSI.GetDataRSI(data)
     stock = FunctionKD.GetDataKD(data)
+    stock = FunctionMA.GetCross(stock, 5, 15)
 
     if not stock.empty:
         # 取得當天含有RSI和KD值的最後一筆資料
@@ -136,12 +138,23 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
                 if not NotifyGroup.POTENTIAL in stockDict:
                     """ Riley's stock """
                     for row in results.get():
-                        if (row["RSI"]) > 70:
+                        if (row[RSI]) >= 70:
+                            # 趕快賣的股票
                             stockDict[NotifyGroup.SELL].append(row)
-                        elif row["RSI"] < 30:
+                        elif row[RSI] <= 30:
+                            # 好可憐的股票
                             stockDict[NotifyGroup.BAD].append(row)
                         else:
-                            stockDict[NotifyGroup.NORMAL].append(row)
+                            if row[RSI] >= 50 and row[POS] > 0:
+                                # 進場做多
+                                stockDict[NotifyGroup.LONG].append(row)
+                            elif row[RSI] < 50 and row[POS] < 0:
+                                # 進場做空
+                                stockDict[NotifyGroup.SHORT].append(row)
+                            else:
+                                # 徘徊不定的股票
+                                stockDict[NotifyGroup.NORMAL].append(row)
+
                 else:
                     """ Portential stock (from potential_stock.py) """
                     for row in results.get():
@@ -171,7 +184,7 @@ if __name__ == "__main__":
     try:
         stocks = constants.RILEY_STOCKS
         log.debug(f"Symbols: {stocks}")
-        stockMainDict = {NotifyGroup.SELL: [], NotifyGroup.NORMAL: [], NotifyGroup.BAD: []}
+        stockMainDict = {NotifyGroup.SELL: [], NotifyGroup.LONG: [], NotifyGroup.SHORT: [], NotifyGroup.NORMAL: [], NotifyGroup.BAD: []}
         arrangeNotify(stocks, stockMainDict)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
