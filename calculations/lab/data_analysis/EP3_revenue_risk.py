@@ -3,6 +3,7 @@
 %bc%b0/ """
 import matplotlib.pyplot as plt
 
+from calculations.common.utils.constants import MARKET_DATE, SYMBOL, CLOSE_PRICE
 from calculations.core.Interceptor import interceptor
 from calculations.repository import dailystock_repo
 
@@ -19,9 +20,9 @@ def main_start():
     # Generate key
     for key in stocks_dict.keys():
         df = stocks_dict[key]
-        df.index = df['market_date']
-        df = df[['symbol', 'close_price']]
-        df.columns = ['symbol', 'close_price']
+        df.index = df[MARKET_DATE]
+        df = df[[SYMBOL, CLOSE_PRICE]]
+        df.columns = [SYMBOL, CLOSE_PRICE]
         stocks_dict[key] = df
 
     fig, ax = plt.subplots(len(symbols), 1, figsize=(10, 10))

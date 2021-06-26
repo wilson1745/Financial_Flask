@@ -6,13 +6,11 @@ import pandas as pd
 from pandas import DataFrame
 
 from calculations import log
+from calculations.common.utils.constants import HEADERS_T
 from calculations.common.utils.enums.enum_yes_no import YesNo
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.repository import pool
-
-HEADERS = ["market_date", "stock_name", "symbol", "deal_stock", "deal_price", "opening_price", "highest_price",
-           "lowest_price", "close_price", "ups_and_downs", "volume", "createtime"]
 
 
 @interceptor
@@ -29,7 +27,7 @@ def genDataFrame(datas: list) -> DataFrame:
         if df.empty:
             log.warn("No data exist!")
         else:
-            df.columns = HEADERS
+            df.columns = HEADERS_T
             df.index = pd.to_datetime(df["market_date"])
             # log.debug(df)
 

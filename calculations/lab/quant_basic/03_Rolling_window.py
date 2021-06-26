@@ -1,17 +1,18 @@
 import traceback
 
+from calculations.common.utils.constants import MARKET_DATE
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.repository import dailystock_repo
 
 
+# ------------------- App Start -------------------
 @interceptor
 def main_start():
-    """ ------------------- App Start ------------------- """
     try:
         symbol = "2330"
         data = dailystock_repo.findBySymbol(symbol)
-        data.drop('market_date', axis=1, inplace=True)
+        data.drop(MARKET_DATE, axis=1, inplace=True)
         # print(data.head())
 
         df = data.copy()

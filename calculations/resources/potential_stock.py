@@ -11,6 +11,8 @@ from multiprocessing.pool import ThreadPool as Pool
 import pandas as pd
 from pandas import DataFrame
 
+from calculations.common.utils.constants import SYMBOL, CLOSE_PRICE
+
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Financial_Flask")
 
 from calculations import log
@@ -53,7 +55,7 @@ def crawl_price(dateP: str):
     df = dailystock_repo.findLikeYear(dateP)
     if not df.empty:
         df.reset_index(drop=True, inplace=True)
-        df = df.set_index("symbol")
+        df = df.set_index(SYMBOL)
 
         data[dateP] = df
 
@@ -98,7 +100,7 @@ if __name__ == "__main__":
         data = collections.OrderedDict(sorted(data.items()))
 
         # 扁平化資料面
-        close = pd.DataFrame({k: d["close_price"] for k, d in data.items()}).transpose()
+        close = pd.DataFrame({k: d[CLOSE_PRICE] for k, d in data.items()}).transpose()
         close.index = pd.to_datetime(close.index)
         # log.debug(f"close: {close}")
 

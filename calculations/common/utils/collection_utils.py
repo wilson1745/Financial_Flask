@@ -1,3 +1,7 @@
+from calculations.common.utils.constants import MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, \
+    CLOSE_PRICE, UPS_AND_DOWNS, VOLUME
+
+
 class CollectionUtils:
 
     @staticmethod
@@ -65,27 +69,27 @@ class CollectionUtils:
         for column in orignal_headers:
             data = str(column)
             if data == "日期":
-                new_headers.append("market_date")
+                new_headers.append(MARKET_DATE)
             elif data == "證券名稱":
-                new_headers.append("stock_name")
+                new_headers.append(STOCK_NAME)
             elif data == "證券代號":
-                new_headers.append("symbol")
+                new_headers.append(SYMBOL)
             elif data == "成交股數":
-                new_headers.append("deal_stock")
+                new_headers.append(DEAL_STOCK)
             elif data == "成交金額":
-                new_headers.append("deal_price")
+                new_headers.append(DEAL_PRICE)
             elif data == "開盤價":
-                new_headers.append("opening_price")
+                new_headers.append(OPENING_PRICE)
             elif data == "最高價":
-                new_headers.append("highest_price")
+                new_headers.append(HIGHEST_PRICE)
             elif data == "最低價":
-                new_headers.append("lowest_price")
+                new_headers.append(LOWEST_PRICE)
             elif data == "收盤價":
-                new_headers.append("close_price")
+                new_headers.append(CLOSE_PRICE)
             elif data == "漲跌價差":
-                new_headers.append("ups_and_downs")
+                new_headers.append(UPS_AND_DOWNS)
             elif data == "成交筆數":
-                new_headers.append("volume")
+                new_headers.append(VOLUME)
 
         return new_headers
 

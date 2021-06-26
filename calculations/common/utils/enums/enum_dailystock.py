@@ -1,17 +1,19 @@
 from enum import Enum
 
 
-class NotifyGroup(Enum):
-    SELL = ("sell", "趕快賣的股票！")
-    NORMAL = ("normal", "徘徊不定的股票0.0")
-    BAD = ("bad", "好可憐的股票...")
-    POTENTIAL = ("potential", "加速度指標：篩選「止跌回升」或「加速往上漲」")
-    LONG = ("long", "進場做多：RSI >= 50%, MA5 >= MA15")
-    SHORT = ("short", "進場做空：RSI < 50%, MA5 < MA15")
-
-    # def __init__(self, caption, value):
-    #     self.caption = caption
-    #     self.value = value
+class DailyStock(Enum):
+    MARKET_DATE = ("market_date", "日期")
+    STOCK_NAME = ("stock_name", "證券名稱")
+    SYMBOL = ("symbol", "證券代號")
+    DEAL_STOCK = ("deal_stock", "成交股數")
+    DEAL_PRICE = ("deal_price", "成交金額")
+    OPENING_PRICE = ("opening_price", "開盤價")
+    HIGHEST_PRICE = ("highest_price", "最高價")
+    LOWEST_PRICE = ("lowest_price", "最低價")
+    CLOSE_PRICE = ("close_price", "收盤價")
+    UPS_AND_DOWNS = ("ups_and_downs", "漲跌價差")
+    VOLUME = ("volume", "成交筆數")
+    CREATETIME = ("createtime", "新增日期")
 
     def __new__(cls, *values):
         obj = object.__new__(cls)

@@ -3,8 +3,10 @@
 %E5%B9%B3// """
 import matplotlib.pyplot as plt
 import pandas as pd
+from pandas import DataFrame
 
 from calculations import log
+from calculations.common.utils.constants import CLOSE_PRICE, HIGHEST_PRICE, LOWEST_PRICE, OPENING_PRICE, POS, VOLUME, MARKET_DATE
 from calculations.core.Interceptor import interceptor
 from calculations.repository import dailystock_repo
 
@@ -16,32 +18,53 @@ def MA(price, days):
     return ma
 
 
+@interceptor
+def GetCross(df: DataFrame, fastPeriod: int, slowPeriod: int) -> DataFrame:
+    """ Calculate MA cross rate (https://zhuanlan.zhihu.com/p/38448602)"""
+    fastMA = f'MA{fastPeriod}'
+    slowMA = f'MA{slowPeriod}'
+
+    df[fastMA] = df[CLOSE_PRICE].rolling(window=fastPeriod, center=False).mean().round(decimals=1)
+    df[slowMA] = df[CLOSE_PRICE].rolling(window=slowPeriod, center=False).mean().round(decimals=1)
+
+    # 删除空值
+    # df[f'ma{period}'].dropna(inplace=True)
+    df.dropna()
+
+    # 持倉情況和交易信號判斷
+    df[POS] = 0  # 初始化
+    df.loc[df[fastMA] >= df[slowMA], POS] = 1
+    df.loc[df[fastMA] < df[slowMA], POS] = -1
+    df[POS] = df[POS].shift(1).fillna(0)
+
+    return df
+
+
 # 計算MA線
 @interceptor
 def GetMaData(sid):
     stock = dailystock_repo.findBySymbol(sid)
 
     # 清理資料並使用Date當作我們的索引值
-    stock.index = pd.to_datetime(stock["market_date"])
+    stock.index = pd.to_datetime(stock[MARKET_DATE])
     # print(stock.index)
 
     # 需要成交股數、開盤價、最高價、最低價、收盤價的資料
-    # print(stock[["opening_price", "highest_price", "lowest_price", "close_price", "volume"]])
-    stock = stock[["opening_price", "highest_price", "lowest_price", "close_price", "volume"]]
+    stock = stock[[OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, VOLUME]]
 
     # 分別計算7天,15天與30天的移動平均線
-    stock["MA_7"] = MA(stock["close_price"], 7)
+    stock["MA_7"] = MA(stock[CLOSE_PRICE], 7)
     log.debug(stock["MA_7"])
 
-    stock["MA_15"] = MA(stock["close_price"], 15)
+    stock["MA_15"] = MA(stock[CLOSE_PRICE], 15)
     log.debug(stock["MA_15"])
 
-    stock["MA_30"] = MA(stock["close_price"], 30)
+    stock["MA_30"] = MA(stock[CLOSE_PRICE], 30)
     log.debug(stock["MA_30"])
 
     # 指數移動平均線
-    stock["EMA_12"] = stock["close_price"].ewm(span=12).mean()
-    stock["EMA_26"] = stock["close_price"].ewm(span=26).mean()
+    stock["EMA_12"] = stock[CLOSE_PRICE].ewm(span=12).mean()
+    stock["EMA_26"] = stock[CLOSE_PRICE].ewm(span=26).mean()
 
     stock["DIF"] = stock["EMA_12"] - stock["EMA_26"]
     stock["DEM"] = stock["DIF"].ewm(span=9).mean()
@@ -55,8 +78,8 @@ def GetMaData(sid):
     stock["MA_30"].plot(ax=ax[0])
     stock["EMA_12"].plot(ax=ax[1])
     stock["EMA_26"].plot(ax=ax[1])
-    stock["close_price"].plot(ax=ax[0])
-    stock["close_price"].plot(ax=ax[1])
+    stock[CLOSE_PRICE].plot(ax=ax[0])
+    stock[CLOSE_PRICE].plot(ax=ax[1])
     ax[0].legend()
     ax[1].legend()
     stock["DIF"].plot(ax=ax[2])
