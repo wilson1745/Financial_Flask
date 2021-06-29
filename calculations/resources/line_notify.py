@@ -12,7 +12,7 @@ import requests
 from pandas.core.indexing import _iLocIndexer
 from requests import HTTPError
 
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Financial_Flask")
+sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
@@ -30,8 +30,8 @@ def sendMsg(msg: list):
     """ Sending message through Line client """
     try:
         headers = {
-            "Authorization": "Bearer " + constants.TOKEN_NOTIFY,
-            # "Authorization": "Bearer " + Constants.TOKEN_SENSATIONAL,
+            # "Authorization": "Bearer " + constants.TOKEN_NOTIFY,
+            "Authorization": "Bearer " + constants.TOKEN_SENSATIONAL,
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
@@ -55,7 +55,6 @@ def sendMsg(msg: list):
 # @interceptor
 def genStringRow(row) -> str:
     """ 建立每隻股票的格式 """
-
     rowStr = ""
     rowStr += f"\n名稱: {row[STOCK_NAME]} ({row[SYMBOL]})"
     rowStr += f"\n日期: {DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
@@ -116,7 +115,6 @@ def genNotifyData(symbol: str):
 @interceptor
 def arrangeNotify(symbols: list = None, stockDict: dict = None):
     """ Line Notify 主程式 """
-
     try:
         if symbols is None:
             log.warning("Warning => symbols: list = None")

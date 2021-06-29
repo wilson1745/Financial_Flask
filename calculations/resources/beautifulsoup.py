@@ -7,7 +7,7 @@ from urllib.error import HTTPError, URLError
 
 import pandas
 
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Financial_Flask")
+sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants

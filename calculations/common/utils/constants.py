@@ -12,21 +12,21 @@ TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?respon
 
 # Oracle Client Path
 # 先暫時用絕對路徑 => 不然multiprocessing吃不到
-ORACLE_CLIENT_PATH = r"/resources/instantclient_19_8"
-# ORACLE_CLIENT_PATH = "../resources/instantclient_19_8"
+ORACLE_CLIENT_PATH = r"/files/instantclient_19_8"
+# ORACLE_CLIENT_PATH = "../files/instantclient_19_8"
 ORACLE_CLIENT_NETWORK_PATH = ORACLE_CLIENT_PATH + "/network/admin"
 
 # Log Path
-LOG_PATH = r"\resources\logs\%s.log"
-# LOG_PATH = "../resources/logs/%s.log"
+LOG_PATH = r"\files\logs\%s.log"
+# LOG_PATH = "../files/logs/%s.log"
 
 # TXT Path
-URL_ERROR_TXT_PATH = "../resources/logs/URLError_%s.txt"
+URL_ERROR_TXT_PATH = "../files/logs/URLError_%s.txt"
 
 # File Folder Path
-HTML_PATH = "../resources/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
-CSV_PATH = "../resources/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
-CSV_FINAL_PATH = "../resources/scrapy_files/STOCK_DAY_ALL_%s.csv"
+HTML_PATH = "../files/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
+CSV_PATH = "../files/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
+CSV_FINAL_PATH = "../files/scrapy_files/STOCK_DAY_ALL_%s.csv"
 
 # Line Notify
 TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"

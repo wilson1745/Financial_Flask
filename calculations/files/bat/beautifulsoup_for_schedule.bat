@@ -1,9 +1,9 @@
 echo activate pipenv
 cd C:\Users\wilso\.virtualenvs\
-call activate Financial_Calculations-yGs826X0
+call activate Financial_Flask-OYIMoW_R
 
 echo execute python
-cd C:\Users\wilso\PycharmProjects\Financial_Calculations\projects\
+cd C:\Users\wilso\PycharmProjects\Financial_Flask\calculations\resources\
 
 ::call python -m beautifulsoup_for_schedule.py
 call python -m beautifulsoup_for_schedule
@@ -17,4 +17,4 @@ echo over potential_stock
 
 :: exit
 :: 用來暫停批次檔的執行
-:: pause
+pause

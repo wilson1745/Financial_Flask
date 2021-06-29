@@ -11,12 +11,11 @@ from multiprocessing.pool import ThreadPool as Pool
 import pandas as pd
 from pandas import DataFrame
 
-from calculations.common.utils.constants import SYMBOL, CLOSE_PRICE
-
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Financial_Flask")
+sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
+from calculations.common.utils.constants import CLOSE_PRICE, SYMBOL
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor

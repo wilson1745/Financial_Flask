@@ -23,12 +23,12 @@ LOG_PATH = r"\files\logs\%s.log"
 # LOG_PATH = "../routes/logs/%s.log"
 
 # TXT Path
-URL_ERROR_TXT_PATH = "../routes/logs/URLError_%s.txt"
+URL_ERROR_TXT_PATH = "../files/logs/URLError_%s.txt"
 
 # File Folder Path
-HTML_PATH = "../routes/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
-CSV_PATH = "../routes/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
-CSV_FINAL_PATH = "../routes/scrapy_files/STOCK_DAY_ALL_%s.csv"
+HTML_PATH = "../files/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
+CSV_PATH = "../files/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
+CSV_FINAL_PATH = "../files/scrapy_files/STOCK_DAY_ALL_%s.csv"
 
 # Line Notify
 TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
