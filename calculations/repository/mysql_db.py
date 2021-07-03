@@ -1,9 +1,11 @@
+# -*- coding: UTF-8 -*-
 from mysql.connector import pooling
 
 from calculations import log
 
 
 class ConnectionPool(object):
+    """ 連線池 """
 
     def __init__(self):
         """ Database Resident Connection Pooling (DRCP) """

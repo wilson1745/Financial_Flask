@@ -1,4 +1,4 @@
-# 載入必要套件
+# -*- coding: UTF-8 -*-
 import datetime
 import os
 
@@ -34,9 +34,9 @@ def GetHistoryDataByPeriod(DataPath, Broker, Product, Table, Start, End):
     return Data
 
 
-# 取得N日期貨行情表
 @interceptor
 def getFutureDailyInfo(product, n):
+    """ 取得N日期貨行情表 """
     # 定義要去資料的日期
     cdate = datetime.datetime.now()
     data_num = 0
@@ -124,9 +124,9 @@ def getFutureDailyInfo(product, n):
     return tmpdata
 
 
-# 取得N日期貨三大法人未平倉
 @interceptor
 def getFutureContractInfo(product, n):
+    """ 取得N日期貨三大法人未平倉 """
     # 定義要去資料的日期
     cdate = datetime.datetime.now()
     data_num = 0
@@ -180,10 +180,13 @@ def getFutureContractInfo(product, n):
     return tmpdata
 
 
-# 取得N日選擇權行情資料
 @interceptor
 def getOptionDailyInfo(product, n, data=[], cdate='', daynight='1'):
+    """ 取得N日選擇權行情資料 """
     # 取資料起始日期
+    if data is None:
+        data = []
+
     if cdate == '':
         # 定義要去資料的日期
         cdate = datetime.datetime.now()
@@ -255,9 +258,9 @@ def getOptionDailyInfo(product, n, data=[], cdate='', daynight='1'):
             return getOptionDailyInfo(product, n, data, cdate, '1')
 
 
-# 取得選擇權Put Call Ratio
 @interceptor
 def getPutCallRatio(start_day='', end_day=''):
+    """ 取得選擇權Put Call Ratio """
     # 取得網頁資料
     html = requests.post('https://www.taifex.com.tw/cht/3/pcRatio', data={
         'queryStartDate': start_day,
@@ -289,12 +292,17 @@ def getPutCallRatio(start_day='', end_day=''):
         return False
 
 
-# 算K棒
 class KBar:
+    """ 算K棒 """
+
     # 設定初始化變數
     @interceptor
     def __init__(self, date, cycle=1):
-        # K棒的頻率(分鐘)
+        """
+        K棒的頻率(分鐘)
+        :param date:
+        :param cycle:
+        """
         self.TAKBar = {}
         self.TAKBar['time'] = np.array([])
         self.TAKBar['open'] = np.array([])
@@ -305,9 +313,9 @@ class KBar:
         self.current = datetime.datetime.strptime(date + ' 00:00:00', '%Y%m%d %H:%M:%S')
         self.cycle = datetime.timedelta(minutes=cycle)
 
-    # 更新最新報價
     @interceptor
     def AddPrice(self, time, price, volume):
+        """ 更新最新報價 """
         # 同一根K棒
         if time < self.current:
             # 更新收盤價
@@ -333,9 +341,9 @@ class KBar:
             # 若有更新K棒，則回傳1
             return 1
 
-    # 取時間
     @interceptor
     def GetTime(self):
+        """ 取時間 """
         return self.TAKBar['time']
         # 取開盤價
 
@@ -343,82 +351,82 @@ class KBar:
     def GetOpen(self):
         return self.TAKBar['open']
 
-    # 取最高價
     @interceptor
     def GetHigh(self):
+        """ 取最高價 """
         return self.TAKBar['high']
 
-    # 取最低價
     @interceptor
     def GetLow(self):
+        """ 取最低價 """
         return self.TAKBar['low']
 
-    # 取收盤價
     @interceptor
     def GetClose(self):
+        """ 取收盤價 """
         return self.TAKBar['close']
 
-    # 取成交量
     @interceptor
     def GetVolume(self):
+        """ 取成交量 """
         return self.TAKBar['volume']
-
-        # 取MA值(MA期數)
 
     @interceptor
     def GetMA(self, n, matype):
+        """ 取MA值(MA期數) """
         return talib.MA(self.TAKBar, n, matype)
-        # 取SMA值(SMA期數)
 
     @interceptor
     def GetSMA(self, n):
+        """ 取SMA值(SMA期數) """
         return talib.SMA(self.TAKBar, n)
 
-    # 取WMA值(WMA期數)
     @interceptor
     def GetWMA(self, n):
+        """ 取WMA值(WMA期數) """
         return talib.WMA(self.TAKBar, n)
 
-    # 取EMA值(EMA期數)
     @interceptor
     def GetEMA(self, n):
+        """ 取EMA值(EMA期數) """
         return talib.EMA(self.TAKBar, n)
-        # 取MACD值
 
     @interceptor
     def GetMACD(self, fast_P, slow_P, macd_P):
+        """ 取MACD值 """
         return talib.MACD(self.TAKBar, fast_P, slow_P, macd_P)
 
-    # 取布林通道值(中線期數)
     @interceptor
     def GetBBands(self, n):
+        """ 取布林通道值(中線期數) """
         return talib.BBANDS(self.TAKBar, n)
 
-    # 取KD值(RSV期數,K值期數,D值期數)
     @interceptor
     def GetKD(self, rsv, k, d):
+        """ 取KD值(RSV期數,K值期數,D值期數) """
         return talib.STOCH(self.TAKBar, fastk_period=rsv, slowk_period=k, slowd_period=d)
 
-    # RSI(RSI期數)
     @interceptor
     def GetRSI(self, n):
+        """ RSI(RSI期數) """
         return talib.RSI(self.TAKBar, n)
 
-    # 取得乖離率
     @interceptor
     def GetBIAS(self, tn=10):
+        """ 取得乖離率 """
         mavalue = talib.MA(self.TAKBar, timeperiod=tn, matype=0)
         return (self.TAKBar['close'] - mavalue) / mavalue
 
-    # 取得繪圖的格式(時間開高低收)(應用在回測章節)
     @interceptor
     def GetChartTypeData(self):
+        """ 取得繪圖的格式(時間開高低收)(應用在回測章節) """
         return [[mdates.date2num(self.TAKBar['time'][i]), self.TAKBar['open'][i], self.TAKBar['high'][i],
                  self.TAKBar['low'][i], self.TAKBar['close'][i]] for i in range(len(self.TAKBar['time']))]
 
 
-# 固定量K棒
 class VolumeKBar:
+    """ 固定量K棒 """
+
     # 設定初始化變數
     @interceptor
     def __init__(self, cycle=500):
@@ -432,9 +440,9 @@ class VolumeKBar:
         self.Cycle = cycle
         self.Amount = 0
 
-    # 填入即時報價(volume)
     @interceptor
     def AddPrice(self, time, price, amount):
+        """ 填入即時報價(volume) """
         # 如果是第一筆資料
         if self.Amount == 0:
             self.TAKBar['time'] = np.append(self.TAKBar['time'], time)
@@ -471,34 +479,35 @@ class VolumeKBar:
             self.Amount = amount
             return 1
 
-    # 取時間
     @interceptor
     def GetTime(self):
+        """ 取時間 """
         return self.TAKBar['time']
-        # 取開盤價
 
     @interceptor
     def GetOpen(self):
+        """ 取開盤價 """
         return self.TAKBar['open']
 
-    # 取最高價
     @interceptor
     def GetHigh(self):
+        """ 取最高價 """
         return self.TAKBar['high']
 
-    # 取最低價
     @interceptor
     def GetLow(self):
+        """ 取最低價 """
         return self.TAKBar['low']
 
-    # 取收盤價
     @interceptor
     def GetClose(self):
+        """ 取收盤價 """
         return self.TAKBar['close']
 
 
-# 計算委託簿固定時間變動
 class CommissionDiff:
+    """ 計算委託簿固定時間變動 """
+
     @interceptor
     def __init__(self, cycle):
         # 買筆 買口 賣筆 賣口
@@ -513,31 +522,32 @@ class CommissionDiff:
         while self.DataList[-1][0] > self.DataList[0][0] + self.Cycle:
             self.DataList = self.DataList[1:]
 
-    # 取得下單差額
     @interceptor
     def GetOrderDiff(self):
+        """ 取得下單差額 """
         BODiff = self.DataList[-1][2] - self.DataList[0][2]
         SODiff = self.DataList[-1][4] - self.DataList[0][4]
         return [BODiff, SODiff]
 
 
-# 逐筆 計算累計成交量
 class AccVol:
+    """ 逐筆 計算累計成交量 """
+
     @interceptor
     def __init__(self, cycle):
         self.DataList = [[datetime.datetime.strptime('000000', '%H%M%S'), 0]]
         self.Cycle = datetime.timedelta(minutes=cycle)
 
-    # 取得累計成交量
     @interceptor
     def Get(self):
+        """ 取得累計成交量 """
         volume = self.DataList[-1][1] - self.DataList[0][1]
         priceDiff = self.DataList[-1][2] - self.DataList[0][2]
         return [volume, priceDiff]
 
-    # 將目前總量進行計算
     @interceptor
     def Add(self, Time, Amount, Price):
+        """ 將目前總量進行計算 """
         self.DataList.append([Time, Amount, Price])
         # 特定時間以前的資料進行移除
         while self.DataList[-1][0] > self.DataList[0][0] + self.Cycle:

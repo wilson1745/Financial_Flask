@@ -5,9 +5,9 @@ class NotifyGroup(Enum):
     SELL = ("sell", "趕快賣的股票！")
     NORMAL = ("normal", "徘徊不定的股票0.0")
     BAD = ("bad", "好可憐的股票...")
-    POTENTIAL = ("potential", "加速度指標：篩選「止跌回升」或「加速往上漲」")
-    LONG = ("long", "進場做多：RSI >= 50%, MA5 >= MA15")
-    SHORT = ("short", "進場做空：RSI < 50%, MA5 < MA15")
+    POTENTIAL = ("potential", "加速度指標：\n篩選「止跌回升」或「加速往上漲」")
+    LONG = ("long", "進場做多：\nRSI >= 50%, MA5 >= MA15")
+    SHORT = ("short", "進場做空：\nRSI < 50%, MA5 < MA15")
 
     # def __init__(self, caption, value):
     #     self.caption = caption

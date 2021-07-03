@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import asyncio
 import os
 import sys
@@ -7,7 +8,7 @@ from urllib.error import HTTPError, URLError
 
 import pandas
 
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Financial_Flask")
+sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
@@ -21,7 +22,7 @@ from calculations.repository import dailystock_repo
 
 @interceptor
 async def save_to_final_csv(date):
-    # Save CSV and get df
+    """ Save CSV and get df """
     df = await FileUtils.saveToFinalCsvAndReturnDf(date)
 
     """ Save data """
@@ -46,7 +47,7 @@ async def save_data_direct(date):
 
 @interceptor
 def save_db(date, df):
-    log.info(f"start saving db ({DateUtils.today(constants.YYYYMM_HHMMSS)}): {date}")
+    log.info(f"start saving db ({DateUtils.today()}): {date}")
 
     """ For Windows pyodbc MySQL """
     # MySqlUtils.insert_dailystock_mysql(date, df)
@@ -61,7 +62,7 @@ def save_db(date, df):
     """ Oracle with fast batch """
     dailystock_repo.saveToDbBatch(date, df.to_numpy().tolist())
 
-    log.info(f"end saving db ({DateUtils.today(constants.YYYYMM_HHMMSS)}): {date}")
+    log.info(f"end saving db ({DateUtils.today()}): {date}")
 
 
 @interceptor
@@ -74,14 +75,14 @@ def main():
         """ Download html file by date """
         for data_date in date_list:
             try:
-                log.info(f"Start scraping html ({DateUtils.today(constants.YYYYMM_HHMMSS)}): {data_date}")
+                log.info(f"Start scraping html ({DateUtils.today()}): {data_date}")
 
-                """Save as HTML file"""
+                """ Save as HTML file """
                 FileUtils.saveToOriginalHtml(data_date)
                 # Sleep in case the request is blocked
                 time.sleep(6)
 
-                log.info(f"End scraping html ({DateUtils.today(constants.YYYYMM_HHMMSS)}): {data_date}")
+                log.info(f"End scraping html ({DateUtils.today()}): {data_date}")
             except HTTPError as e_http:
                 log.error(f"{os.path.basename(__file__)} HTTPError: ", e_http)
                 # TODO Doing something like reactivate the program...
@@ -96,15 +97,15 @@ def main():
         1. await Separate the loop in case the "urllib.request.urlopen(url)" fail the get the response
         2. async
         """
-        """Convert to csv file"""
+        """ Convert to csv file """
         tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
         asyncio.run(asyncio.wait(tasks1))
 
-        """Save to db with MI_INDEX_ALLBUT0999 csv file"""
+        """ Save to db with MI_INDEX_ALLBUT0999 csv file """
         tasks2 = [save_to_final_csv(data_date) for data_date in date_list]
         asyncio.run(asyncio.wait(tasks2))
 
-        """Save to db with STOCK_DAY_ALL csv file"""
+        """ Save to db with STOCK_DAY_ALL csv file """
         # tasks3 = [save_data_direct(data_date) for data_date in date_list]
         # asyncio.run(asyncio.wait(tasks3))
     except Exception:

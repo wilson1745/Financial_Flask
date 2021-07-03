@@ -12,21 +12,21 @@ TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?respon
 
 # Oracle Client Path
 # 先暫時用絕對路徑 => 不然multiprocessing吃不到
-ORACLE_CLIENT_PATH = r"/resources/instantclient_19_8"
-# ORACLE_CLIENT_PATH = "../resources/instantclient_19_8"
+ORACLE_CLIENT_PATH = r"/files/instantclient_19_8"
+# ORACLE_CLIENT_PATH = "../files/instantclient_19_8"
 ORACLE_CLIENT_NETWORK_PATH = ORACLE_CLIENT_PATH + "/network/admin"
 
 # Log Path
-LOG_PATH = r"\resources\logs\%s.log"
-# LOG_PATH = "../resources/logs/%s.log"
+LOG_PATH = r"\files\logs\%s.log"
+# LOG_PATH = "../files/logs/%s.log"
 
 # TXT Path
-URL_ERROR_TXT_PATH = "../resources/logs/URLError_%s.txt"
+URL_ERROR_TXT_PATH = "../files/logs/URLError_%s.txt"
 
 # File Folder Path
-HTML_PATH = "../resources/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
-CSV_PATH = "../resources/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
-CSV_FINAL_PATH = "../resources/scrapy_files/STOCK_DAY_ALL_%s.csv"
+HTML_PATH = "../files/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
+CSV_PATH = "../files/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
+CSV_FINAL_PATH = "../files/scrapy_files/STOCK_DAY_ALL_%s.csv"
 
 # Line Notify
 TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
@@ -40,7 +40,7 @@ BAD = "bad"
 YYYYMMDD = "%Y%m%d"
 YYYYMMDD_LINE = "%Y-%m-%d"
 YYYYMM = "%Y%m"
-YYYYMM_HHMMSS = "%Y%m%d-%H%M%S"
+YYYYMMDD_HHMMSS = "%Y%m%d-%H%M%S"
 YYYY_MM_DD = "%Y_%m_%d"
 YYYYMMDD_SLASH = "%Y/%m/%d"
 
@@ -65,10 +65,20 @@ CREATETIME = 'createtime'
 
 POS = 'POS'
 RSI = 'RSI'
+RSI_Y = 'RSI_Y'
 K = 'K'
 D = 'D'
+K_D = 'K_D'
+
+OPEN = 'open'
+HIGH = 'high'
+LOW = 'low'
+CLOSE = 'close'
 
 # DailyStock headers
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
 HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, UPS_AND_DOWNS,
              VOLUME, CREATETIME]
+
+SUCCESS = "%s 成功"
+FAIL = "%s 失敗"
