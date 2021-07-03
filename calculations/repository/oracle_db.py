@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import os
 import platform
 
@@ -7,6 +8,7 @@ from calculations import log
 
 
 class ConnectionPool(object):
+    """ 連線池 """
 
     def __init__(self):
         """ 2021/04/28 Using path by OS """

@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import time
 import traceback
 
@@ -32,7 +33,6 @@ def genDataFrame(datas: list) -> DataFrame:
             # log.debug(df)
 
         return df
-
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
         raise e
@@ -54,7 +54,6 @@ def query(sql: str, params=None) -> list:
         # log.debug(tuple(params))
 
         return rs.fetchall()
-
     except cx_Oracle.Error as e:
         CoreException.show_error(e, traceback.format_exc())
         raise e
@@ -62,7 +61,6 @@ def query(sql: str, params=None) -> list:
         # Release the connection to the pool
         log.debug(f"Release pool's connection: {hex(id(connection))}")
         pool.release(connection)
-
         # Close the pool
         # pool.close()
 
@@ -85,7 +83,6 @@ def saveToDbBatch(today: str, stock_data: list):
         connection.commit()
         cursor.close()
         connection.close()
-
     except cx_Oracle.Error as e:
         CoreException.show_error(e, traceback.format_exc())
         """ Rollback to discard them """
@@ -133,7 +130,6 @@ def saveToBb(today, stock_data):
 
                 if index % 100 == 0:
                     time.sleep(1)
-
         except cx_Oracle.Error as e:
             CoreException.show_error(e, traceback.format_exc())
             """ Rollback to discard them """

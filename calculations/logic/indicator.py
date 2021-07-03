@@ -20,8 +20,9 @@ class KBar:
         self.Close = numpy.array([])
         self.Volume = numpy.array([])
 
-    # 填入即時報價
     def Add(self, time, price, qty):
+        """ 填入即時報價 """
+
         # 沒有換分鐘
         if time < self.Time + self.Cycle:
             self.Close[-1] = price
@@ -42,56 +43,56 @@ class KBar:
             self.Volume = numpy.append(self.Volume, qty)
             return 1
 
-    # 取得開盤價陣列
     def GetOpen(self):
+        """ 取得開盤價陣列 """
         return self.Open
 
-    # 取得最高價陣列
     def GetHigh(self):
+        """ 取得最高價陣列 """
         return self.High
 
-    # 取得最低價陣列
     def GetLow(self):
+        """ 取得最低價陣列 """
         return self.Low
 
-    # 取得收盤價陣列
     def GetClose(self):
+        """ 取得收盤價陣列 """
         return self.Close
 
-    # 取得累積成交量
     def GetVolume(self):
+        """ 取得累積成交量 """
         return self.Volume
 
-    # 取得移動平均線
     def GetSMA(self, tn=10):
+        """ 取得移動平均線 """
         return talib.MA(self.Close, timeperiod=tn, matype=0)
 
-    # 取得量能移動平均
     def GetQMA(self, tn=5):
+        """ 取得量能移動平均 """
         return talib.MA(self.Volume, timeperiod=tn, matype=0)
 
-    # 取得MACD
     def GetMACD(self, fastp=12, slowp=24, signalp=7):
+        """ 取得MACD """
         return talib.MACD(self.Close, fastperiod=fastp, slowperiod=slowp, signalperiod=signalp)
 
-    # 取得布林通道指標
     def GetBBANDS(self, tp=10):
+        """ 取得布林通道指標 """
         return talib.BBANDS(self.Close, timeperiod=tp, matype=0)
-        # 取得KD
 
     def GetKD(self):
+        """ 取得KD """
         return talib.STOCH(self.High, self.Low, self.Close)
-        # 取得威廉指標
 
     def GetWILLR(self, tp=14):
+        """ 取得威廉指標 """
         return talib.WILLR(self.High, self.Low, self.Close, timeperiod=tp)
 
-    # 取得RSI
     def GetRSI(self, tp=14):
+        """ 取得RSI """
         return talib.RSI(self.Close, timeperiod=tp)
 
-    # 取得乖離率
     def GetBIAS(self, tn=10):
+        """ 取得乖離率 """
         mavalue = talib.MA(self.Close, timeperiod=tn, matype=0)
         return (self.Close - mavalue) / mavalue
 

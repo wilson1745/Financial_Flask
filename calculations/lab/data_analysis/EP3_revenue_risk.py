@@ -1,9 +1,11 @@
-""" Reference: https://pyecontech.com/2019/06/18/%e5%88%9d%e5%ad%b8%e8%80%85%e7%9a%84python%e9%87%91%e8%9e%8d%e5%88%86
-%e6%9e%90%e6%97%a5%e8%a8%98-ep3-%e8%82%a1%e7%a5%a8%e6%94%b6%e7%9b%8a%e7%8e%87%e8%88%87%e9%a2%a8%e9%9a%aa%e8%a9%95%e4
-%bc%b0/ """
+# -*- coding: UTF-8 -*-
+"""
+Reference:
+https://pyecontech.com/2019/06/18/%e5%88%9d%e5%ad%b8%e8%80%85%e7%9a%84python%e9%87%91%e8%9e%8d%e5%88%86%e6%9e%90%e6%97%a5%e8%a8%98-ep3-%e8%82%a1%e7%a5%a8%e6%94%b6%e7%9b%8a%e7%8e%87%e8%88%87%e9%a2%a8%e9%9a%aa%e8%a9%95%e4%bc%b0/
+"""
 import matplotlib.pyplot as plt
 
-from calculations.common.utils.constants import MARKET_DATE, SYMBOL, CLOSE_PRICE
+from calculations.common.utils.constants import CLOSE_PRICE, MARKET_DATE, SYMBOL
 from calculations.core.Interceptor import interceptor
 from calculations.repository import dailystock_repo
 

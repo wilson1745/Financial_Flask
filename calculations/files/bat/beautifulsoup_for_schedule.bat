@@ -17,4 +17,4 @@ echo over potential_stock
 
 :: exit
 :: 用來暫停批次檔的執行
-pause
+::pause

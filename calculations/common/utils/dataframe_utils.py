@@ -1,11 +1,12 @@
+# -*- coding: UTF-8 -*-
 import csv
 
 import pandas
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import HEADERS, MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME, \
-    OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE
+from calculations.common.utils.constants import CLOSE, CLOSE_PRICE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADERS, HIGH, HIGHEST_PRICE, LOW, \
+    LOWEST_PRICE, MARKET_DATE, OPEN, OPENING_PRICE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS
 from calculations.core.Interceptor import interceptor
 
 pandas.set_option('display.width', 320)
@@ -17,18 +18,18 @@ pandas.set_option('display.unicode.east_asian_width', True)
 
 class DataFrameUtils:
 
-    # FIXME Constructor
     # def __init__(self):
+    # """ FIXME Constructor """
     #     pandas.set_option('display.width', 320)
     #     pandas.set_option('display.max_columns', 20)
     #     pandas.set_option('display.max_rows', None)
     #     pandas.set_option('display.unicode.ambiguous_as_wide', True)
     #     pandas.set_option('display.unicode.east_asian_width', True)
 
-    # 處理爬蟲完的資料
     @staticmethod
     @interceptor
     def arrangeMiIndex(rows) -> list:
+        """ 處理爬蟲完的資料 """
         data_row = []
 
         # 以迴圈輸出每一列
@@ -60,10 +61,10 @@ class DataFrameUtils:
 
         return data_row
 
-    # 處理爬蟲完的資料
     @staticmethod
     @interceptor
     def arrangeMiIndexHtml(rows) -> list:
+        """ 處理爬蟲完的資料 """
         data_row = []
 
         # 以迴圈輸出每一列
@@ -95,10 +96,10 @@ class DataFrameUtils:
 
         return data_row
 
-    # 處理爬蟲完的資料
     @classmethod
     @interceptor
     def arrangeHtmlToDataFrame(cls, rows, date) -> DataFrame:
+        """ 處理爬蟲完的資料 """
         try:
             data_row = cls.arrangeMiIndexHtml(rows)
 
@@ -142,7 +143,7 @@ class DataFrameUtils:
     def dfForTalib(df: DataFrame) -> DataFrame:
         try:
             df = df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1)
-            df = df.rename(columns={OPENING_PRICE: "open", HIGHEST_PRICE: "high", LOWEST_PRICE: "low", CLOSE_PRICE: "close"})
+            df = df.rename(columns={OPENING_PRICE: OPEN, HIGHEST_PRICE: HIGH, LOWEST_PRICE: LOW, CLOSE_PRICE: CLOSE})
             return df
         except Exception:
             raise

@@ -1,4 +1,7 @@
-""" https://www.finlab.tw/Python-%E6%99%82%E9%96%93%E5%BA%8F%E5%88%97%E5%AF%A6%E4%BD%9C%EF%BC%81/ """
+# -*- coding: UTF-8 -*-
+"""
+https://www.finlab.tw/Python-%E6%99%82%E9%96%93%E5%BA%8F%E5%88%97%E5%AF%A6%E4%BD%9C%EF%BC%81/
+"""
 import collections
 import datetime
 import multiprocessing
@@ -16,6 +19,7 @@ sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 from calculations import log
 from calculations.common.utils import constants
 from calculations.common.utils.constants import CLOSE_PRICE, SYMBOL
+from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -25,7 +29,7 @@ from calculations.resources import line_notify
 
 # @interceptor
 def test1(df: DataFrame):
-    # 計算近n年最大下跌幅度
+    """ 計算近n年最大下跌幅度 """
     dropdown = (df.cummax() - df).max() / df.max() * 100
     # print(dropdown)
 
@@ -67,7 +71,7 @@ def rising_curve(n):
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     now = time.time()
-
+    ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
     data: dict = {}
 
     try:
@@ -126,8 +130,10 @@ if __name__ == "__main__":
         stockDict = {NotifyGroup.POTENTIAL: []}
         line_notify.arrangeNotify(potentials, stockDict)
 
+        line_notify.sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
+        line_notify.sendMsg([ms, constants.FAIL % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     finally:
         log.debug(f"Time consuming: {time.time() - now}")
         log.debug(f"End of {os.path.basename(__file__)}")

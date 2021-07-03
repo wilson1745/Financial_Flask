@@ -40,7 +40,7 @@ BAD = "bad"
 YYYYMMDD = "%Y%m%d"
 YYYYMMDD_LINE = "%Y-%m-%d"
 YYYYMM = "%Y%m"
-YYYYMM_HHMMSS = "%Y%m%d-%H%M%S"
+YYYYMMDD_HHMMSS = "%Y%m%d-%H%M%S"
 YYYY_MM_DD = "%Y_%m_%d"
 YYYYMMDD_SLASH = "%Y/%m/%d"
 
@@ -65,10 +65,20 @@ CREATETIME = 'createtime'
 
 POS = 'POS'
 RSI = 'RSI'
+RSI_Y = 'RSI_Y'
 K = 'K'
 D = 'D'
+K_D = 'K_D'
+
+OPEN = 'open'
+HIGH = 'high'
+LOW = 'low'
+CLOSE = 'close'
 
 # DailyStock headers
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
 HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, UPS_AND_DOWNS,
              VOLUME, CREATETIME]
+
+SUCCESS = "%s 成功"
+FAIL = "%s 失敗"

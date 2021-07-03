@@ -1,4 +1,6 @@
+# -*- coding: UTF-8 -*-
 import multiprocessing
+import os
 import socket
 import sys
 import time
@@ -16,22 +18,24 @@ sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
+from calculations.common.utils.constants import CLOSE_PRICE, D, K, K_D, MARKET_DATE, POS, RSI, RSI_Y, STOCK_NAME, SYMBOL
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.logic import FunctionKD, FunctionRSI, FunctionMA
+from calculations.logic import FunctionKD, FunctionMA, FunctionRSI
 from calculations.repository import dailystock_repo
-from calculations.common.utils.constants import CLOSE_PRICE, STOCK_NAME, SYMBOL, RSI, K, D, MARKET_DATE, POS
 
 
 @interceptor
-def sendMsg(msg: list):
+def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
     """ Sending message through Line client """
     try:
+        log.debug(f"sendMsg msg: {msg}")
+
         headers = {
             # "Authorization": "Bearer " + constants.TOKEN_NOTIFY,
-            "Authorization": "Bearer " + constants.TOKEN_SENSATIONAL,
+            "Authorization": "Bearer " + token,
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
@@ -45,6 +49,16 @@ def sendMsg(msg: list):
         # log.debug(f"Response status: {response.status_code}")
         log.debug(f"Response status: {response.status_code}")
         response.close()
+    except requests.exceptions.ConnectionError as connError:
+        # FIXME 觀察一陣子
+        """
+        如果遇到沒有發送訊息的話，使用[遞歸]重新進行，直到成功為止 (https://www.cnblogs.com/Neeo/articles/11520952.html#urlliberror)
+        """
+        log.warning(f"ConnectionError msg: {msg}")
+        CoreException.show_error(connError, traceback.format_exc())
+        time.sleep(10)
+        # Send notify again
+        sendMsg(msg)
     except Exception as ex:
         CoreException.show_error(ex, traceback.format_exc())
         time.sleep(10)
@@ -56,11 +70,13 @@ def sendMsg(msg: list):
 def genStringRow(row) -> str:
     """ 建立每隻股票的格式 """
     rowStr = ""
-    rowStr += f"\n名稱: {row[STOCK_NAME]} ({row[SYMBOL]})"
-    rowStr += f"\n日期: {DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
-    rowStr += f"\n收盤價: {row[CLOSE_PRICE]}"
-    rowStr += f"\nRSI值: {row[RSI]}%"
-    rowStr += f"\nKD值: {row[K]}%, {row[D]}%"
+    rowStr += f"\n名稱：{row[STOCK_NAME]} ({row[SYMBOL]})"
+    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
+    rowStr += f"\n收盤價：{row[CLOSE_PRICE]}"
+    rowStr += f"\nRSI(12)值：{row[RSI]}%"
+    rowStr += f"\nRSI較昨日：{'↑' if row[RSI_Y] > 0 else '↓'}{row[RSI_Y]}%"
+    rowStr += f"\nKD(9)值：{row[K]}%, {row[D]}%"
+    rowStr += f"\nK-D：{'↑' if row[K_D] > 0 else '↓'}{row[K_D]}%"
 
     return rowStr
 
@@ -73,7 +89,7 @@ def sendNotify(stockDict: dict):
 
     key: NotifyGroup
     for key in stockDict:
-        default = f" ({DateUtils.today(constants.YYYYMMDD_SLASH)})\n{key.getValue()}"
+        default = f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)}{key.getValue()}"
         msg = [default]
 
         if len(stockDict[key]) > 0:
@@ -99,13 +115,23 @@ def sendNotify(stockDict: dict):
 def genNotifyData(symbol: str):
     log.debug(f"Start genNotifyStr: {symbol} at {datetime.now()} ")
     data = dailystock_repo.findBySymbol(symbol)
-    FunctionRSI.GetDataRSI(data)
-    stock = FunctionKD.GetDataKD(data)
-    stock = FunctionMA.GetCross(stock, 5, 15)
+    FunctionRSI.GenRSI(data)
+    FunctionKD.GenKD(data)
+    stock = FunctionMA.GetCross(data, 5, 15)
 
     if not stock.empty:
+        # Yesterday's RSI
+        stock[RSI_Y] = (stock.iloc[-1][RSI] - stock.iloc[-2][RSI]).round(2)
+        # KD Cross
+        stock[K_D] = (stock.iloc[-1][K] - stock.iloc[-1][D]).round(2)
         # 取得當天含有RSI和KD值的最後一筆資料
-        row: _iLocIndexer = stock.iloc[-1]
+        row: _iLocIndexer = stock.iloc[-1].copy()
+
+        # Pandas SettingwithCopy 警告解决方案 (https://zhuanlan.zhihu.com/p/41202576)
+        # pd.set_option('mode.chained_assignment', None)
+        # row_pre: _iLocIndexer = stock.iloc[-2].copy()
+        # row['RSI_Y'] = (row[RSI] - row_pre[RSI]).round(2)
+
         return row
     else:
         log.warning(constants.DATA_NOT_EXIST % symbol)
@@ -134,7 +160,7 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
             # 包含Key資料的dictionary
             if len(results.get()) > 0:
                 if not NotifyGroup.POTENTIAL in stockDict:
-                    """ Riley's stock """
+                    """ Riley's stock (from line_notify.py) """
                     for row in results.get():
                         if (row[RSI]) >= 70:
                             # 趕快賣的股票
@@ -164,7 +190,6 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
             # 關閉process的pool並等待所有process結束
             processPools.close()
             processPools.join()
-
     except HTTPError as e_http:
         log.error(f"HTTP code error: {e_http.errno} {e_http.response}")
         raise e_http
@@ -179,12 +204,16 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     now = time.time()
+    ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
+
     try:
         stocks = constants.RILEY_STOCKS
         log.debug(f"Symbols: {stocks}")
         stockMainDict = {NotifyGroup.SELL: [], NotifyGroup.LONG: [], NotifyGroup.SHORT: [], NotifyGroup.NORMAL: [], NotifyGroup.BAD: []}
         arrangeNotify(stocks, stockMainDict)
+        sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
+        sendMsg([ms, constants.FAIL % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     finally:
         log.debug(f"Time consuming: {time.time() - now}")

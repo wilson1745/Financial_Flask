@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
-# 載入相關套件
 import datetime
 
+from pandas import DataFrame
 
 from calculations import log
 from calculations.common.utils import constants
@@ -10,20 +10,22 @@ from calculations.repository import dailystock_repo
 from projects.common.utils.date_utils import DateUtils
 
 
-# 取得當月的日K
-# 持續取得指定股票代碼的成交資訊
-# 設定券商名稱
-# BrokerID="capital" 、 "yuanta" 、 "kgi"
+# # BrokerID="capital" 、 "yuanta" 、 "kgi"
 # @interceptor
 # def getSIDMatch(Date, sid, BrokerID="capital", DataPath="C:/Data/"):
+#     """
+#     # 取得當月的日K
+#     # 持續取得指定股票代碼的成交資訊
+#     # 設定券商名稱
+#     """
 #     for i in tailer.follow(open(DataPath + BrokerID + "/" + Date + "/" + sid + "_Match.txt"), 0):
 #         j = i.strip("\n").split(",")
 #         yield j
-#
-#
-# # 取得指定股票代碼的最新一筆成交資訊
+
+
 # @interceptor
 # def getLastSIDMatch(Date, sid, BrokerID="capital", DataPath="C:/Data/"):
+#     """ 取得指定股票代碼的最新一筆成交資訊 """
 #     tmpfiledata = open(DataPath + BrokerID + "/" + Date + "/" + sid + "_Match.txt").readlines()
 #     tmpfiledata.reverse()
 #     for i in tmpfiledata:
@@ -32,7 +34,8 @@ from projects.common.utils.date_utils import DateUtils
 
 
 @interceptor
-def getDayKBar(sid, yearmonth):
+def getDayKBar(sid, yearmonth) -> DataFrame:
+    """ 取得股票日Ｋ  """
     data = dailystock_repo.findMonthBySymbolAndYearMonth(sid, yearmonth)
     return data
 
@@ -47,9 +50,9 @@ def getDayKBar(sid, yearmonth):
     # return data
 
 
-# 取得往前推算n日的日K
 @interceptor
 def getDayKBarbyNum(sid, daynum):
+    """ 取得往前推算n日的日K """
     tmpday = DateUtils.today(constants.YYYYMM)
 
     # 首先取得當月資料
@@ -73,8 +76,6 @@ if __name__ == "__main__":
     year_month = "202102"
     num = 5
 
-    """ 取得股票日Ｋ """
     df = getDayKBar(symbol, year_month)
-
     # df = getDayKBarbyNum(symbol, num)
     log.debug(df)
