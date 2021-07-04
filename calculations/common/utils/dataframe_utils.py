@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import csv
 
-import pandas
+import pandas as pd
 from pandas import DataFrame
 
 from calculations import log
@@ -9,22 +9,24 @@ from calculations.common.utils.constants import CLOSE, CLOSE_PRICE, CREATETIME, 
     LOWEST_PRICE, MARKET_DATE, OPEN, OPENING_PRICE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS
 from calculations.core.Interceptor import interceptor
 
-pandas.set_option('display.width', 320)
-pandas.set_option('display.max_columns', 20)
-pandas.set_option('display.max_rows', None)
-pandas.set_option('display.unicode.ambiguous_as_wide', True)
-pandas.set_option('display.unicode.east_asian_width', True)
+pd.set_option("display.width", None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.unicode.ambiguous_as_wide", True)
+pd.set_option("display.unicode.east_asian_width", True)
 
 
 class DataFrameUtils:
 
     # def __init__(self):
     # """ FIXME Constructor """
-    #     pandas.set_option('display.width', 320)
-    #     pandas.set_option('display.max_columns', 20)
-    #     pandas.set_option('display.max_rows', None)
-    #     pandas.set_option('display.unicode.ambiguous_as_wide', True)
-    #     pandas.set_option('display.unicode.east_asian_width', True)
+    # pd.set_option("display.width", None)
+    # pd.set_option('display.max_colwidth', None)
+    # pd.set_option("display.max_columns", None)
+    # pd.set_option("display.max_rows", None)
+    # pd.set_option("display.unicode.ambiguous_as_wide", True)
+    # pd.set_option("display.unicode.east_asian_width", True)
 
     @staticmethod
     @interceptor
@@ -104,10 +106,10 @@ class DataFrameUtils:
             data_row = cls.arrangeMiIndexHtml(rows)
 
             # FIXME 這寫法有點笨...
-            dataFrame = pandas.DataFrame(data_row)
+            dataFrame = pd.DataFrame(data_row)
             dataFrame.drop([9, 11, 12, 13, 14, 15], axis=1, inplace=True)
 
-            dataFrame.astype(object).where(pandas.notnull(dataFrame), None)
+            dataFrame.astype(object).where(pd.notnull(dataFrame), None)
             dataFrame.fillna(0, inplace=True)
 
             # 塞入第一欄[日期] (market_date)

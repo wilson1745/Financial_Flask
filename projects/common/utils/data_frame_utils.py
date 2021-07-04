@@ -13,11 +13,12 @@ from projects.models.schema.dailystock_schema import DailyStockSchema
 
 log = logging.getLogger(constants.LOG_PROJECTS)
 
-pd.set_option('display.width', 320)
-pd.set_option('display.max_columns', 20)
-pd.set_option('display.max_rows', None)
-pd.set_option('display.unicode.ambiguous_as_wide', True)
-pd.set_option('display.unicode.east_asian_width', True)
+pd.set_option("display.width", None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.unicode.ambiguous_as_wide", True)
+pd.set_option("display.unicode.east_asian_width", True)
 
 dailystock_schema = DailyStockSchema(many=True)
 

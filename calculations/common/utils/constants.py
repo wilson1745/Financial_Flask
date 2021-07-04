@@ -10,6 +10,9 @@ DATA_NOT_EXIST = "Data %s does not exist"
 TWSE_MI_INDEX = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=%s&date=%s&type=%s"
 TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data"
 
+# FUNDRICH
+FUNDRICH_INDEX = "https://www.fundrich.com.tw/fund/%s.html?id=%s"
+
 # Oracle Client Path
 # 先暫時用絕對路徑 => 不然multiprocessing吃不到
 ORACLE_CLIENT_PATH = r"/files/instantclient_19_8"
@@ -79,6 +82,9 @@ CLOSE = 'close'
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
 HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, UPS_AND_DOWNS,
              VOLUME, CREATETIME]
+
+HEADER_ITEMFUND = ["證券代號", "證券名稱", "新增日期"]
+HEADER_ITEMFUND_E = [SYMBOL, STOCK_NAME, CREATETIME]
 
 SUCCESS = "%s 成功"
 FAIL = "%s 失敗"

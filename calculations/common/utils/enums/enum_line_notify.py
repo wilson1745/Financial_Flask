@@ -36,3 +36,11 @@ class NotifyGroup(Enum):
     # @property
     def getValue(self) -> str:
         return self._all_values[1]
+
+    @classmethod
+    def getLineGroup(cls) -> dict:
+        return {cls.SELL: [], cls.LONG: [], cls.SHORT: [], cls.NORMAL: [], cls.BAD: []}
+
+    @classmethod
+    def getPotentialGroup(cls) -> dict:
+        return {cls.POTENTIAL: []}

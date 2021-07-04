@@ -160,7 +160,7 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
             # 包含Key資料的dictionary
             if len(results.get()) > 0:
                 if not NotifyGroup.POTENTIAL in stockDict:
-                    """ Riley's stock (from line_notify.py) """
+                    """ Riley's stocks (from line_notify.py) """
                     for row in results.get():
                         if (row[RSI]) >= 70:
                             # 趕快賣的股票
@@ -178,9 +178,8 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
                             else:
                                 # 徘徊不定的股票
                                 stockDict[NotifyGroup.NORMAL].append(row)
-
                 else:
-                    """ Portential stock (from potential_stock.py) """
+                    """ Portential stocks (from potential_stock.py) """
                     for row in results.get():
                         stockDict[NotifyGroup.POTENTIAL].append(row)
 
@@ -209,8 +208,7 @@ if __name__ == "__main__":
     try:
         stocks = constants.RILEY_STOCKS
         log.debug(f"Symbols: {stocks}")
-        stockMainDict = {NotifyGroup.SELL: [], NotifyGroup.LONG: [], NotifyGroup.SHORT: [], NotifyGroup.NORMAL: [], NotifyGroup.BAD: []}
-        arrangeNotify(stocks, stockMainDict)
+        arrangeNotify(stocks, NotifyGroup.getLineGroup())
         sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

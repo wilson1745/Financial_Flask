@@ -127,8 +127,7 @@ if __name__ == "__main__":
         log.debug(f"Rising stock: {potentials}")
 
         # Send Line Notify
-        stockDict = {NotifyGroup.POTENTIAL: []}
-        line_notify.arrangeNotify(potentials, stockDict)
+        line_notify.arrangeNotify(potentials, NotifyGroup.getPotentialGroup())
 
         line_notify.sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     except Exception as e:
