@@ -7,23 +7,24 @@ import pandas as pd
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import HEADERS_T
+from calculations.common.utils.constants import HEADERS_T, SYMBOL
 from calculations.common.utils.enums.enum_yes_no import YesNo
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.repository import pool
+
+pd.set_option("display.width", None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.unicode.ambiguous_as_wide", True)
+pd.set_option("display.unicode.east_asian_width", True)
 
 
 @interceptor
 def genDataFrame(datas: list) -> DataFrame:
     """ Generate pandas dataframe """
     try:
-        pd.set_option("display.width", 320)
-        pd.set_option("display.max_columns", 20)
-        pd.set_option("display.max_rows", None)
-        pd.set_option("display.unicode.ambiguous_as_wide", True)
-        pd.set_option("display.unicode.east_asian_width", True)
-
         df = pd.DataFrame(datas)
         if df.empty:
             log.warn("No data exist!")
@@ -143,7 +144,6 @@ def findBySymbol(symbol: str) -> DataFrame:
     sql = f"SELECT * FROM DAILYSTOCK d WHERE d.SYMBOL = '{symbol}' ORDER BY d.MARKET_DATE ASC "
     datas = query(sql)
     df = genDataFrame(datas)
-
     return df
 
 
@@ -153,7 +153,6 @@ def findInSymbols(params: list) -> DataFrame:
     sql = "SELECT * FROM DAILYSTOCK d WHERE d.SYMBOL IN (%s) ORDER BY d.MARKET_DATE ASC " % (",".join(bindNames))
     datas = query(sql, params)
     df = genDataFrame(datas)
-
     return df
 
 
@@ -163,7 +162,6 @@ def findMonthBySymbolAndYearMonth(symbol: str, year_month: str) -> DataFrame:
           f"d.MARKET_DATE ASC "
     datas = query(sql)
     df = genDataFrame(datas)
-
     return df
 
 
@@ -173,7 +171,6 @@ def findBySymbolAndMarketWithRange(symbol: str, start: str, end: str) -> DataFra
           f"d.MARKET_DATE ASC "
     datas = query(sql)
     df = genDataFrame(datas)
-
     return df
 
 
@@ -183,7 +180,6 @@ def checkExistByMarketDate(date: str) -> bool:
     sql = f"SELECT CASE WHEN EXISTS (SELECT 1 FROM DAILYSTOCK d WHERE d.MARKET_DATE = {date}) " \
           f"THEN '{YesNo.Y.name}' ELSE '{YesNo.N.name}' END AS rec_exists FROM dual "
     results = query(sql)
-
     return True if YesNo.Y.name in results[0] else False
 
 
@@ -193,20 +189,36 @@ def findLikeYear(param: str):
     sql = f"SELECT * FROM DAILYSTOCK d WHERE d.MARKET_DATE LIKE '{param}%' ORDER BY d.MARKET_DATE ASC "
     datas = query(sql)
     results = genDataFrame(datas)
-
     return results
 
 
+@interceptor
+def findAllSymbolGroup() -> DataFrame:
+    sql = 'SELECT d.SYMBOL FROM DAILYSTOCK d GROUP BY d.SYMBOL ORDER BY d.SYMBOL ASC '
+    datas = query(sql)
+    df = pd.DataFrame(datas)
+
+    if df.empty:
+        log.warn('No data exist!')
+    else:
+        df.columns = [SYMBOL]
+        df.index = df[SYMBOL]
+
+    return df
+
+
 # ------------------- App Start -------------------
-if __name__ == "__main__":
+if __name__ == '__main__':
     now = time.time()
 
     try:
         # day = DateUtils.today(Constants.YYYYMMDD)
-        day = '20210513'
-        result = checkExistByMarketDate(day)
-        log.debug(f"checkExistByMarketDate(date): {result}")
+        # day = '20210513'
+        # result = checkExistByMarketDate(day)
 
+        result = findAllSymbolGroup()
+
+        log.debug(f"dailystock_repo: {result}")
     except Exception as main_e:
         CoreException.show_error(main_e, traceback.format_exc())
     finally:

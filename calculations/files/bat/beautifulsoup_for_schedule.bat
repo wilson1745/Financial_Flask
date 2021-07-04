@@ -15,6 +15,9 @@ echo over line_notify
 call python -m potential_stock
 echo over potential_stock
 
+call python -m industry_cal
+echo over industry_cal
+
 :: exit
 :: 用來暫停批次檔的執行
 ::pause

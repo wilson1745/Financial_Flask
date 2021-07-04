@@ -2,12 +2,13 @@ from enum import Enum
 
 
 class NotifyGroup(Enum):
-    SELL = ("sell", "趕快賣的股票！")
-    NORMAL = ("normal", "徘徊不定的股票0.0")
-    BAD = ("bad", "好可憐的股票...")
-    POTENTIAL = ("potential", "加速度指標：\n篩選「止跌回升」或「加速往上漲」")
-    LONG = ("long", "進場做多：\nRSI >= 50%, MA5 >= MA15")
-    SHORT = ("short", "進場做空：\nRSI < 50%, MA5 < MA15")
+    SELL = ("sell", "😍 趕快賣的股票：")
+    NORMAL = ("normal", "😳 徘徊中的股票：")
+    BAD = ("bad", "😭 好可憐的股票：")
+    POTENTIAL = ("potential", "⛅ 加速度指標：\n篩選「止跌回升」或「加速往上漲」")
+    LONG = ("long", "📈 進場做多：\nRSI >= 50%, MA5 >= MA15")
+    SHORT = ("short", "📉 進場做空：\nRSI < 50%, MA5 < MA15")
+    INDEX = ("index", "💘 價格指數：")
 
     # def __init__(self, caption, value):
     #     self.caption = caption
@@ -36,3 +37,11 @@ class NotifyGroup(Enum):
     # @property
     def getValue(self) -> str:
         return self._all_values[1]
+
+    @classmethod
+    def getLineGroup(cls) -> dict:
+        return {cls.SELL: [], cls.LONG: [], cls.SHORT: [], cls.NORMAL: [], cls.BAD: []}
+
+    @classmethod
+    def getPotentialGroup(cls) -> dict:
+        return {cls.POTENTIAL: []}

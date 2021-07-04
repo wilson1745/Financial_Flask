@@ -8,11 +8,12 @@ from talib import abstract
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.repository import dailystock_repo
 
-pd.set_option('display.width', None)
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', None)
-pd.set_option('display.unicode.ambiguous_as_wide', True)
-pd.set_option('display.unicode.east_asian_width', True)
+pd.set_option("display.width", None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.unicode.ambiguous_as_wide", True)
+pd.set_option("display.unicode.east_asian_width", True)
 
 symbol = "2330"
 

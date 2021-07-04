@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import numpy as np
-import pandas
+import pandas as pd
 import talib
 import tulipy
 from pandas import DataFrame
@@ -12,11 +12,12 @@ from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.logic import FunctionKD
 from calculations.repository import dailystock_repo
 
-pandas.set_option('display.width', None)
-pandas.set_option('display.max_columns', None)
-pandas.set_option('display.max_rows', None)
-pandas.set_option('display.unicode.ambiguous_as_wide', True)
-pandas.set_option('display.unicode.east_asian_width', True)
+pd.set_option("display.width", None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.unicode.ambiguous_as_wide", True)
+pd.set_option("display.unicode.east_asian_width", True)
 
 symbol = "2330"
 df: DataFrame = dailystock_repo.findBySymbol(symbol)
