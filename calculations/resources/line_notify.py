@@ -11,6 +11,7 @@ from multiprocessing.pool import ThreadPool as Pool
 from urllib.error import URLError
 
 import requests
+from pandas import DataFrame
 from pandas.core.indexing import _iLocIndexer
 from requests import HTTPError
 
@@ -18,13 +19,47 @@ sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE_PRICE, D, K, K_D, MARKET_DATE, POS, RSI, RSI_Y, STOCK_NAME, SYMBOL
+from calculations.common.utils.constants import CLOSE, CLOSE_PRICE, D, K, K_D, MARKET_DATE, POS, RSI, RSI_Y, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
+    UPS_AND_DOWNS_PCT
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.logic import FunctionKD, FunctionMA, FunctionRSI
 from calculations.repository import dailystock_repo
+
+
+def __msgArrow(value: float) -> str:
+    sym = ''
+    if value > 0:
+        sym = '↑'
+    elif value < 0:
+        sym = '↓'
+    return f"{sym}{value}"
+
+
+# @interceptor
+def __genStringRow(row) -> str:
+    """ 建立每隻股票的格式 """
+    rowStr = ""
+    rowStr += f"\n名稱：{row[STOCK_NAME]} ({row[SYMBOL]})"
+    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
+    rowStr += f"\n收盤價：{row[CLOSE_PRICE]}"
+    rowStr += f"\nRSI(12)值：{row[RSI]}%"
+    rowStr += f"\nRSI較昨日：{'↑' if row[RSI_Y] > 0 else '↓'}{row[RSI_Y]}%"
+    rowStr += f"\nKD(9)值：{row[K]}%, {row[D]}%"
+    rowStr += f"\nK-D：{'↑' if row[K_D] > 0 else '↓'}{row[K_D]}%"
+    return rowStr
+
+
+def __genIndustryRow(row) -> str:
+    rowStr = ""
+    rowStr += f"\n指數：{row[SYMBOL]}"
+    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
+    rowStr += f"\n收盤指數：{row[CLOSE]}"
+    rowStr += f"\n漲跌點數：{__msgArrow(row[UPS_AND_DOWNS])}"
+    rowStr += f"\n漲跌百分比(%)：{__msgArrow(row[UPS_AND_DOWNS_PCT])}%"
+    return rowStr
 
 
 @interceptor
@@ -66,21 +101,6 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
         time.sleep(2)
 
 
-# @interceptor
-def genStringRow(row) -> str:
-    """ 建立每隻股票的格式 """
-    rowStr = ""
-    rowStr += f"\n名稱：{row[STOCK_NAME]} ({row[SYMBOL]})"
-    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
-    rowStr += f"\n收盤價：{row[CLOSE_PRICE]}"
-    rowStr += f"\nRSI(12)值：{row[RSI]}%"
-    rowStr += f"\nRSI較昨日：{'↑' if row[RSI_Y] > 0 else '↓'}{row[RSI_Y]}%"
-    rowStr += f"\nKD(9)值：{row[K]}%, {row[D]}%"
-    rowStr += f"\nK-D：{'↑' if row[K_D] > 0 else '↓'}{row[K_D]}%"
-
-    return rowStr
-
-
 @interceptor
 def sendNotify(stockDict: dict):
     """ 預處理股票格式並用送出Line Notify """
@@ -95,7 +115,7 @@ def sendNotify(stockDict: dict):
         if len(stockDict[key]) > 0:
             for row in stockDict[key]:
                 # extend => extract whatever types of element inside a list
-                msg.extend([genStringRow(row)])
+                msg.extend([__genStringRow(row)])
 
                 # 1000 words limit with Line Notify
                 if len(msg) % 10 == 0:
@@ -200,8 +220,34 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
         raise
 
 
-# ------------------- App Start -------------------
+@interceptor
+def arrangeIndustry(df: DataFrame):
+    default = f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
+    msg = [default]
+
+    if not df.empty:
+        for index, row in df.iterrows():
+            # FIXME 暫定漲跌百分比 > 0的資料
+            if row[UPS_AND_DOWNS_PCT] > 0:
+                # extend => extract whatever types of element inside a list
+                msg.extend([__genIndustryRow(row)])
+
+                # 1000 words limit with Line Notify
+                if len(msg) % 11 == 0:
+                    sendMsg(msg)
+                    msg.clear()
+                    msg.append(default)
+
+        # Sending the rest data within 1000 words
+        if len(msg) > 1:
+            sendMsg(msg)
+    else:
+        msg.append("\n無資料...")
+        sendMsg(msg)
+
+
 if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
     now = time.time()
     ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
 

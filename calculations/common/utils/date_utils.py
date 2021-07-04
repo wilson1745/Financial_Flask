@@ -32,6 +32,10 @@ class DateUtils:
     def strformat(date: str, oldFormat: str, newFormat: str) -> str:
         return datetime.strptime(date, oldFormat).strftime(newFormat)
 
+    @staticmethod
+    def datetimefmt(date: datetime, fmt: str) -> str:
+        return datetime.strftime(date, fmt)
+
     @classmethod
     def default_msg(cls, fmt: str) -> str:
         return f"\n--------({cls.today(fmt)})--------\n"

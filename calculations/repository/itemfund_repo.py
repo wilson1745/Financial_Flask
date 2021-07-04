@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import socket
 import time
 import traceback
 
@@ -12,24 +13,27 @@ from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.repository import pool
 
+pd.set_option('display.width', None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.unicode.ambiguous_as_wide', True)
+pd.set_option('display.unicode.east_asian_width', True)
+
+# 設置socket默認的等待時間，在read超時後能自動往下繼續跑
+socket.setdefaulttimeout(10)
+
 
 @interceptor
 def genDataFrame(datas: list) -> DataFrame:
     """ Generate pandas dataframe """
     try:
-        pd.set_option("display.width", None)
-        pd.set_option('display.max_colwidth', None)
-        pd.set_option("display.max_columns", None)
-        pd.set_option("display.max_rows", None)
-        pd.set_option("display.unicode.ambiguous_as_wide", True)
-        pd.set_option("display.unicode.east_asian_width", True)
-
         df = pd.DataFrame(datas)
         if df.empty:
-            log.warn("No data exist!")
+            log.warn('No data exist!')
         else:
             df.columns = HEADER_ITEMFUND_E
-            df.index = df["symbol"]
+            df.index = df['symbol']
             # log.debug(df)
 
         return df
@@ -72,8 +76,8 @@ def findAll() -> DataFrame:
     return df
 
 
-# ------------------- App Start -------------------
 if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
     now = time.time()
 
     try:

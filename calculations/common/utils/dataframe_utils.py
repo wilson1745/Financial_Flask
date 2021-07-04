@@ -1,12 +1,16 @@
 # -*- coding: UTF-8 -*-
 import csv
+import multiprocessing
+from multiprocessing.pool import ThreadPool as Pool
 
 import pandas as pd
 from pandas import DataFrame
 
 from calculations import log
+from calculations.common.utils import constants
 from calculations.common.utils.constants import CLOSE, CLOSE_PRICE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADERS, HIGH, HIGHEST_PRICE, LOW, \
-    LOWEST_PRICE, MARKET_DATE, OPEN, OPENING_PRICE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS
+    LOWEST_PRICE, MARKET_DATE, OPEN, OPENING_PRICE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
+from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 
 pd.set_option("display.width", None)
@@ -18,15 +22,7 @@ pd.set_option("display.unicode.east_asian_width", True)
 
 
 class DataFrameUtils:
-
-    # def __init__(self):
-    # """ FIXME Constructor """
-    # pd.set_option("display.width", None)
-    # pd.set_option('display.max_colwidth', None)
-    # pd.set_option("display.max_columns", None)
-    # pd.set_option("display.max_rows", None)
-    # pd.set_option("display.unicode.ambiguous_as_wide", True)
-    # pd.set_option("display.unicode.east_asian_width", True)
+    """ TODO add description """
 
     @staticmethod
     @interceptor
@@ -106,23 +102,77 @@ class DataFrameUtils:
             data_row = cls.arrangeMiIndexHtml(rows)
 
             # FIXME 這寫法有點笨...
-            dataFrame = pd.DataFrame(data_row)
-            dataFrame.drop([9, 11, 12, 13, 14, 15], axis=1, inplace=True)
+            df = pd.DataFrame(data_row)
+            df.drop([9, 11, 12, 13, 14, 15], axis=1, inplace=True)
 
-            dataFrame.astype(object).where(pd.notnull(dataFrame), None)
-            dataFrame.fillna(0, inplace=True)
+            df.astype(object).where(pd.notnull(df), None)
+            df.fillna(0, inplace=True)
 
             # 塞入第一欄[日期] (market_date)
-            dataFrame.insert(0, HEADERS[0], date)
+            df.insert(0, HEADERS[0], date)
             # log.debug(f"df.columns: {dataFrame.columns}")
 
             # 先儲存CSV
-            dataFrame.columns = HEADERS
+            df.columns = HEADERS
             # df.to_csv((CSV_FINAL_PATH % date), index=False, header=True)
             # df.columns = CollectionUtils.header_daily_stock(HEADERS)
-            log.debug(dataFrame)
+            log.debug(df)
 
-            return dataFrame
+            return df
+        except Exception:
+            raise
+
+    @staticmethod
+    @interceptor
+    def __arrangeIndustry(row):
+        """  """
+        if row:
+            row[0] = row[0].replace('--', '0')
+            row[1] = row[1].replace('--', '0')
+            row[3] = row[3].replace('--', '0')
+            row[4] = row[4].replace('--', '0')
+            row[1] = row[1].replace(',', '')
+
+            if row[2] and row[2] == '-':
+                if row[3] and row[3] != '0':
+                    row[3] = row[2] + row[3]
+            return row
+        else:
+            log.warning(constants.DATA_NOT_EXIST % row)
+            return None
+
+    @classmethod
+    @interceptor
+    def genIndustryDf(cls, industry_rows: list) -> DataFrame:
+        """ 處理爬蟲完的資料(價格指數) """
+        try:
+            # Empty dataFrame
+            df = pd.DataFrame()
+
+            processPools = Pool(multiprocessing.cpu_count() - 1)
+            results = processPools.map_async(func=cls.__arrangeIndustry,
+                                             iterable=industry_rows,
+                                             callback=CoreException.show,
+                                             error_callback=CoreException.error)
+
+            if len(results.get()) > 0:
+                df = pd.DataFrame(results.get())
+                # FIXME 這寫法有點笨...
+                df.drop([2, 5], axis=1, inplace=True)
+                df.columns = constants.HEADER_INDEX_E
+
+                # Convert dtype
+                df[UPS_AND_DOWNS] = pd.to_numeric(df[UPS_AND_DOWNS])
+                df[UPS_AND_DOWNS_PCT] = pd.to_numeric(df[UPS_AND_DOWNS_PCT])
+
+                # Sort by column
+                df = df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False)
+                # log.debug(df)
+
+            # 關閉process的pool並等待所有process結束
+            processPools.close()
+            processPools.join()
+            return df
         except Exception:
             raise
 

@@ -74,8 +74,7 @@ class FileUtils:
                 log.warning(constants.FILE_NOT_EXIST % filepath)
             else:
                 log.debug(f"Reading {filepath}")
-
-                soup = BeautifulSoup(open((constants.HTML_PATH % date), "r", encoding="UTF-8"), "html.parser")
+                soup = BeautifulSoup(open(filepath, "r", encoding="UTF-8"), "html.parser")
                 # table = soup.findAll("table", {"class":"wikitable"})[0]
                 table = soup.findAll("table")
 
@@ -117,7 +116,6 @@ class FileUtils:
                 log.warning(constants.FILE_NOT_EXIST % filepath)
             else:
                 log.debug(f"Reading {filepath}")
-
                 with open(filepath, errors="ignore", encoding="UTF-8") as csvfile:
                     # 讀取 CSV 檔案內容
                     rows = csv.reader(csvfile)
