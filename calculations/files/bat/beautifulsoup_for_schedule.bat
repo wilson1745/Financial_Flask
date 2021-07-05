@@ -18,6 +18,10 @@ echo over potential_stock
 call python -m industry_cal
 echo over industry_cal
 
+:: Line notify sends image
+call python -c "import line_notify;line_notify.sendImg('Complete.png')"
+echo over line_notify
+
 :: exit
 :: 用來暫停批次檔的執行
 ::pause

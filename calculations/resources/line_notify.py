@@ -70,15 +70,16 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
             "Authorization": "Bearer " + token,
             "Content-Type": "application/x-www-form-urlencoded"
         }
+        params = {
+            "message": ("\n".join(msg))
+        }
 
-        params = {"message": ("\n".join(msg))}
         response = requests.post(constants.NOTIFY_LINK, headers=headers, params=params, timeout=60)
 
         """
         200 => success
         414 => message too long
         """
-        # log.debug(f"Response status: {response.status_code}")
         log.debug(f"Response status: {response.status_code}")
         response.close()
     except requests.exceptions.ConnectionError as connError:
@@ -91,6 +92,39 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
         time.sleep(10)
         # Send notify again
         sendMsg(msg)
+    except Exception as ex:
+        CoreException.show_error(ex, traceback.format_exc())
+        time.sleep(10)
+    finally:
+        time.sleep(2)
+
+
+@interceptor
+def sendImg(img: str, token=constants.TOKEN_SENSATIONAL):
+    """ Sending picture through Line client """
+    try:
+        msg = [f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)} Complete! 👍"]
+
+        headers = {
+            "Authorization": "Bearer " + token,
+        }
+        data = ({
+            'message': msg
+        })
+        file = {'imageFile': open((constants.IMAGE_PATH % img), 'rb')}
+        response = requests.post(constants.NOTIFY_LINK, headers=headers, files=file, data=data, timeout=60)
+
+        """
+        200 => success
+        414 => message too long
+        """
+        log.debug(f"Response status: {response.status_code}")
+        response.close()
+    except requests.exceptions.ConnectionError as connError:
+        CoreException.show_error(connError, traceback.format_exc())
+        time.sleep(10)
+        # Send notify again
+        sendImg()
     except Exception as ex:
         CoreException.show_error(ex, traceback.format_exc())
         time.sleep(10)
@@ -246,6 +280,8 @@ if __name__ == "__main__":
         stocks = constants.RILEY_STOCKS
         log.debug(f"Symbols: {stocks}")
         arrangeNotify(stocks, NotifyGroup.getLineGroup())
+
+        # sendImg('Complete.png')
         sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

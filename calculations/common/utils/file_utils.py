@@ -86,8 +86,8 @@ class FileUtils:
                     rows = table_last.findAll("tr")
                     # rows = table_9.findAll("tbody")
 
-                    filepath = (constants.CSV_PATH % date)
-                    with open(filepath, "w", newline="", encoding="UTF-8") as f:
+                    csv_filepath = (constants.CSV_PATH % date)
+                    with open(csv_filepath, "w", newline="", encoding="UTF-8") as f:
                         writer = csv.writer(f)
                         for index, row in enumerate(rows):
                             csv_row = []

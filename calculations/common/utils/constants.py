@@ -32,9 +32,13 @@ HTML_PATH = "../files/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
 CSV_PATH = "../files/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
 CSV_FINAL_PATH = "../files/scrapy_files/STOCK_DAY_ALL_%s.csv"
 INDUSTRY_HTML_PATH = '../files/scrapy_files/INDUSTRY_PUBLIC.html'
+IMAGE_PATH = "../files/images/%s"
 
 # Line Notify
 TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
+# 個人使用
+# TOKEN_SENSATIONAL = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
+# Riley使用
 TOKEN_SENSATIONAL = "hlFjUiKkT9jWw1FfnLAVgnwaWJ4CY5DzIg7J33X2vdc"
 NOTIFY_LINK = "https://notify-api.line.me/api/notify"
 SELL = "sell"

@@ -62,6 +62,7 @@ class DataFrameUtils:
             row[3] = row[3].replace('--', '0')
             row[4] = row[4].replace('--', '0')
             row[1] = row[1].replace(',', '')
+            row[3] = row[3].replace(',', '')
 
             if row[2] and row[2] == '-':
                 if row[3] and row[3] != '0':
