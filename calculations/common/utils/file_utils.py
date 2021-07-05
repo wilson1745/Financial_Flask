@@ -3,11 +3,13 @@ import inspect
 import json
 import os
 import socket
+import time
+import traceback
 import urllib
-from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 
 import pandas
+import requests
 from bs4 import BeautifulSoup
 from pandas import DataFrame
 
@@ -15,6 +17,7 @@ from calculations import log
 from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
 from calculations.common.utils.dataframe_utils import DataFrameUtils
+from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from projects.common.utils.date_utils import DateUtils
 
@@ -24,9 +27,9 @@ socket.setdefaulttimeout(10)
 
 class FileUtils:
 
-    @staticmethod
+    @classmethod
     @interceptor
-    def saveToOriginalHtml(date: str):
+    def saveToOriginalHtml(cls, date: str):
         """ Get HTML from [www.twse.com.tw] """
         # log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
         log.debug(f"saveToOriginalHtml: {date}")
@@ -48,19 +51,17 @@ class FileUtils:
 
             """ 使用urlopen方法太過頻繁，引起遠程主機的懷疑，被網站認定為是攻擊行為。導致urlopen()後，request.read()一直卡死在那裡。最後拋出10054異常。 """
             response.close()
-        except HTTPError as e_http:
-            log.error(f"HTTPError: {e_http}")
-            # TODO Doing something like reactivate the program...
-
-            raise e_http
-        except URLError as e_url:
-            log.error(f"URLError: {e_url}")
-            # TODO Doing something like reactivate the program...
-
-            raise e_url
-        except Exception as e:
-            log.error(f"Exception saveToOriginalHtml")
-            raise e
+        except requests.exceptions.ConnectionError as connError:
+            log.warning(f"ConnectionError saveToOriginalHtml: {date}")
+            CoreException.show_error(connError, traceback.format_exc())
+            time.sleep(10)
+            # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止
+            cls.saveToOriginalHtml(date)
+        except Exception:
+            raise
+        finally:
+            # Sleep in case the request is blocked
+            time.sleep(6)
 
     @staticmethod
     @interceptor
@@ -95,9 +96,7 @@ class FileUtils:
                                 for cell in row.findAll(["td"]):
                                     csv_row.append(cell.get_text())
                                 writer.writerow(csv_row)
-
         except Exception:
-            log.error(f"Exception saveToOriginalCsv")
             raise
 
     @staticmethod
@@ -107,10 +106,9 @@ class FileUtils:
         log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
 
         try:
-            filepath = (constants.CSV_PATH % date)
-
             # Empty dataFrame
             df = pandas.DataFrame()
+            filepath = (constants.CSV_PATH % date)
 
             if not os.path.isfile(filepath):
                 log.warning(constants.FILE_NOT_EXIST % filepath)
@@ -126,68 +124,8 @@ class FileUtils:
                     # Save CSV file
                     df.to_csv((constants.CSV_FINAL_PATH % date), index=False, header=True)
                     df.columns = CollectionUtils.header_daily_stock(constants.HEADERS)
-
             return df
         except Exception:
-            log.error(f"Exception saveToFinalCsvAndReturnDf")
-            raise
-
-    @staticmethod
-    @interceptor
-    async def saveCsvAndGetDf(date: str) -> DataFrame:
-        """ Directly save final CSV and return pandas dataframe """
-        log.debug(f"saveCsvGetDf: {date}")
-
-        try:
-            filepath = (constants.HTML_PATH % date)
-            soup = BeautifulSoup(open(filepath, "r", encoding="UTF-8"), 'html.parser')
-            table = soup.findAll('table')
-
-            # Empty dataFrame
-            df = pandas.DataFrame()
-
-            if not table:
-                # Can't find data in HTML file
-                log.warning(f"{filepath} table not exist, no data on {date}")
-            else:
-                table_last = table[len(table) - 1]
-                rows = table_last.findAll("tr")
-
-                list_row = []
-                for index, row in enumerate(rows):
-                    # 設定一個array去接每個row
-                    csv_row = []
-                    if not index == 1:
-                        for cell in row.findAll(["td"]):
-                            csv_row.append(cell.get_text())
-                        list_row.append(csv_row)
-                # log.debug(list_row)
-
-                # 處理html資料為pandas dataframe
-                data_row = DataFrameUtils.arrangeMiIndexHtml(list_row)
-
-                # FIXME 這寫法有點笨...
-                df = pandas.DataFrame(data_row)
-                df.drop([9, 11, 12, 13, 14, 15], axis=1, inplace=True)
-
-                df.astype(object).where(pandas.notnull(df), None)
-                df.fillna(0, inplace=True)
-
-                # 塞入第一欄[日期] (market_date)
-                df.insert(0, constants.HEADERS[0], date)
-                log.debug(f"df.columns: {df.columns}")
-
-                # 先儲存CSV
-                df.columns = constants.HEADERS
-                df.to_csv((constants.CSV_FINAL_PATH % date), index=False, header=True)
-                # df.columns = CollectionUtils.header_daily_stock(constants.HEADERS)
-                df.columns = CollectionUtils.header_daily_stock(df[:1])
-
-                log.debug(df)
-
-            return df
-        except Exception:
-            log.error(f"Exception saveCsvAndGetDf")
             raise
 
     @staticmethod
@@ -195,10 +133,9 @@ class FileUtils:
     def getDataDirect(date: str) -> DataFrame:
         """ Get data from CSV directly """
         try:
-            filepath = (constants.CSV_FINAL_PATH % date)
-
             # Empty dataFrame
             df = pandas.DataFrame()
+            filepath = (constants.CSV_FINAL_PATH % date)
 
             if not os.path.isfile(filepath):
                 log.warning(constants.DATA_NOT_EXIST % date)
@@ -207,10 +144,8 @@ class FileUtils:
                 new_headers = CollectionUtils.header_daily_stock(df[:1])
                 df.columns = new_headers
                 log.debug(df)
-
             return df
         except Exception:
-            log.error(f"Exception getDataDirect")
             raise
 
     @staticmethod
@@ -222,7 +157,6 @@ class FileUtils:
             with open(filepath, "w") as output:
                 output.write(json.dumps(error_dates))
         except Exception:
-            log.error(f"Exception genTxtFile")
             raise
 
     @staticmethod
@@ -239,5 +173,4 @@ class FileUtils:
             # FIXME return type?
             return content
         except Exception:
-            log.error(f"Exception readTxtFile")
             raise
