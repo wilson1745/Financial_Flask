@@ -1,19 +1,16 @@
 # -*- coding: UTF-8 -*-
 import multiprocessing
 import os
-import socket
 import sys
 import time
 import traceback
 from datetime import datetime
 # from multiprocessing import Pool
 from multiprocessing.pool import ThreadPool as Pool
-from urllib.error import URLError
 
 import requests
 from pandas import DataFrame
 from pandas.core.indexing import _iLocIndexer
-from requests import HTTPError
 
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
@@ -132,6 +129,32 @@ def sendNotify(stockDict: dict):
 
 
 @interceptor
+def sendIndustry(df: DataFrame):
+    default = f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
+    msg = [default]
+
+    if not df.empty:
+        for index, row in df.iterrows():
+            # FIXME 暫定漲跌百分比 > 0的資料
+            if row[UPS_AND_DOWNS_PCT] > 0:
+                # extend => extract whatever types of element inside a list
+                msg.extend([__genIndustryRow(row)])
+
+                # 1000 words limit with Line Notify
+                if len(msg) % 11 == 0:
+                    sendMsg(msg)
+                    msg.clear()
+                    msg.append(default)
+
+        # Sending the rest data within 1000 words
+        if len(msg) > 1:
+            sendMsg(msg)
+    else:
+        msg.append("\n無資料...")
+        sendMsg(msg)
+
+
+@interceptor
 def genNotifyData(symbol: str):
     log.debug(f"Start genNotifyStr: {symbol} at {datetime.now()} ")
     data = dailystock_repo.findBySymbol(symbol)
@@ -161,13 +184,14 @@ def genNotifyData(symbol: str):
 @interceptor
 def arrangeNotify(symbols: list = None, stockDict: dict = None):
     """ Line Notify 主程式 """
+    # Multiprocessing 設定處理程序數量
+    # processPools = Pool(4)
+    processPools = Pool(multiprocessing.cpu_count() - 1)
+
     try:
         if symbols is None:
             log.warning("Warning => symbols: list = None")
         else:
-            # Multiprocessing 設定處理程序數量
-            # processPools = Pool(4)
-            processPools = Pool(multiprocessing.cpu_count() - 1)
             results = processPools.map_async(func=genNotifyData,
                                              iterable=symbols,
                                              callback=CoreException.show,
@@ -205,45 +229,12 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
 
                 # 送出Line Notify
                 sendNotify(stockDict)
-
-            # 關閉process的pool並等待所有process結束
-            processPools.close()
-            processPools.join()
-    except HTTPError as e_http:
-        log.error(f"HTTP code error: {e_http.errno} {e_http.response}")
-        raise e_http
-    except URLError as e_url:
-        if isinstance(e_url.reason, socket.timeout):
-            log.error(f"socket timed out - URL {e_url}")
-        raise e_url
     except Exception:
         raise
-
-
-@interceptor
-def arrangeIndustry(df: DataFrame):
-    default = f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
-    msg = [default]
-
-    if not df.empty:
-        for index, row in df.iterrows():
-            # FIXME 暫定漲跌百分比 > 0的資料
-            if row[UPS_AND_DOWNS_PCT] > 0:
-                # extend => extract whatever types of element inside a list
-                msg.extend([__genIndustryRow(row)])
-
-                # 1000 words limit with Line Notify
-                if len(msg) % 11 == 0:
-                    sendMsg(msg)
-                    msg.clear()
-                    msg.append(default)
-
-        # Sending the rest data within 1000 words
-        if len(msg) > 1:
-            sendMsg(msg)
-    else:
-        msg.append("\n無資料...")
-        sendMsg(msg)
+    finally:
+        # 關閉process的pool並等待所有process結束
+        processPools.close()
+        processPools.join()
 
 
 if __name__ == "__main__":

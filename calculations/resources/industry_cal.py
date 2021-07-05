@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
         industry_rows = IndustryUtils.readPriceIndex()
         df = DataFrameUtils.genIndustryDf(industry_rows)
-        line_notify.arrangeIndustry(df)
+        line_notify.sendIndustry(df)
 
         line_notify.sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     except Exception as main_e:

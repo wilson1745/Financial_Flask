@@ -4,7 +4,6 @@ import os
 import sys
 import time
 import traceback
-from urllib.error import HTTPError, URLError
 
 import pandas
 
@@ -74,24 +73,10 @@ def main():
 
         """ Download html file by date """
         for data_date in date_list:
-            try:
-                log.info(f"Start scraping html ({DateUtils.today()}): {data_date}")
-
-                """ Save as HTML file """
-                FileUtils.saveToOriginalHtml(data_date)
-                # Sleep in case the request is blocked
-                time.sleep(6)
-
-                log.info(f"End scraping html ({DateUtils.today()}): {data_date}")
-            except HTTPError as e_http:
-                log.error(f"{os.path.basename(__file__)} HTTPError: ", e_http)
-                # TODO Doing something like reactivate the program...
-                raise e_http
-            except URLError as e_url:
-                log.error(f"{os.path.basename(__file__)} URLError: ", e_url)
-                # TODO record the error date and still continue the loop
-                ERROR_DATES.append(data_date)
-                continue
+            log.info(f"Start scraping html: {data_date}")
+            """ Save as HTML file """
+            FileUtils.saveToOriginalHtml(data_date)
+            log.info(f"End scraping html: {data_date}")
 
         """
         1. await Separate the loop in case the "urllib.request.urlopen(url)" fail the get the response
@@ -115,12 +100,11 @@ def main():
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     now = time.time()
-
     start = sys.argv[1] if len(sys.argv) > 1 else "20201207"
     ended = sys.argv[2] if len(sys.argv) > 1 else "20201231"
     index = 0
-
     ERROR_DATES = []
+
     try:
         main()
         # FileUtils.readTxtFile(None)

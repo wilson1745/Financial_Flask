@@ -26,18 +26,9 @@ class DataFrameUtils:
 
     @staticmethod
     @interceptor
-    def arrangeMiIndex(rows) -> list:
-        """ 處理爬蟲完的資料 """
-        data_row = []
-
-        # 以迴圈輸出每一列
-        index = 0
-        for row in rows:
-            if index > 205:
-                data_row.append(row)
-            index = index + 1
-
-        for row in data_row:
+    def __dailystockRow(row):
+        """ 處理爬蟲完的資料 (DailyStock) """
+        if row:
             row[0] = row[0].replace('=', '')
             row[0] = row[0].replace('"', '')
             row[2] = row[2].replace(',', '')
@@ -55,13 +46,35 @@ class DataFrameUtils:
             if row[9] and row[9] == '-':
                 if row[10] and row[10] != '0':
                     row[10] = row[9] + row[10]
-            # print(row)
-
-        return data_row
+                # print(row)
+            return row
+        else:
+            log.warning(constants.DATA_NOT_EXIST % row)
+            return None
 
     @staticmethod
     @interceptor
-    def arrangeMiIndexHtml(rows) -> list:
+    def __industryRow(row):
+        """ 處理爬蟲完的資料 (Industry) """
+        if row:
+            row[0] = row[0].replace('--', '0')
+            row[1] = row[1].replace('--', '0')
+            row[3] = row[3].replace('--', '0')
+            row[4] = row[4].replace('--', '0')
+            row[1] = row[1].replace(',', '')
+
+            if row[2] and row[2] == '-':
+                if row[3] and row[3] != '0':
+                    row[3] = row[2] + row[3]
+                # print(row)
+            return row
+        else:
+            log.warning(constants.DATA_NOT_EXIST % row)
+            return None
+
+    @staticmethod
+    @interceptor
+    def arrangeMiIndexHtml(rows: list) -> list:
         """ 處理爬蟲完的資料 """
         data_row = []
 
@@ -99,6 +112,14 @@ class DataFrameUtils:
     def arrangeHtmlToDataFrame(cls, rows, date) -> DataFrame:
         """ 處理爬蟲完的資料 """
         try:
+            # df = pd.DataFrame()
+            #
+            # processPools = Pool(multiprocessing.cpu_count() - 1)
+            # results = processPools.map_async(func=cls.__arrangeMiIndexHtml,
+            #                                  iterable=rows[2:],
+            #                                  callback=CoreException.show,
+            #                                  error_callback=CoreException.error)
+
             data_row = cls.arrangeMiIndexHtml(rows)
 
             # FIXME 這寫法有點笨...
@@ -122,25 +143,6 @@ class DataFrameUtils:
         except Exception:
             raise
 
-    @staticmethod
-    @interceptor
-    def __arrangeIndustry(row):
-        """  """
-        if row:
-            row[0] = row[0].replace('--', '0')
-            row[1] = row[1].replace('--', '0')
-            row[3] = row[3].replace('--', '0')
-            row[4] = row[4].replace('--', '0')
-            row[1] = row[1].replace(',', '')
-
-            if row[2] and row[2] == '-':
-                if row[3] and row[3] != '0':
-                    row[3] = row[2] + row[3]
-            return row
-        else:
-            log.warning(constants.DATA_NOT_EXIST % row)
-            return None
-
     @classmethod
     @interceptor
     def genIndustryDf(cls, industry_rows: list) -> DataFrame:
@@ -150,7 +152,7 @@ class DataFrameUtils:
             df = pd.DataFrame()
 
             processPools = Pool(multiprocessing.cpu_count() - 1)
-            results = processPools.map_async(func=cls.__arrangeIndustry,
+            results = processPools.map_async(func=cls.__industryRow,
                                              iterable=industry_rows,
                                              callback=CoreException.show,
                                              error_callback=CoreException.error)
@@ -162,8 +164,7 @@ class DataFrameUtils:
                 df.columns = constants.HEADER_INDEX_E
 
                 # Convert dtype
-                df[UPS_AND_DOWNS] = pd.to_numeric(df[UPS_AND_DOWNS])
-                df[UPS_AND_DOWNS_PCT] = pd.to_numeric(df[UPS_AND_DOWNS_PCT])
+                df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]] = df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]].apply(pd.to_numeric)
 
                 # Sort by column
                 df = df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False)
