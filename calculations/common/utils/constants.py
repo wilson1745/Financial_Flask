@@ -10,6 +10,7 @@ DATA_NOT_EXIST = "Data %s does not exist"
 TWSE_MI_INDEX = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=%s&date=%s&type=%s"
 TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data"
 TWSE_INDUSTRY_INDEX = 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=%s'
+MONEYDJ_URL = 'https://www.moneydj.com/funddj/yp/%s.djhtm?a=%s'
 
 # FUNDRICH
 FUNDRICH_INDEX = "https://www.fundrich.com.tw/fund/%s.html?id=%s"
@@ -36,9 +37,8 @@ IMAGE_PATH = "../files/images/%s"
 
 # Line Notify
 TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
-# 個人使用
-# TOKEN_SENSATIONAL = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
-# Riley使用
+# 個人使用 or Riley使用
+# TOKEN_SENSATIONAL = TOKEN_NOTIFY
 TOKEN_SENSATIONAL = "hlFjUiKkT9jWw1FfnLAVgnwaWJ4CY5DzIg7J33X2vdc"
 NOTIFY_LINK = "https://notify-api.line.me/api/notify"
 SELL = "sell"

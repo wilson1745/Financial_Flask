@@ -5,9 +5,13 @@ call activate Financial_Flask-OYIMoW_R
 echo execute python
 cd C:\Users\wilso\PycharmProjects\Financial_Flask\calculations\resources\
 
-::call python -m beautifulsoup_for_schedule.py
-call python -m beautifulsoup_for_schedule
-echo over beautifulsoup_for_schedule
+:: Line notify sends image
+call python -c "import line_notify;line_notify.sendImg('Start.png', 'Start')"
+echo over line_notify
+
+::call python -m beautifulsoup_stocks.py
+call python -m beautifulsoup_stocks
+echo over beautifulsoup_stocks
 
 call python -m line_notify
 echo over line_notify
@@ -19,7 +23,7 @@ call python -m industry_cal
 echo over industry_cal
 
 :: Line notify sends image
-call python -c "import line_notify;line_notify.sendImg('Complete.png')"
+call python -c "import line_notify;line_notify.sendImg('Complete.png', 'Complete')"
 echo over line_notify
 
 :: exit

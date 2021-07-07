@@ -91,7 +91,7 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
         CoreException.show_error(connError, traceback.format_exc())
         time.sleep(10)
         # Send notify again
-        sendMsg(msg)
+        sendMsg(msg, token)
     except Exception as ex:
         CoreException.show_error(ex, traceback.format_exc())
         time.sleep(10)
@@ -100,18 +100,18 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
 
 
 @interceptor
-def sendImg(img: str, token=constants.TOKEN_SENSATIONAL):
+def sendImg(img: str, text: str,  token=constants.TOKEN_SENSATIONAL):
     """ Sending picture through Line client """
     try:
-        msg = [f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)} Complete! 👍"]
-
         headers = {
             "Authorization": "Bearer " + token,
         }
         data = ({
-            'message': msg
+            'message': [f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)} {text}! 👍"]
         })
-        file = {'imageFile': open((constants.IMAGE_PATH % img), 'rb')}
+        file = {
+            'imageFile': open((constants.IMAGE_PATH % img), 'rb')
+        }
         response = requests.post(constants.NOTIFY_LINK, headers=headers, files=file, data=data, timeout=60)
 
         """
@@ -124,7 +124,7 @@ def sendImg(img: str, token=constants.TOKEN_SENSATIONAL):
         CoreException.show_error(connError, traceback.format_exc())
         time.sleep(10)
         # Send notify again
-        sendImg()
+        sendImg(img, token)
     except Exception as ex:
         CoreException.show_error(ex, traceback.format_exc())
         time.sleep(10)
@@ -149,7 +149,7 @@ def sendNotify(stockDict: dict):
                 msg.extend([__genStringRow(row)])
 
                 # 1000 words limit with Line Notify
-                if len(msg) % 10 == 0:
+                if len(msg) % 9 == 0:
                     sendMsg(msg)
                     msg.clear()
                     msg.append(default)
@@ -175,7 +175,7 @@ def sendIndustry(df: DataFrame):
                 msg.extend([__genIndustryRow(row)])
 
                 # 1000 words limit with Line Notify
-                if len(msg) % 11 == 0:
+                if len(msg) % 9 == 0:
                     sendMsg(msg)
                     msg.clear()
                     msg.append(default)
@@ -281,7 +281,7 @@ if __name__ == "__main__":
         log.debug(f"Symbols: {stocks}")
         arrangeNotify(stocks, NotifyGroup.getLineGroup())
 
-        # sendImg('Complete.png')
+        # sendImg('Complete3.png')
         sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

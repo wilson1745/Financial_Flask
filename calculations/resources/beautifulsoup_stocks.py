@@ -62,19 +62,20 @@ async def main():
     log.info(f"end ({DateUtils.today()}): {date}")
 
 
-# ------------------- App Start -------------------
 if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
     now = time.time()
     ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
+    fileName = os.path.basename(__file__)
 
     # 有資料才使用Line notify
     try:
         asyncio.run(main())
 
-        line_notify.sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
+        line_notify.sendMsg([ms, constants.SUCCESS % fileName], constants.TOKEN_NOTIFY)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
-        line_notify.sendMsg([ms, constants.FAIL % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
+        line_notify.sendMsg([ms, constants.FAIL % fileName], constants.TOKEN_NOTIFY)
     finally:
         log.debug(f"Time consuming: {time.time() - now}")
-        log.debug(f"End of {os.path.basename(__file__)}")
+        log.debug(f"End of {fileName}")
