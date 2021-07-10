@@ -59,7 +59,6 @@ def crawl_price(dateP: str):
     if not df.empty:
         df.reset_index(drop=True, inplace=True)
         df = df.set_index(SYMBOL)
-
         data[dateP] = df
 
 
@@ -73,6 +72,7 @@ if __name__ == "__main__":
     now = time.time()
     ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
     data: dict = {}
+    fileName = os.path.basename(__file__)
 
     try:
         dateList = []
@@ -91,10 +91,16 @@ if __name__ == "__main__":
         dateList.reverse()
         log.debug(f"dateList: {dateList}")
 
+        """ Do not use all my processing power """
         pools = Pool(multiprocessing.cpu_count() - 1)
-        """ Don't use all my processing power """
         # processPools = multiprocessing.Pool(processes=(multiprocessing.cpu_count() - 1))
-        results = pools.map_async(func=crawl_price, iterable=dateList, callback=CoreException.show, error_callback=CoreException.error)
+
+        results = pools.map_async(
+            func=crawl_price,
+            iterable=dateList,
+            callback=CoreException.show,
+            error_callback=CoreException.error
+        )
 
         pools.close()
         pools.join()
@@ -122,17 +128,15 @@ if __name__ == "__main__":
         )
 
         potentials: list = rising[rising].index
-
-        # log.debug(f"Rising stock: {rising[rising].index}")
         log.debug(f"Rising stock: {potentials}")
 
         # Send Line Notify
         line_notify.arrangeNotify(potentials, NotifyGroup.getPotentialGroup())
 
-        line_notify.sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
+        line_notify.sendMsg([ms, constants.SUCCESS % fileName], constants.TOKEN_NOTIFY)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
-        line_notify.sendMsg([ms, constants.FAIL % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
+        line_notify.sendMsg([ms, constants.FAIL % fileName], constants.TOKEN_NOTIFY)
     finally:
         log.debug(f"Time consuming: {time.time() - now}")
-        log.debug(f"End of {os.path.basename(__file__)}")
+        log.debug(f"End of {fileName}")

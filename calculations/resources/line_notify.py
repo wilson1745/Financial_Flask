@@ -218,8 +218,7 @@ def genNotifyData(symbol: str):
 @interceptor
 def arrangeNotify(symbols: list = None, stockDict: dict = None):
     """ Line Notify 主程式 """
-    # Multiprocessing 設定處理程序數量
-    # processPools = Pool(4)
+    # Multiprocessing 設定處理程序數量 (processPools = Pool(4))
     processPools = Pool(multiprocessing.cpu_count() - 1)
 
     try:
