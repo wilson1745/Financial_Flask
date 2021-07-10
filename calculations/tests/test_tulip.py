@@ -7,7 +7,7 @@ from pandas import DataFrame
 from talib._ta_lib import MA_Type
 from talib import abstract
 
-from calculations.common.utils.constants import CLOSE, RSI, D, K, HIGH, LOW, CLOSE_PRICE
+from calculations.common.utils.constants import CLOSE, RSI, D, K, HIGH, LOW
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.logic import FunctionKD
 from calculations.repository import dailystock_repo
@@ -32,7 +32,7 @@ lengthStoch = 14
 
 # print(df[CLOSE].to_numpy())
 
-df[RSI] = talib.RSI(df[CLOSE_PRICE], timeperiod=12)
+df[RSI] = talib.RSI(df[CLOSE], timeperiod=12)
 df = df.dropna()
 # rsi  = tulipy.rsi(df[CLOSE].to_numpy(), 12)
 

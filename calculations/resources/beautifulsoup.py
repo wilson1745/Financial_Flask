@@ -100,10 +100,8 @@ def main():
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     now = time.time()
-    start = sys.argv[1] if len(sys.argv) > 1 else "20201207"
-    ended = sys.argv[2] if len(sys.argv) > 1 else "20201231"
-    index = 0
-    ERROR_DATES = []
+    start = sys.argv[1] if len(sys.argv) > 1 else "20181227"
+    ended = sys.argv[2] if len(sys.argv) > 1 else "20181227"
 
     try:
         main()
@@ -111,9 +109,5 @@ if __name__ == "__main__":
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:
-        # Record the error dates
-        if len(ERROR_DATES) > 0:
-            FileUtils.genTxtFile(ERROR_DATES)
-
         log.debug(f"Async time consuming: {time.time() - now}")
         log.debug(f"End of {os.path.basename(__file__)}")

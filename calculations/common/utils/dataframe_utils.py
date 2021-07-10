@@ -8,8 +8,8 @@ from pandas import DataFrame
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE, CLOSE_PRICE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADERS, HIGH, HIGHEST_PRICE, LOW, \
-    LOWEST_PRICE, MARKET_DATE, OPEN, OPENING_PRICE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
+from calculations.common.utils.constants import CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADERS, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
+    UPS_AND_DOWNS_PCT
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 
@@ -197,7 +197,8 @@ class DataFrameUtils:
     def dfForTalib(df: DataFrame) -> DataFrame:
         try:
             df = df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1)
-            df = df.rename(columns={OPENING_PRICE: OPEN, HIGHEST_PRICE: HIGH, LOWEST_PRICE: LOW, CLOSE_PRICE: CLOSE})
+            """ 寫法保留：df欄位變換名稱用 """
+            # df = df.rename(columns={OPENING_PRICE: OPEN, HIGHEST_PRICE: HIGH, LOWEST_PRICE: LOW, CLOSE_PRICE: CLOSE})
             return df
         except Exception:
             raise

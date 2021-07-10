@@ -18,7 +18,7 @@ sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE_PRICE, SYMBOL
+from calculations.common.utils.constants import CLOSE, SYMBOL
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         data = collections.OrderedDict(sorted(data.items()))
 
         # 扁平化資料面
-        close = pd.DataFrame({k: d[CLOSE_PRICE] for k, d in data.items()}).transpose()
+        close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
         close.index = pd.to_datetime(close.index)
         # log.debug(f"close: {close}")
 

@@ -82,13 +82,13 @@ class CollectionUtils:
             elif data == "成交金額":
                 new_headers.append("deal_price")
             elif data == "開盤價":
-                new_headers.append("opening_price")
+                new_headers.append("open")
             elif data == "最高價":
-                new_headers.append("highest_price")
+                new_headers.append("high")
             elif data == "最低價":
-                new_headers.append("lowest_price")
+                new_headers.append("low")
             elif data == "收盤價":
-                new_headers.append("close_price")
+                new_headers.append("close")
             elif data == "漲跌價差":
                 new_headers.append("ups_and_downs")
             elif data == "成交筆數":

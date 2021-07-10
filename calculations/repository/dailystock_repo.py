@@ -75,9 +75,8 @@ def saveToDbBatch(today: str, stock_data: list):
 
     connection = cx_Oracle.connect(user="admin", password="Wilson155079", dsn="financialdb_medium")
     try:
-        sql = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, opening_price, highest_price, " \
-              "lowest_price, close_price, ups_and_downs) values(:market_date, :symbol, :stock_name, :deal_stock, :volume, :deal_price, " \
-              ":opening_price, :highest_price, :lowest_price, :close_price, :ups_and_downs) "
+        sql = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, open, high, low, close, ups_and_downs) " \
+              "values(:market_date, :symbol, :stock_name, :deal_stock, :volume, :deal_price, :open, :high, :low, :close, :ups_and_downs) "
         cursor = cx_Oracle.Cursor(connection)
         cursor.executemany(sql, stock_data)
 
@@ -107,19 +106,19 @@ def saveToBb(today, stock_data):
         try:
             for index, row in stock_data.iterrows():
                 sql = (
-                    "INSERT INTO dailystock (market_date, stock_name, symbol, deal_stock, deal_price, opening_price, highest_price, lowest_price, "
-                    "close_price, ups_and_downs, volume) values(:market_date, :stock_name, :symbol, :deal_stock, :deal_price, :opening_price, "
-                    ":highest_price, :lowest_price, :close_price, :ups_and_downs, :volume) ")
+                    "INSERT INTO dailystock (market_date, stock_name, symbol, deal_stock, deal_price, open, high, low, close, ups_and_downs, "
+                    "volume) values(:market_date, :stock_name, :symbol, :deal_stock, :deal_price, :open, :high, :low, :close, :ups_and_downs, "
+                    ":volume) ")
 
                 new_data = (today,
                             row.stock_name,
                             row.symbol,
                             row.deal_stock,
                             row.deal_price,
-                            row.opening_price,
-                            row.highest_price,
-                            row.lowest_price,
-                            row.close_price,
+                            row.open,
+                            row.high,
+                            row.low,
+                            row.close,
                             row.ups_and_downs,
                             row.volume)
 

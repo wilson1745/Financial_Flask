@@ -5,7 +5,7 @@ https://pyecontech.com/2019/06/18/%e5%88%9d%e5%ad%b8%e8%80%85%e7%9a%84python%e9%
 """
 import matplotlib.pyplot as plt
 
-from calculations.common.utils.constants import CLOSE_PRICE, MARKET_DATE, SYMBOL
+from calculations.common.utils.constants import CLOSE, MARKET_DATE, SYMBOL
 from calculations.core.Interceptor import interceptor
 from calculations.repository import dailystock_repo
 
@@ -23,8 +23,8 @@ def main_start():
     for key in stocks_dict.keys():
         df = stocks_dict[key]
         df.index = df[MARKET_DATE]
-        df = df[[SYMBOL, CLOSE_PRICE]]
-        df.columns = [SYMBOL, CLOSE_PRICE]
+        df = df[[SYMBOL, CLOSE]]
+        df.columns = [SYMBOL, CLOSE]
         stocks_dict[key] = df
 
     fig, ax = plt.subplots(len(symbols), 1, figsize=(10, 10))

@@ -45,8 +45,9 @@ print(df.tail(10))
 #     qty = i['volume']
 #     check = KBar1M.Add(time, price, qty)
 #
-# HEADERS = ["market_date", "stock_name", "symbol", "deal_stock", "deal_price", "opening_price", "highest_price",
-#            "lowest_price", "close_price", "ups_and_downs", "volume", "createtime"]
+# HEADERS = [
+#     "market_date", "stock_name", "symbol", "deal_stock", "deal_price", "open", "high", "low", "close", "ups_and_downs", "volume", "createtime"
+# ]
 
 # Index = 0
 #

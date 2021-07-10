@@ -16,7 +16,7 @@ sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE, CLOSE_PRICE, D, K, K_D, MARKET_DATE, POS, RSI, RSI_Y, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
+from calculations.common.utils.constants import CLOSE, D, K, K_D, MARKET_DATE, POS, RSI, RSI_Y, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
     UPS_AND_DOWNS_PCT
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
@@ -41,7 +41,7 @@ def __genStringRow(row) -> str:
     rowStr = ""
     rowStr += f"\n名稱：{row[STOCK_NAME]} ({row[SYMBOL]})"
     rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
-    rowStr += f"\n收盤價：{row[CLOSE_PRICE]}"
+    rowStr += f"\n收盤價：{row[CLOSE]}"
     rowStr += f"\nRSI(12)值：{row[RSI]}%"
     rowStr += f"\nRSI較昨日：{'↑' if row[RSI_Y] > 0 else '↓'}{row[RSI_Y]}%"
     rowStr += f"\nKD(9)值：{row[K]}%, {row[D]}%"
@@ -100,7 +100,7 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
 
 
 @interceptor
-def sendImg(img: str, text: str,  token=constants.TOKEN_SENSATIONAL):
+def sendImg(img: str, text: str, token=constants.TOKEN_SENSATIONAL):
     """ Sending picture through Line client """
     try:
         headers = {

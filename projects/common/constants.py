@@ -64,10 +64,10 @@ STOCK_NAME = 'stock_name'
 SYMBOL = 'symbol'
 DEAL_STOCK = 'deal_stock'
 DEAL_PRICE = 'deal_price'
-OPENING_PRICE = 'opening_price'
-HIGHEST_PRICE = 'highest_price'
-LOWEST_PRICE = 'lowest_price'
-CLOSE_PRICE = 'close_price'
+OPEN = 'open'
+HIGH = 'high'
+LOW = 'low'
+CLOSE = 'close'
 UPS_AND_DOWNS = 'ups_and_downs'
 VOLUME = 'volume'
 CREATETIME = 'createtime'
@@ -79,5 +79,4 @@ D = 'D'
 
 # DailyStock headers
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
-HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, UPS_AND_DOWNS,
-             VOLUME, CREATETIME]
+HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPEN, HIGH, LOW, CLOSE, UPS_AND_DOWNS, VOLUME, CREATETIME]

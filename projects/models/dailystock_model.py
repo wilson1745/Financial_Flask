@@ -11,27 +11,27 @@ class DailyStockModel(db_sqlalchemy.Model):
     symbol = Column(String(length=10), name=DailyStock.SYMBOL.name, nullable=False)
     deal_stock = Column(Numeric(precision=38), name=DailyStock.DEAL_STOCK.name, nullable=False)
     deal_price = Column(Numeric(precision=20, scale=3), name=DailyStock.DEAL_PRICE.name)
-    opening_price = Column(Numeric(precision=12, scale=3), name=DailyStock.OPENING_PRICE.name)
-    highest_price = Column(Numeric(precision=12, scale=3), name=DailyStock.HIGHEST_PRICE.name)
-    lowest_price = Column(Numeric(precision=12, scale=3), name=DailyStock.LOWEST_PRICE.name)
-    close_price = Column(Numeric(precision=12, scale=3), name=DailyStock.CLOSE_PRICE.name)
+    open = Column(Numeric(precision=12, scale=3), name=DailyStock.OPEN.name)
+    high = Column(Numeric(precision=12, scale=3), name=DailyStock.HIGH.name)
+    low = Column(Numeric(precision=12, scale=3), name=DailyStock.LOW.name)
+    close = Column(Numeric(precision=12, scale=3), name=DailyStock.CLOSE.name)
     ups_and_downs = Column(Numeric(precision=12, scale=4), name=DailyStock.UPS_AND_DOWNS.name)
     volume = Column(Numeric(precision=38), name=DailyStock.VOLUME.name, nullable=False)
     createtime = Column(DateTime, name=DailyStock.CREATETIME.name)
 
     def __init__(self,
                  marketDate, stockName, symbol, dealStock, dealPrice,
-                 openingPrice, highestPrice, lowestPrice, closePrice,
+                 open, high, low, close,
                  upsAndDowns, volume, createtime):
         self.market_date = marketDate
         self.stock_name = stockName
         self.symbol = symbol
         self.deal_stock = dealStock
         self.deal_price = dealPrice
-        self.opening_price = openingPrice
-        self.highest_price = highestPrice
-        self.lowest_price = lowestPrice
-        self.close_price = closePrice
+        self.open = open
+        self.high = high
+        self.low = low
+        self.close = close
         self.ups_and_downs = upsAndDowns
         self.volume = volume
         self.createtime = createtime
