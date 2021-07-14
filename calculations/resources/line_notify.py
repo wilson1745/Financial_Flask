@@ -16,13 +16,13 @@ sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE, D, K, K_D, MARKET_DATE, POS, RSI, RSI_Y, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
+from calculations.common.utils.constants import CLOSE, D, K, K_D, MARKET_DATE, RSI, RSI_Y, SGNL_B, SGNL_S, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
     UPS_AND_DOWNS_PCT
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.logic import FunctionKD, FunctionMA, FunctionRSI
+from calculations.logic import FunctionBollingBand, FunctionKD, FunctionMA, FunctionRSI
 from calculations.repository import dailystock_repo
 
 
@@ -194,6 +194,12 @@ def genNotifyData(symbol: str):
     data = dailystock_repo.findBySymbol(symbol)
     FunctionRSI.GenRSI(data)
     FunctionKD.GenKD(data)
+
+    """ KD, BollingBand """
+    FunctionBollingBand.GenBollingerBand(data)
+    FunctionBollingBand.BuySellSignal(data)
+
+    """ MA cross rate """
     stock = FunctionMA.GetCross(data, 5, 15)
 
     if not stock.empty:
@@ -218,27 +224,34 @@ def genNotifyData(symbol: str):
 @interceptor
 def arrangeNotify(symbols: list = None, stockDict: dict = None):
     """ Line Notify 主程式 """
-    # Multiprocessing 設定處理程序數量 (processPools = Pool(4))
-    processPools = Pool(multiprocessing.cpu_count() - 1)
-
     try:
         if symbols is None:
             log.warning("Warning => symbols: list = None")
         else:
-            results = processPools.map_async(func=genNotifyData,
-                                             iterable=symbols,
-                                             callback=CoreException.show,
-                                             error_callback=CoreException.error)
+            """ https://www.maxlist.xyz/2020/03/20/multi-processing-pool/ """
+            # Multiprocessing 設定處理程序數量 (pools = Pool(4))
+            pools = Pool(multiprocessing.cpu_count() - 1)
+            results = pools.map(func=genNotifyData, iterable=symbols)
+
             # results = processPools.starmap_async(genNotifyData,
             #                                      zip(symbols, repeat(pool)),
             #                                      callback=CoreException.show,
             #                                      error_callback=CoreException.show_error)
 
+            # results = processPools.map_async(func=genNotifyData,
+            #                                  iterable=symbols,
+            #                                  callback=CoreException.show,
+            #                                  error_callback=CoreException.error)
+            # 關閉process的pool並等待所有process結束
+            # processPools.close()
+            # processPools.join()
+
             # 包含Key資料的dictionary
-            if len(results.get()) > 0:
+            if len(results) > 0:
                 if not NotifyGroup.POTENTIAL in stockDict:
                     """ Riley's stocks (from line_notify.py) """
-                    for row in results.get():
+                    for row in results:
+                        print(row)
                         if (row[RSI]) >= 70:
                             # 趕快賣的股票
                             stockDict[NotifyGroup.SELL].append(row)
@@ -246,28 +259,34 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
                             # 好可憐的股票
                             stockDict[NotifyGroup.BAD].append(row)
                         else:
-                            if row[RSI] >= 50 and row[POS] > 0:
+                            """ KD, BollingBand """
+                            if row[SGNL_B]:
                                 # 進場做多
                                 stockDict[NotifyGroup.LONG].append(row)
-                            elif row[RSI] < 50 and row[POS] < 0:
+                            elif row[SGNL_S]:
                                 # 進場做空
                                 stockDict[NotifyGroup.SHORT].append(row)
+
+                            # """ MA cross rate """
+                            # if row[RSI] >= 50 and row[POS] > 0:
+                            #     # 進場做多
+                            #     stockDict[NotifyGroup.LONG].append(row)
+                            # elif row[RSI] < 50 and row[POS] < 0:
+                            #     # 進場做空
+                            #     stockDict[NotifyGroup.SHORT].append(row)
+
                             else:
                                 # 徘徊不定的股票
                                 stockDict[NotifyGroup.NORMAL].append(row)
                 else:
                     """ Portential stocks (from potential_stock.py) """
-                    for row in results.get():
+                    for row in results:
                         stockDict[NotifyGroup.POTENTIAL].append(row)
 
                 # 送出Line Notify
                 sendNotify(stockDict)
     except Exception:
         raise
-    finally:
-        # 關閉process的pool並等待所有process結束
-        processPools.close()
-        processPools.join()
 
 
 if __name__ == "__main__":

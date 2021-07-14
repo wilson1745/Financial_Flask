@@ -10,7 +10,6 @@ from calculations import log
 from calculations.common.utils import constants
 from calculations.common.utils.constants import CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADERS, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
     UPS_AND_DOWNS_PCT
-from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 
 pd.set_option("display.width", None)
@@ -104,7 +103,6 @@ class DataFrameUtils:
             if row[9] and row[9] == '-':
                 if row[10] and row[10] != '0':
                     row[10] = row[9] + row[10]
-            # print(row)
 
         return data_row
 
@@ -152,14 +150,11 @@ class DataFrameUtils:
             # Empty dataFrame
             df = pd.DataFrame()
 
-            processPools = Pool(multiprocessing.cpu_count() - 1)
-            results = processPools.map_async(func=cls.__industryRow,
-                                             iterable=industry_rows,
-                                             callback=CoreException.show,
-                                             error_callback=CoreException.error)
+            pools = Pool(multiprocessing.cpu_count() - 1)
+            results = pools.map(func=cls.__industryRow, iterable=industry_rows)
 
-            if len(results.get()) > 0:
-                df = pd.DataFrame(results.get())
+            if len(results) > 0:
+                df = pd.DataFrame(results)
                 # FIXME 這寫法有點笨...
                 df.drop([2, 5], axis=1, inplace=True)
                 df.columns = constants.HEADER_INDEX_E
@@ -171,9 +166,6 @@ class DataFrameUtils:
                 df = df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False)
                 # log.debug(df)
 
-            # 關閉process的pool並等待所有process結束
-            processPools.close()
-            processPools.join()
             return df
         except Exception:
             raise

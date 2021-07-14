@@ -35,18 +35,12 @@ if __name__ == "__main__":
         #
         #         df = pd.DataFrame()
         #         processPools = Pool(multiprocessing.cpu_count() - 1)
-        #         results = processPools.map_async(func=DataFrameUtils.test_arrangeMiIndexHtml,
-        #                                          iterable=rows[2:],
-        #                                          callback=CoreException.show,
-        #                                          error_callback=CoreException.error)
+        #         results = processPools.map(func=DataFrameUtils.test_arrangeMiIndexHtml, iterable=rows[2:])
         #
         #         if len(results.get()) > 0:
         #             df = pd.DataFrame(results.get())
         #
         #         print(df)
-        #
-        #         processPools.close()
-        #         processPools.join()
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:

@@ -27,11 +27,11 @@ def GetCross(df: DataFrame, fastPeriod: int = 5, slowPeriod: int = 15) -> DataFr
     :param fastPeriod 預設快線
     :param slowPeriod 預設慢線
     """
-    fastMA = f'MA{fastPeriod}'
-    slowMA = f'MA{slowPeriod}'
+    FAST_MA = f'MA{fastPeriod}'
+    SLOW_MA = f'MA{slowPeriod}'
 
-    df[fastMA] = df[CLOSE].rolling(window=fastPeriod, center=False).mean().round(decimals=1)
-    df[slowMA] = df[CLOSE].rolling(window=slowPeriod, center=False).mean().round(decimals=1)
+    df[FAST_MA] = df[CLOSE].rolling(window=fastPeriod, center=False).mean().round(decimals=1)
+    df[SLOW_MA] = df[CLOSE].rolling(window=slowPeriod, center=False).mean().round(decimals=1)
 
     # 處理(删除)空值
     # df.dropna()
@@ -39,10 +39,10 @@ def GetCross(df: DataFrame, fastPeriod: int = 5, slowPeriod: int = 15) -> DataFr
 
     # 持倉情況和交易信號判斷
     df[POS] = 0  # 初始化
-    df.loc[df[fastMA] >= df[slowMA], POS] = 1
-    df.loc[df[fastMA] < df[slowMA], POS] = -1
+    df.loc[df[FAST_MA] >= df[SLOW_MA], POS] = 1
+    df.loc[df[FAST_MA] < df[SLOW_MA], POS] = -1
     df[POS] = df[POS].shift(1).fillna(0)
-    log.debug(df)
+    # log.debug(df)
 
     return df
 

@@ -26,6 +26,7 @@ from calculations.resources import line_notify
 
 @interceptor
 def readHtml(symbol: str, func: MoneyDj = MoneyDj.NET_WORTH):
+    """ TODO """
     try:
         # html_path = (constants.HTML_PATH % date)
         url = constants.MONEYDJ_URL % (func.getCaption(), symbol)
@@ -65,8 +66,8 @@ def readHtml(symbol: str, func: MoneyDj = MoneyDj.NET_WORTH):
 @interceptor
 async def main():
     # Multiprocessing 設定處理程序數量
-    # processPools = Pool(4)
-    processPools = Pool(multiprocessing.cpu_count() - 1)
+    # pools = Pool(4)
+    pools = Pool(multiprocessing.cpu_count() - 1)
 
     try:
         date = DateUtils.today(constants.YYYYMMDD)
@@ -76,20 +77,11 @@ async def main():
         if item_df.empty:
             log.warning(f"itemfund_repo.findAll() is None")
         else:
-            results = processPools.map_async(func=readHtml,
-                                             iterable=item_df.index,
-                                             callback=CoreException.show,
-                                             error_callback=CoreException.error)
-
-        # readHtml(MoneyDj.NET_WORTH, 'ACYT152')
+            pools.map(func=readHtml, iterable=item_df.index)
 
         log.info(f"end ({DateUtils.today()}): {date}")
     except Exception:
         raise
-    finally:
-        # 關閉process的pool並等待所有process結束
-        processPools.close()
-        processPools.join()
 
 
 if __name__ == "__main__":

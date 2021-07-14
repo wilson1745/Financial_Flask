@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 """
 https://www.finlab.tw/Python-%E6%99%82%E9%96%93%E5%BA%8F%E5%88%97%E5%AF%A6%E4%BD%9C%EF%BC%81/
+https://www.finlab.tw/%E5%8A%A0%E9%80%9F%E5%BA%A6%E6%8C%87%E6%A8%99%E5%AF%A6%E5%81%9A/
 """
 import collections
 import datetime
@@ -27,8 +28,8 @@ from calculations.repository import dailystock_repo
 from calculations.resources import line_notify
 
 
-# @interceptor
-def test1(df: DataFrame):
+@interceptor
+def cal_dropdown_rate(df: DataFrame):
     """ 計算近n年最大下跌幅度 """
     dropdown = (df.cummax() - df).max() / df.max() * 100
     # print(dropdown)
@@ -49,7 +50,6 @@ def test1(df: DataFrame):
     constraint = std[std < 0.02].index & profit[profit > 10].index & dropdown[dropdown < 50].index
     # constraint = profit[profit > 10].index & dropdown[dropdown < 50].index
     # log.debug(constraint)
-
     return constraint
 
 
@@ -67,8 +67,8 @@ def rising_curve(n):
     return (close60.iloc[-n] + close60.iloc[-1]) / 2 > close60.iloc[-int((n + 1) / 2)]
 
 
-# ------------------- App Start -------------------
 if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
     now = time.time()
     ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
     data: dict = {}
@@ -93,20 +93,11 @@ if __name__ == "__main__":
 
         """ Do not use all my processing power """
         pools = Pool(multiprocessing.cpu_count() - 1)
-        # processPools = multiprocessing.Pool(processes=(multiprocessing.cpu_count() - 1))
-
-        results = pools.map_async(
-            func=crawl_price,
-            iterable=dateList,
-            callback=CoreException.show,
-            error_callback=CoreException.error
-        )
-
-        pools.close()
-        pools.join()
+        pools.map(func=crawl_price, iterable=dateList)
 
         # Sort order by market_date
         data = collections.OrderedDict(sorted(data.items()))
+        # log.debug(f"data: {data}")
 
         # 扁平化資料面
         close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()

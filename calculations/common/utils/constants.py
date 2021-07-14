@@ -80,10 +80,13 @@ K = 'K'
 D = 'D'
 K_D = 'K_D'
 
-# OPEN = 'open'
-# HIGH = 'high'
-# LOW = 'low'
-# CLOSE = 'close'
+# Bolling Band
+UPPER = 'upper'
+MIDDLE = 'middle'
+LOWER = 'lower'
+
+SGNL_B = 'sgnl_b'
+SGNL_S = 'sgnl_s'
 
 UPS_AND_DOWNS_PCT = 'ups_and_downs_pct'
 
