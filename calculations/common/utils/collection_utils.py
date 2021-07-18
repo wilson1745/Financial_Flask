@@ -111,3 +111,22 @@ class CollectionUtils:
               stock_data.close,
               int(stock_data.volume.replace(",", "")),
               date)
+
+    @staticmethod
+    def header_fund(orignal_headers) -> list:
+        new_headers = []
+
+        for column in orignal_headers:
+            data = str(column)
+            if data == "日期":
+                new_headers.append(MARKET_DATE)
+            elif data == "證券名稱":
+                new_headers.append(STOCK_NAME)
+            elif data == "證券代號":
+                new_headers.append(SYMBOL)
+            elif data == "收盤價":
+                new_headers.append(CLOSE)
+            elif data == "漲跌價差":
+                new_headers.append(UPS_AND_DOWNS)
+
+        return new_headers

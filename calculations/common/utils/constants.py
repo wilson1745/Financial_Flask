@@ -10,7 +10,7 @@ DATA_NOT_EXIST = "Data %s does not exist"
 TWSE_MI_INDEX = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=%s&date=%s&type=%s"
 TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data"
 TWSE_INDUSTRY_INDEX = 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=%s'
-MONEYDJ_URL = 'https://www.moneydj.com/funddj/yp/%s.djhtm?a=%s'
+MONEYDJ_URL = 'https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s'
 
 # FUNDRICH
 FUNDRICH_INDEX = "https://www.fundrich.com.tw/fund/%s.html?id=%s"
@@ -72,6 +72,8 @@ CLOSE = 'close'
 UPS_AND_DOWNS = 'ups_and_downs'
 VOLUME = 'volume'
 CREATETIME = 'createtime'
+FIRST_URL = 'first_url'
+SECOND_URL = 'second_url'
 
 POS = 'POS'
 RSI = 'RSI'
@@ -94,11 +96,14 @@ UPS_AND_DOWNS_PCT = 'ups_and_downs_pct'
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
 HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPEN, HIGH, LOW, CLOSE, UPS_AND_DOWNS, VOLUME, CREATETIME]
 
-HEADER_ITEMFUND = ["證券代號", "證券名稱", "新增日期"]
-HEADER_ITEMFUND_E = [SYMBOL, STOCK_NAME, CREATETIME]
+HEADER_ITEMFUND = ["證券代號", "證券名稱", "新增日期", FIRST_URL, SECOND_URL]
+HEADER_ITEMFUND_E = [SYMBOL, STOCK_NAME, CREATETIME, FIRST_URL, SECOND_URL]
 
 HEADER_INDEX = ['指數', '收盤指數', '漲跌點數', '漲跌百分比(%)', '日期']
 HEADER_INDEX_E = [SYMBOL, CLOSE, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, MARKET_DATE]
+
+HEADERS_DF = ["日期", "證券名稱", "證券代號", "收盤價", "漲跌價差"]
+HEADERS_DF_E = [MARKET_DATE, STOCK_NAME, SYMBOL, CLOSE, UPS_AND_DOWNS, CREATETIME]
 
 SUCCESS = "%s 成功"
 FAIL = "%s 失敗"

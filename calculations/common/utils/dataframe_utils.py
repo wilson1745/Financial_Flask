@@ -8,8 +8,9 @@ from pandas import DataFrame
 
 from calculations import log
 from calculations.common.utils import constants
+from calculations.common.utils.collection_utils import CollectionUtils
 from calculations.common.utils.constants import CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADERS, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
-    UPS_AND_DOWNS_PCT
+    UPS_AND_DOWNS_PCT, HEADERS_DF, CLOSE
 from calculations.core.Interceptor import interceptor
 
 pd.set_option("display.width", None)
@@ -191,6 +192,20 @@ class DataFrameUtils:
             df = df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1)
             """ 寫法保留：df欄位變換名稱用 """
             # df = df.rename(columns={OPENING_PRICE: OPEN, HIGHEST_PRICE: HIGH, LOWEST_PRICE: LOW, CLOSE_PRICE: CLOSE})
+            return df
+        except Exception:
+            raise
+
+    @classmethod
+    @interceptor
+    def genFundDf(cls, rows) -> DataFrame:
+        """ 處理(基金)爬蟲完的資料 """
+        try:
+            df = pd.DataFrame(rows)
+            df.columns = HEADERS_DF
+            df.columns = CollectionUtils.header_fund(df.columns)
+            df = df.astype({CLOSE: float, UPS_AND_DOWNS: float})
+            # df = df.set_index(df[MARKET_DATE])
             return df
         except Exception:
             raise

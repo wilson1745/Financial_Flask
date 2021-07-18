@@ -2,10 +2,12 @@ import csv
 import inspect
 import json
 import os
+import re
 import socket
 import time
 import traceback
 import urllib
+from datetime import datetime
 from urllib.request import urlopen
 
 import pandas
@@ -16,6 +18,7 @@ from pandas import DataFrame
 from calculations import log
 from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
+from calculations.common.utils.constants import CLOSE, UPS_AND_DOWNS
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -174,3 +177,105 @@ class FileUtils:
             return content
         except Exception:
             raise
+
+    @classmethod
+    @interceptor
+    def fundHtmlDaily(cls, row) -> DataFrame:
+        """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
+        log.debug(f"fundReadHtmlRange: {row}")
+        try:
+            url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
+            log.debug(f"Url: {url}")
+
+            response = urllib.request.urlopen(url, timeout=60)
+            soup = BeautifulSoup(response, 'html.parser')
+            table = soup.findAll('table')
+
+            if not table:
+                log.warning(f"Table not exist")
+            else:
+                # second_url could lead to the different table (for now)
+                table_new = table[5] if 'yp010000' == row.second_url else table[4]
+                td_tags = table_new.find_all(class_=re.compile("^t3"))
+                # log.debug(td_tags)
+
+                data_row = []
+                csv_row = []
+                for index, cell in enumerate(td_tags):
+                    csv_row.append(cell.get_text())
+                    """
+                    1. csv_row[0] => date (淨值日期)
+                    2. csv_row[1] => close price (最新淨值)
+                    3. csv_row[2] => ups and downs (每日變化)
+                    """
+                    if index == 2:
+                        csv_row[0] = csv_row[0].replace('/', '')
+                        csv_row.insert(1, row.stock_name)
+                        csv_row.insert(2, row.symbol)
+                        data_row.append(csv_row)
+                        csv_row = []
+                # log.debug(data_row)
+
+                # 轉換dataframe
+                df = DataFrameUtils.genFundDf(data_row)
+                return df
+        except requests.exceptions.ConnectionError as connError:
+            CoreException.show_error(connError, traceback.format_exc())
+            time.sleep(10)
+            cls.fundHtmlRange(row)
+        except Exception:
+            raise
+        finally:
+            time.sleep(5)
+
+    @classmethod
+    @interceptor
+    def fundHtmlRange(cls, row) -> DataFrame:
+        """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
+        log.debug(f"fundReadHtmlRange: {row}")
+        try:
+            url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
+            log.debug(f"Url: {url}")
+
+            response = urllib.request.urlopen(url, timeout=60)
+            soup = BeautifulSoup(response, 'html.parser')
+            table = soup.findAll('table')
+
+            if not table:
+                log.warning(f"Table not exist")
+            else:
+                # second_url could lead to the different table (for now)
+                table_new = table[6] if 'yp010000' == row.second_url else table[5]
+                td_tags = table_new.find_all(class_=re.compile("^t3"))
+
+                data_row = []
+                csv_row = []
+                year = datetime.now().year
+                for index, cell in enumerate(td_tags):
+                    csv_row.append(cell.get_text())
+                    """
+                    1. csv_row[0] => date
+                    2. csv_row[1] => close price
+                    """
+                    if index % 2 != 0:
+                        csv_row[0] = str(year) + csv_row[0].replace('/', '')
+                        csv_row.insert(1, row.stock_name)
+                        csv_row.insert(2, row.symbol)
+                        csv_row.insert(4, 0)
+                        data_row.append(csv_row)
+                        csv_row = []
+                # log.debug(data_row)
+
+                # 轉換dataframe
+                df = DataFrameUtils.genFundDf(data_row)
+                df[UPS_AND_DOWNS] = df[CLOSE] - df[CLOSE].shift(-1, axis=0)
+                df.fillna(0, inplace=True)
+                return df
+        except requests.exceptions.ConnectionError as connError:
+            CoreException.show_error(connError, traceback.format_exc())
+            time.sleep(10)
+            cls.fundHtmlRange(row)
+        except Exception:
+            raise
+        finally:
+            time.sleep(5)
