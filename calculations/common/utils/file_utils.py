@@ -254,8 +254,8 @@ class FileUtils:
                 for index, cell in enumerate(td_tags):
                     csv_row.append(cell.get_text())
                     """
-                    1. csv_row[0] => date
-                    2. csv_row[1] => close price
+                    1. csv_row[0] => date (淨值日期)
+                    2. csv_row[1] => close price (最新淨值)
                     """
                     if index % 2 != 0:
                         csv_row[0] = str(year) + csv_row[0].replace('/', '')

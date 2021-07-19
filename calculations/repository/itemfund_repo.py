@@ -54,9 +54,12 @@ def query(sql: str, params=None) -> list:
         log.debug(f"connection.cursor(): {cursor}")
         log.debug(f"Sql: {sql}")
         log.debug(f"Params: {params}")
-        rs = cursor.execute(sql) if not params else cursor.execute(sql, params)
 
-        return rs.fetchall()
+        rs = cursor.execute(sql) if not params else cursor.execute(sql, params)
+        data = rs.fetchall()
+        cursor.close()
+
+        return data
     except cx_Oracle.Error as e:
         CoreException.show_error(e, traceback.format_exc())
         raise e

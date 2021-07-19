@@ -100,7 +100,7 @@ def main():
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     now = time.time()
-    start = sys.argv[1] if len(sys.argv) > 1 else "20181227"
+    start = sys.argv[1] if len(sys.argv) > 1 else "20181226"
     ended = sys.argv[2] if len(sys.argv) > 1 else "20181227"
 
     try:

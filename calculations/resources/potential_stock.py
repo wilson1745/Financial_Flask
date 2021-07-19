@@ -78,8 +78,6 @@ if __name__ == "__main__":
         dateList = []
         date = datetime.datetime.now()
         n_days = 200
-        # fail_count = 0
-        # allow_continuous_fail_count = 5
 
         while len(dateList) < n_days:
             dateStr = datetime.datetime.strftime(date, constants.YYYYMMDD)

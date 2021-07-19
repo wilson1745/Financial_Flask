@@ -1,4 +1,7 @@
 # -*- coding: UTF-8 -*-
+"""
+https://www.itread01.com/content/1586743325.html
+"""
 import os
 import platform
 

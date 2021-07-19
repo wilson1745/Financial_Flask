@@ -32,7 +32,6 @@ def genDataFrame(datas: list) -> DataFrame:
             df.columns = HEADERS_T
             df.index = pd.to_datetime(df["market_date"])
             # log.debug(df)
-
         return df
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
@@ -42,23 +41,28 @@ def genDataFrame(datas: list) -> DataFrame:
 @interceptor
 def query(sql: str, params=None) -> list:
     """ These pool params are suitable for Apache Pre-fork MPM """
+    # Use the pooled connection
     log.debug(f"Current pool: {pool}")
     connection = pool.acquire()
+    cursor = connection.cursor()
 
     try:
-        # Use the pooled connection
-        cursor = connection.cursor()
-        log.debug(f"connection.cursor(): {cursor}")
+        log.debug(f"connection: {connection}")
+        log.debug(f"cursor: {cursor}")
         log.debug(f"Sql: {sql}")
         log.debug(f"Params: {params}")
-        rs = cursor.execute(sql) if not params else cursor.execute(sql, params)
-        # log.debug(tuple(params))
 
-        return rs.fetchall()
+        rs = cursor.execute(sql) if not params else cursor.execute(sql, params)
+        data = rs.fetchall()
+
+        return data
     except cx_Oracle.Error as e:
         CoreException.show_error(e, traceback.format_exc())
         raise e
     finally:
+        # Release the cursor of the connection
+        log.debug(f"Release connection's cursor: {hex(id(cursor))}")
+        cursor.close()
         # Release the connection to the pool
         log.debug(f"Release pool's connection: {hex(id(connection))}")
         pool.release(connection)
@@ -70,72 +74,32 @@ def query(sql: str, params=None) -> list:
 def saveToDbBatch(today: str, stock_data: list):
     """ Save to Oracle Autonomous DB with bulk insert => fast """
     start = time.time()
-    log.info("Save data into Oracle Autonomous DB")
     log.debug(f"today: {today}, stock_data size:{len(stock_data)}")
 
-    connection = cx_Oracle.connect(user="admin", password="Wilson155079", dsn="financialdb_medium")
+    # Use the pooled connection
+    log.debug(f"Current pool: {pool}")
+    connection = pool.acquire()
+    cursor = connection.cursor()
     try:
         sql = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, open, high, low, close, ups_and_downs) " \
               "values(:market_date, :symbol, :stock_name, :deal_stock, :volume, :deal_price, :open, :high, :low, :close, :ups_and_downs) "
-        cursor = cx_Oracle.Cursor(connection)
-        cursor.executemany(sql, stock_data)
 
+        cursor.executemany(sql, stock_data)
         connection.commit()
-        cursor.close()
-        connection.close()
     except cx_Oracle.Error as e:
         CoreException.show_error(e, traceback.format_exc())
         """ Rollback to discard them """
         connection.rollback()
     finally:
         log.debug(f"Time: {time.time() - start}")
-
-
-@interceptor
-def saveToBb(today, stock_data):
-    """ Save to Oracle Autonomous DB by each one => slow """
-    start = time.time()
-    log.info("Save data into Oracle Autonomous DB")
-    log.debug(f"today: {today}, stock_data size:{len(stock_data)}")
-
-    connection = cx_Oracle.connect(user="admin", password="Wilson155079", dsn="financialdb_medium")
-
-    """ To control the lifetime of a cursor is to use a “with” block, which ensures that a cursor is closed once the block is completed """
-    with connection.cursor() as cursor:
-        log.debug(f"connection.cursor(): {cursor}")
-        try:
-            for index, row in stock_data.iterrows():
-                sql = (
-                    "INSERT INTO dailystock (market_date, stock_name, symbol, deal_stock, deal_price, open, high, low, close, ups_and_downs, "
-                    "volume) values(:market_date, :stock_name, :symbol, :deal_stock, :deal_price, :open, :high, :low, :close, :ups_and_downs, "
-                    ":volume) ")
-
-                new_data = (today,
-                            row.stock_name,
-                            row.symbol,
-                            row.deal_stock,
-                            row.deal_price,
-                            row.open,
-                            row.high,
-                            row.low,
-                            row.close,
-                            row.ups_and_downs,
-                            row.volume)
-
-                cursor = connection.cursor()
-                cursor.execute(sql, new_data)
-
-                # Commit to confirm any changes
-                connection.commit()
-
-                if index % 100 == 0:
-                    time.sleep(1)
-        except cx_Oracle.Error as e:
-            CoreException.show_error(e, traceback.format_exc())
-            """ Rollback to discard them """
-            connection.rollback()
-        finally:
-            log.debug(f"Time: {time.time() - start}")
+        # Release the cursor of the connection
+        log.debug(f"Release connection's cursor: {hex(id(cursor))}")
+        cursor.close()
+        # Release the connection to the pool
+        log.debug(f"Release pool's connection: {hex(id(connection))}")
+        pool.release(connection)
+        # Close the pool
+        # pool.close()
 
 
 @interceptor
