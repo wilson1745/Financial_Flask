@@ -6,7 +6,7 @@ from pandas import DataFrame
 from calculations import log
 from calculations.common.utils import constants
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 from projects.common.utils.date_utils import DateUtils
 
 
@@ -36,7 +36,7 @@ from projects.common.utils.date_utils import DateUtils
 @interceptor
 def getDayKBar(sid, yearmonth) -> DataFrame:
     """ 取得股票日Ｋ  """
-    data = dailystock_repo.findMonthBySymbolAndYearMonth(sid, yearmonth)
+    data = DailyStockRepo.find_month_by_symbol_and_yearmonth(sid, yearmonth)
     return data
 
     # # 透過API取得資料

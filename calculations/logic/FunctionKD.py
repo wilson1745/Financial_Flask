@@ -9,10 +9,10 @@ import pandas
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import CLOSE_PRICE, D, HIGHEST_PRICE, K, LOWEST_PRICE
+from calculations.common.utils.constants import CLOSE, D, HIGH, K, LOW
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailyfund_repo import DailyFundRepo
 
 
 @interceptor
@@ -24,9 +24,9 @@ def GetDataKD(data) -> DataFrame:
     Step3:計算D: D = 2/3 X (昨日D值) + 1/3 X (今日K值)
     """
     data_df = data.copy()
-    data_df["min"] = data_df[LOWEST_PRICE].rolling(9).min()
-    data_df["max"] = data_df[HIGHEST_PRICE].rolling(9).max()
-    data_df["RSV"] = (data_df[CLOSE_PRICE] - data_df["min"]) / (data_df["max"] - data_df["min"])
+    data_df["min"] = data_df[LOW].rolling(9).min()
+    data_df["max"] = data_df[HIGH].rolling(9).max()
+    data_df["RSV"] = (data_df[CLOSE] - data_df["min"]) / (data_df["max"] - data_df["min"])
     data_df = data_df.dropna()
 
     # 計算K
@@ -67,9 +67,9 @@ def GenKD(data: DataFrame):
     Step3:計算D: D = 2/3 X (昨日D值) + 1/3 X (今日K值)
     """
     data_df = data.copy()
-    data_df["min"] = data_df[LOWEST_PRICE].rolling(9).min()
-    data_df["max"] = data_df[HIGHEST_PRICE].rolling(9).max()
-    data_df["RSV"] = (data_df[CLOSE_PRICE] - data_df["min"]) / (data_df["max"] - data_df["min"])
+    data_df["min"] = data_df[LOW].rolling(9).min()
+    data_df["max"] = data_df[HIGH].rolling(9).max()
+    data_df["RSV"] = (data_df[CLOSE] - data_df["min"]) / (data_df["max"] - data_df["min"])
     data_df = data_df.dropna()
 
     # 計算K (K的初始值定為50)
@@ -102,11 +102,12 @@ def GenKD(data: DataFrame):
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     try:
-        stock = dailystock_repo.findBySymbol("2330")
-        # result = GetDataKD(stock)
-        # log.debug(result.tail())
+        # stock = DailyStockRepo.find_by_symbol("2330")
+
+        stock = DailyFundRepo.find_by_symbol('B15%2C086')
 
         GenKD(stock)
-        log.debug(stock.tail())
+        # log.debug(stock.tail())
+        log.debug(stock)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

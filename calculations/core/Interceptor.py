@@ -8,7 +8,7 @@ def interceptor(func):
 
     @wraps(func)
     def wrapper(*func_args, **func_kwargs):
-        # Extract function arguments
+        # # Extract function arguments
         # arg_names = func.__code__.co_varnames[:func.__code__.co_argcount]
         # args = func_args[:len(arg_names)]
         # defaults = func.__defaults__ or ()
@@ -19,8 +19,8 @@ def interceptor(func):
         #     params.append(('args', args))
         # if func_kwargs:
         #     params.append(('kwargs', func_kwargs))
-
-        # Log before and after the function
+        #
+        # # Log before and after the function
         # log.info(f"====== Start {func.__name__} {'(' + ', '.join('%s = %r' % p for p in params) + ' )'}======")
         log.info(f"====== Start {func.__name__} ======")
         result = func(*func_args, **func_kwargs)

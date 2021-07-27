@@ -8,9 +8,9 @@ import pandas as pd
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import CLOSE_PRICE, HIGHEST_PRICE, LOWEST_PRICE, MARKET_DATE, OPENING_PRICE, POS, VOLUME
+from calculations.common.utils.constants import CLOSE, HIGH, LOW, MARKET_DATE, OPEN, POS, VOLUME
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 @interceptor
@@ -27,11 +27,11 @@ def GetCross(df: DataFrame, fastPeriod: int = 5, slowPeriod: int = 15) -> DataFr
     :param fastPeriod 預設快線
     :param slowPeriod 預設慢線
     """
-    fastMA = f'MA{fastPeriod}'
-    slowMA = f'MA{slowPeriod}'
+    FAST_MA = f'MA{fastPeriod}'
+    SLOW_MA = f'MA{slowPeriod}'
 
-    df[fastMA] = df[CLOSE_PRICE].rolling(window=fastPeriod, center=False).mean().round(decimals=1)
-    df[slowMA] = df[CLOSE_PRICE].rolling(window=slowPeriod, center=False).mean().round(decimals=1)
+    df[FAST_MA] = df[CLOSE].rolling(window=fastPeriod, center=False).mean().round(decimals=1)
+    df[SLOW_MA] = df[CLOSE].rolling(window=slowPeriod, center=False).mean().round(decimals=1)
 
     # 處理(删除)空值
     # df.dropna()
@@ -39,10 +39,10 @@ def GetCross(df: DataFrame, fastPeriod: int = 5, slowPeriod: int = 15) -> DataFr
 
     # 持倉情況和交易信號判斷
     df[POS] = 0  # 初始化
-    df.loc[df[fastMA] >= df[slowMA], POS] = 1
-    df.loc[df[fastMA] < df[slowMA], POS] = -1
+    df.loc[df[FAST_MA] >= df[SLOW_MA], POS] = 1
+    df.loc[df[FAST_MA] < df[SLOW_MA], POS] = -1
     df[POS] = df[POS].shift(1).fillna(0)
-    log.debug(df)
+    # log.debug(df)
 
     return df
 
@@ -50,28 +50,28 @@ def GetCross(df: DataFrame, fastPeriod: int = 5, slowPeriod: int = 15) -> DataFr
 @interceptor
 def GetMaData(sid):
     """ 計算MA線 """
-    df = dailystock_repo.findBySymbol(sid)
+    df = DailyStockRepo.find_by_symbol(sid)
 
     # 清理資料並使用Date當作我們的索引值
     df.index = pd.to_datetime(df[MARKET_DATE])
     # log.debug(stock.index)
 
     # 需要成交股數、開盤價、最高價、最低價、收盤價的資料
-    df = df[[OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, VOLUME]]
+    df = df[[OPEN, HIGH, LOW, CLOSE, VOLUME]]
 
     # 分別計算7天,15天與30天的移動平均線
-    df["MA_7"] = MA(df[CLOSE_PRICE], 7)
+    df["MA_7"] = MA(df[CLOSE], 7)
     log.debug(df["MA_7"])
 
-    df["MA_15"] = MA(df[CLOSE_PRICE], 15)
+    df["MA_15"] = MA(df[CLOSE], 15)
     log.debug(df["MA_15"])
 
-    df["MA_30"] = MA(df[CLOSE_PRICE], 30)
+    df["MA_30"] = MA(df[CLOSE], 30)
     log.debug(df["MA_30"])
 
     # 指數移動平均線
-    df["EMA_12"] = df[CLOSE_PRICE].ewm(span=12).mean()
-    df["EMA_26"] = df[CLOSE_PRICE].ewm(span=26).mean()
+    df["EMA_12"] = df[CLOSE].ewm(span=12).mean()
+    df["EMA_26"] = df[CLOSE].ewm(span=26).mean()
 
     df["DIF"] = df["EMA_12"] - df["EMA_26"]
     df["DEM"] = df["DIF"].ewm(span=9).mean()
@@ -85,8 +85,8 @@ def GetMaData(sid):
     df["MA_30"].plot(ax=ax[0])
     df["EMA_12"].plot(ax=ax[1])
     df["EMA_26"].plot(ax=ax[1])
-    df[CLOSE_PRICE].plot(ax=ax[0])
-    df[CLOSE_PRICE].plot(ax=ax[1])
+    df[CLOSE].plot(ax=ax[0])
+    df[CLOSE].plot(ax=ax[1])
     ax[0].legend()
     ax[1].legend()
     df["DIF"].plot(ax=ax[2])

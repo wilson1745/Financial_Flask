@@ -13,12 +13,11 @@ from sklearn.metrics import auc, confusion_matrix, roc_curve
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 
 from calculations import log
-from calculations.common.utils import constants, dataframe_utils
+from calculations.common.utils import constants
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
-from calculations.repository import dailystock_repo
-from talib import abstract
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 if __name__ == "__main__":
     """ ------------------- App Start ------------------- """
@@ -29,7 +28,7 @@ if __name__ == "__main__":
         # end = DateUtils.today(Constants.YYYYMMDD)
         filePath = f"./files/{symbol}_{DateUtils.today(constants.YYYYMMDD)}"
 
-        df: DataFrame = dailystock_repo.findBySymbolAndMarketWithRange(symbol, start, end)
+        df: DataFrame = DailyStockRepo.find_by_symbol_and_market_with_range(symbol, start, end)
         df = DataFrameUtils.dfForTalib(df)
         # print(data)
 

@@ -6,6 +6,6 @@ pool = ConnectionPool().pool
 log.info("Initiallize OracleDB's AdwPool completely")
 
 if __name__ == "__main__":
-    log.info("repo 作為主程序啟動")
+    log.info("repository 作為主程序啟動")
 else:
-    log.info("repo 初始化")
+    log.info("repository 初始化")

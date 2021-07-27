@@ -1,7 +1,8 @@
 """
 ImportError: DLL load failed: The specified module could not be found.
 
-It says in the Pystan documentation that configuring a C++ compiler can be challenging on Windows. Following approach worked for me to install Pystan 2.17.1 and FBProphet 0.6:
+It says in the Pystan documentation that configuring a C++ compiler can be challenging on Windows. Following approach worked for me to install
+Pystan 2.17.1 and FBProphet 0.6:
 
 1. Install C++ compiler, mingw-w64 (http://mingw-w64.org/doku.php/download) -> I selected this one https://sourceforge.net/projects/mingw-w64/files/
 2. Add C:<MinGW_w64 installation directory>\bin to the PATH environment variable

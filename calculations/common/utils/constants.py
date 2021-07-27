@@ -10,6 +10,8 @@ DATA_NOT_EXIST = "Data %s does not exist"
 TWSE_MI_INDEX = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=%s&date=%s&type=%s"
 TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data"
 TWSE_INDUSTRY_INDEX = 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=%s'
+MONEYDJ_URL = 'https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s'
+CNYES_URL = 'https://fund.api.cnyes.com/fund/api/v1/funds/%s/nav?format=table&page=%s'
 
 # FUNDRICH
 FUNDRICH_INDEX = "https://www.fundrich.com.tw/fund/%s.html?id=%s"
@@ -32,10 +34,16 @@ HTML_PATH = "../files/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
 CSV_PATH = "../files/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
 CSV_FINAL_PATH = "../files/scrapy_files/STOCK_DAY_ALL_%s.csv"
 INDUSTRY_HTML_PATH = '../files/scrapy_files/INDUSTRY_PUBLIC.html'
+IMAGE_PATH = "../files/images/%s"
+RISING_SYMBOLS_PATH = "../files/RisingSymbols.txt"
 
 # Line Notify
 TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
+# 個人使用 or Riley使用
+# TOKEN_SENSATIONAL = TOKEN_NOTIFY
 TOKEN_SENSATIONAL = "hlFjUiKkT9jWw1FfnLAVgnwaWJ4CY5DzIg7J33X2vdc"
+TOKEN_FUNDS = "38rUaL90s5WlYdMwGTM1YKOQo69ZXBODzboJRmEr4aE"
+
 NOTIFY_LINK = "https://notify-api.line.me/api/notify"
 SELL = "sell"
 NORMAL = "normal"
@@ -60,13 +68,15 @@ STOCK_NAME = 'stock_name'
 SYMBOL = 'symbol'
 DEAL_STOCK = 'deal_stock'
 DEAL_PRICE = 'deal_price'
-OPENING_PRICE = 'opening_price'
-HIGHEST_PRICE = 'highest_price'
-LOWEST_PRICE = 'lowest_price'
-CLOSE_PRICE = 'close_price'
+OPEN = 'open'
+HIGH = 'high'
+LOW = 'low'
+CLOSE = 'close'
 UPS_AND_DOWNS = 'ups_and_downs'
 VOLUME = 'volume'
 CREATETIME = 'createtime'
+FIRST_URL = 'first_url'
+SECOND_URL = 'second_url'
 
 POS = 'POS'
 RSI = 'RSI'
@@ -75,23 +85,41 @@ K = 'K'
 D = 'D'
 K_D = 'K_D'
 
-OPEN = 'open'
-HIGH = 'high'
-LOW = 'low'
-CLOSE = 'close'
+# Bolling Band
+UPPER = 'upper'
+MIDDLE = 'middle'
+LOWER = 'lower'
+
+SGNL_B = 'sgnl_b'
+SGNL_S = 'sgnl_s'
 
 UPS_AND_DOWNS_PCT = 'ups_and_downs_pct'
 
+# CNYES headers
+TRADE_DATE = 'tradeDate'
+NAV = 'nav'
+CHANGE = 'change'
+CHANGE_PERCENT = 'changePercent'
+
 # DailyStock headers
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
-HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, CLOSE_PRICE, UPS_AND_DOWNS,
-             VOLUME, CREATETIME]
+HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPEN, HIGH, LOW, CLOSE, UPS_AND_DOWNS, VOLUME, CREATETIME]
 
-HEADER_ITEMFUND = ["證券代號", "證券名稱", "新增日期"]
-HEADER_ITEMFUND_E = [SYMBOL, STOCK_NAME, CREATETIME]
+HEADER_ITEMFUND = ["證券代號", "證券名稱", "新增日期", FIRST_URL, SECOND_URL]
+HEADER_ITEMFUND_E = [SYMBOL, STOCK_NAME, CREATETIME, FIRST_URL, SECOND_URL]
 
 HEADER_INDEX = ['指數', '收盤指數', '漲跌點數', '漲跌百分比(%)', '日期']
 HEADER_INDEX_E = [SYMBOL, CLOSE, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, MARKET_DATE]
 
+HEADERS_DF = ["日期", "證券名稱", "證券代號", "收盤價", "漲跌價差"]
+HEADERS_DF_E = [MARKET_DATE, STOCK_NAME, SYMBOL, CLOSE, UPS_AND_DOWNS, CREATETIME]
+
 SUCCESS = "%s 成功"
 FAIL = "%s 失敗"
+
+# SQL
+DS_INSERT = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, open, high, low, close, ups_and_downs) " \
+            "values(:market_date, :symbol, :stock_name, :deal_stock, :volume, :deal_price, :open, :high, :low, :close, :ups_and_downs) "
+
+DF_INSERT = "INSERT INTO dailyfund (market_date, stock_name, symbol, close, ups_and_downs) " \
+            "values(:market_date, :stock_name, :symbol, :close, :ups_and_downs) "

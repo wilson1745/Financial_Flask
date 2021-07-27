@@ -2,7 +2,7 @@
 from datetime import datetime
 
 from calculations.logic import FunctionMA, indicator
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 # 取得當天日期
 Date = datetime.now().strftime("%Y%m%d")
@@ -19,7 +19,7 @@ FastPeriod = 5
 SlowPeriod = 15
 
 # 進場判斷
-df = dailystock_repo.findBySymbol(Sid)
+df = DailyStockRepo.find_by_symbol(Sid)
 
 df = FunctionMA.GetCross(df, FastPeriod, SlowPeriod)
 
@@ -45,8 +45,9 @@ print(df.tail(10))
 #     qty = i['volume']
 #     check = KBar1M.Add(time, price, qty)
 #
-# HEADERS = ["market_date", "stock_name", "symbol", "deal_stock", "deal_price", "opening_price", "highest_price",
-#            "lowest_price", "close_price", "ups_and_downs", "volume", "createtime"]
+# HEADERS = [
+#     "market_date", "stock_name", "symbol", "deal_stock", "deal_price", "open", "high", "low", "close", "ups_and_downs", "volume", "createtime"
+# ]
 
 # Index = 0
 #

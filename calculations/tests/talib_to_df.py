@@ -3,10 +3,9 @@ import pandas as pd
 import talib
 from pandas import DataFrame
 from talib._ta_lib import MA_Type
-from talib import abstract
 
 from calculations.common.utils.dataframe_utils import DataFrameUtils
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -17,7 +16,7 @@ pd.set_option("display.unicode.east_asian_width", True)
 
 symbol = "2330"
 
-df: DataFrame = dailystock_repo.findBySymbol(symbol)
+df: DataFrame = DailyStockRepo.find_by_symbol(symbol)
 df = DataFrameUtils.dfForTalib(df)
 
 # 確認價量資料表 df 的值都是 float 格式

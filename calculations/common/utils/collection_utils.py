@@ -1,5 +1,4 @@
-from calculations.common.utils.constants import MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPENING_PRICE, HIGHEST_PRICE, LOWEST_PRICE, \
-    CLOSE_PRICE, UPS_AND_DOWNS, VOLUME
+from calculations.common.utils.constants import CLOSE, DEAL_PRICE, DEAL_STOCK, HIGH, LOW, MARKET_DATE, OPEN, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, VOLUME
 
 
 class CollectionUtils:
@@ -19,13 +18,13 @@ class CollectionUtils:
             elif data == "成交金額":
                 new_headers.append("total_price")
             elif data == "開盤價":
-                new_headers.append("open")
+                new_headers.append(OPEN)
             elif data == "最高價":
-                new_headers.append("high")
+                new_headers.append(HIGH)
             elif data == "最低價":
-                new_headers.append("low")
+                new_headers.append(LOW)
             elif data == "收盤價":
-                new_headers.append("close")
+                new_headers.append(CLOSE)
             elif data == "漲跌價差":
                 new_headers.append("spread")
             elif data == "成交筆數":
@@ -48,13 +47,13 @@ class CollectionUtils:
             elif data == "成交金額":
                 new_headers.append("total_price")
             elif data == "開盤價":
-                new_headers.append("open")
+                new_headers.append(OPEN)
             elif data == "最高價":
-                new_headers.append("high")
+                new_headers.append(HIGH)
             elif data == "最低價":
-                new_headers.append("low")
+                new_headers.append(LOW)
             elif data == "收盤價":
-                new_headers.append("close")
+                new_headers.append(CLOSE)
             elif data == "漲跌價差":
                 new_headers.append("spread")
             elif data == "成交筆數":
@@ -79,13 +78,13 @@ class CollectionUtils:
             elif data == "成交金額":
                 new_headers.append(DEAL_PRICE)
             elif data == "開盤價":
-                new_headers.append(OPENING_PRICE)
+                new_headers.append(OPEN)
             elif data == "最高價":
-                new_headers.append(HIGHEST_PRICE)
+                new_headers.append(HIGH)
             elif data == "最低價":
-                new_headers.append(LOWEST_PRICE)
+                new_headers.append(LOW)
             elif data == "收盤價":
-                new_headers.append(CLOSE_PRICE)
+                new_headers.append(CLOSE)
             elif data == "漲跌價差":
                 new_headers.append(UPS_AND_DOWNS)
             elif data == "成交筆數":
@@ -112,3 +111,22 @@ class CollectionUtils:
               stock_data.close,
               int(stock_data.volume.replace(",", "")),
               date)
+
+    @staticmethod
+    def header_fund(orignal_headers) -> list:
+        new_headers = []
+
+        for column in orignal_headers:
+            data = str(column)
+            if data == "日期":
+                new_headers.append(MARKET_DATE)
+            elif data == "證券名稱":
+                new_headers.append(STOCK_NAME)
+            elif data == "證券代號":
+                new_headers.append(SYMBOL)
+            elif data == "收盤價":
+                new_headers.append(CLOSE)
+            elif data == "漲跌價差":
+                new_headers.append(UPS_AND_DOWNS)
+
+        return new_headers

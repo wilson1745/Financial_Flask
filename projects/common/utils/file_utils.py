@@ -89,7 +89,7 @@ class FileUtils:
                     log.warning(f"Table not exist, maybe there is no data on {date}")
                 else:
                     table_last = table[len(table) - 1]
-                    rows = table_last.findAll("tr")
+                    rows = table_last.find_all("tr")
                     # rows = table_9.findAll("tbody")
 
                     filepath = (constants.CSV_PATH % date)
@@ -99,7 +99,7 @@ class FileUtils:
                             csv_row = []
 
                             if not index == 1:
-                                for cell in row.findAll(["td"]):
+                                for cell in row.find_all(["td"]):
                                     csv_row.append(cell.get_text())
                                 writer.writerow(csv_row)
 
@@ -160,14 +160,14 @@ class FileUtils:
                 log.warning(f"{filepath} table not exist, no data on {date}")
             else:
                 table_last = table[len(table) - 1]
-                rows = table_last.findAll("tr")
+                rows = table_last.find_all("tr")
 
                 list_row = []
                 for index, row in enumerate(rows):
                     # 設定一個array去接每個row
                     csv_row = []
                     if not index == 1:
-                        for cell in row.findAll(["td"]):
+                        for cell in row.find_all(["td"]):
                             csv_row.append(cell.get_text())
                         list_row.append(csv_row)
                 # log.debug(list_row)

@@ -11,10 +11,10 @@ import talib
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import CLOSE_PRICE, RSI
+from calculations.common.utils.constants import CLOSE, RSI
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 @interceptor
@@ -46,14 +46,14 @@ def plot(data):
 def GenRSI(data: DataFrame):
     """ 清理資料 成交股數、開盤價、最高價、最低價、收盤價的資料，並使用Date當作索引值 """
     # New
-    data[RSI] = talib.RSI(data[CLOSE_PRICE], timeperiod=12).round(2)
+    data[RSI] = talib.RSI(data[CLOSE], timeperiod=12).round(2)
 
     # Old
     # # stock.index = pd.to_datetime(stock["market_date"])
     # # stock.set_index(pd.todatetime(stock["market_date"], format="%Y/%m/%d"), inplace=True)
     #
     # """ No need to choose column (maybe???) """
-    # # data = data[["market_date", "stock_name", "symbol", "deal_stock", "opening_price", "highest_price", "lowest_price", "close_price"]]
+    # # data = data[["market_date", "stock_name", "symbol", "deal_stock", "open", "high", "low", "close"]]
     #
     # # stock["close_price"] = pd.to_numeric(stock["close_price"])
     # # stock = stock["2021-01-20":]
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     now = time.time()
     try:
         # Get history data
-        stock = dailystock_repo.findBySymbol("2330")
+        stock = DailyStockRepo.find_by_symbol("2330")
 
         # Generate RSI
         GenRSI(stock)

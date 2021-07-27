@@ -47,12 +47,12 @@ class IndustryUtils:
                         log.warning(f"Table not exist")
                     else:
                         table_last = table[0]
-                        rows = table_last.findAll('tr')
+                        rows = table_last.find_all('tr')
 
                         for index, row in enumerate(rows):
                             rows = []
                             if index > 1:
-                                for cell in row.findAll(['td']):
+                                for cell in row.find_all(['td']):
                                     rows.append(cell.get_text())
                                 # Add a new column (加上日期)
                                 rows.append(dateStr)
@@ -112,7 +112,7 @@ class IndustryUtils:
                     log.warning(f"Table not exist")
                 else:
                     table_last = table[len(table) - 1]
-                    rows = table_last.findAll('tr')
+                    rows = table_last.find_all('tr')
                     log.debug(rows[2:10])
         except Exception:
             raise

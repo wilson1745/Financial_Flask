@@ -23,12 +23,11 @@ def insert_connector_mysql(today, stock_data):
 
     for index, row in stock_data.iterrows():
         # 新增資料
-        sql = 'INSERT INTO financial_db.dailystock (market_date, stock_name, symbol, deal_stock, deal_price, ' \
-              'opening_price, highest_price, lowest_price, close_price, ups_and_downs, volume) values(%s,%s,%s,%s,%s,' \
-              '%s,%s,%s,%s,%s,%s); '
+        sql = 'INSERT INTO financial_db.dailystock (market_date, stock_name, symbol, deal_stock, deal_price, opening_price, highest_price, ' \
+              'lowest_price, close_price, ups_and_downs, volume) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); '
         new_data = (
-            today, row.stock_name, row.symbol, row.deal_stock, row.deal_price, row.opening_price, row.highest_price,
-            row.lowest_price, row.close_price, row.ups_and_downs, row.volume)
+            today, row.stock_name, row.symbol, row.deal_stock, row.deal_price, row.open, row.high, row.low, row.close, row.ups_and_downs, row.volume
+        )
 
         cursor = connection.cursor()
         cursor.execute(sql, new_data)
@@ -64,10 +63,10 @@ def insert_dailystock_mysql(today, stock_data) -> bool:
                         row.symbol,
                         row.deal_stock,
                         row.deal_price,
-                        row.opening_price,
-                        row.highest_price,
-                        row.lowest_price,
-                        row.close_price,
+                        row.open,
+                        row.high,
+                        row.low,
+                        row.close,
                         row.ups_and_downs,
                         row.volume
                     )
@@ -98,9 +97,8 @@ def saveDailystockBatch(today: str, stock_data: list):
         password="1qaz2wsx")  # 密碼
 
     try:
-        sql = "INSERT INTO financial_db.dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, opening_price, " \
-              "highest_price, lowest_price, close_price, ups_and_downs) " \
-              "values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+        sql = "INSERT INTO financial_db.dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, opening_price, highest_price, " \
+              "lowest_price, close_price, ups_and_downs) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
         cursor = conn.cursor()
         cursor.executemany(sql, stock_data)
 

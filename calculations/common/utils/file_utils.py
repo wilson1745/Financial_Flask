@@ -2,13 +2,16 @@ import csv
 import inspect
 import json
 import os
+import re
 import socket
 import time
 import traceback
 import urllib
+from datetime import datetime
 from urllib.request import urlopen
 
 import pandas
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from pandas import DataFrame
@@ -16,10 +19,19 @@ from pandas import DataFrame
 from calculations import log
 from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
+from calculations.common.utils.constants import CLOSE, UPS_AND_DOWNS, HEADERS_DF, HTML_PATH, TWSE_MI_INDEX
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from projects.common.utils.date_utils import DateUtils
+
+pd.set_option("display.width", None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.unicode.ambiguous_as_wide", True)
+pd.set_option("display.unicode.east_asian_width", True)
+
 
 # 設置socket默認的等待時間，在read超時後能自動往下繼續跑
 socket.setdefaulttimeout(10)
@@ -35,11 +47,10 @@ class FileUtils:
         log.debug(f"saveToOriginalHtml: {date}")
 
         try:
-            html_path = (constants.HTML_PATH % date)
-
             """ 不管如何都儲存成html檔 => 證交所2pm才會有當天資料 """
             # ex: url = f"https://www.twse.com.tw/exchangeReport/MI_INDEX?response=html&date={date}&type=ALLBUT0999"
-            url = (constants.TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
+            html_path = (HTML_PATH % date)
+            url = (TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
             log.debug(f"Url: {url}")
 
             response = urllib.request.urlopen(url, timeout=60)
@@ -65,7 +76,7 @@ class FileUtils:
 
     @staticmethod
     @interceptor
-    async def saveToOriginalCsv(date: str):
+    def saveToOriginalCsv(date: str):
         """ Save CSV """
         log.debug(f"saveToOriginalCsv: {date}")
         filepath = (constants.HTML_PATH % date)
@@ -83,17 +94,17 @@ class FileUtils:
                     log.warning(f"Table not exist, maybe there is no data on {date}")
                 else:
                     table_last = table[len(table) - 1]
-                    rows = table_last.findAll("tr")
+                    rows = table_last.find_all("tr")
                     # rows = table_9.findAll("tbody")
 
-                    filepath = (constants.CSV_PATH % date)
-                    with open(filepath, "w", newline="", encoding="UTF-8") as f:
+                    csv_filepath = (constants.CSV_PATH % date)
+                    with open(csv_filepath, "w", newline="", encoding="UTF-8") as f:
                         writer = csv.writer(f)
                         for index, row in enumerate(rows):
                             csv_row = []
 
                             if not index == 1:
-                                for cell in row.findAll(["td"]):
+                                for cell in row.find_all(["td"]):
                                     csv_row.append(cell.get_text())
                                 writer.writerow(csv_row)
         except Exception:
@@ -101,7 +112,7 @@ class FileUtils:
 
     @staticmethod
     @interceptor
-    async def saveToFinalCsvAndReturnDf(date: str) -> DataFrame:
+    def saveToFinalCsvAndReturnDf(date: str) -> DataFrame:
         """ Save final CSV and return pandas dataframe """
         log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
 
@@ -174,3 +185,117 @@ class FileUtils:
             return content
         except Exception:
             raise
+
+    @classmethod
+    @interceptor
+    def fundHtmlDaily(cls, row) -> DataFrame:
+        """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
+        log.debug(f"fundReadHtmlRange: {row}")
+        try:
+            url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
+            log.debug(f"Url: {url}")
+
+            response = urllib.request.urlopen(url, timeout=60)
+            soup = BeautifulSoup(response, 'html.parser')
+            table = soup.findAll('table')
+
+            if not table:
+                log.warning(f"Table not exist")
+            else:
+                # second_url could lead to the different table (for now)
+                table_new = table[5] if 'yp010000' == row.second_url else table[4]
+                td_tags = table_new.find_all(class_=re.compile("^t3"))
+                # log.debug(td_tags)
+
+                data_row = []
+                csv_row = []
+                for index, cell in enumerate(td_tags):
+                    csv_row.append(cell.get_text())
+                    """
+                    1. csv_row[0] => date (淨值日期)
+                    2. csv_row[1] => close price (最新淨值)
+                    3. csv_row[2] => ups and downs (每日變化)
+                    """
+                    if index == 2:
+                        csv_row[0] = csv_row[0].replace('/', '')
+                        csv_row.insert(1, row.stock_name)
+                        csv_row.insert(2, row.symbol)
+                        data_row.append(csv_row)
+                        csv_row = []
+                # log.debug(data_row)
+
+                # FIXME 轉換dataframe
+                # df = DataFrameUtils.gen_fund_df(data_row)
+
+                df = pd.DataFrame(data_row)
+                df.columns = CollectionUtils.header_fund(HEADERS_DF)
+                df = df.astype({CLOSE: float, UPS_AND_DOWNS: float})
+                df[UPS_AND_DOWNS] = df[CLOSE] - df[CLOSE].shift(-1, axis=0)
+                df.fillna(0, inplace=True)
+
+                return df
+        except requests.exceptions.ConnectionError as connError:
+            CoreException.show_error(connError, traceback.format_exc())
+            time.sleep(10)
+            cls.fundHtmlRange(row)
+        except Exception:
+            raise
+        finally:
+            time.sleep(5)
+
+    @classmethod
+    @interceptor
+    def fundHtmlRange(cls, row) -> DataFrame:
+        """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
+        log.debug(f"fundReadHtmlRange: {row}")
+        try:
+            url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
+            log.debug(f"Url: {url}")
+
+            response = urllib.request.urlopen(url, timeout=60)
+            soup = BeautifulSoup(response, 'html.parser')
+            table = soup.findAll('table')
+
+            if not table:
+                log.warning(f"Table not exist")
+            else:
+                # second_url could lead to the different table (for now)
+                table_new = table[6] if 'yp010000' == row.second_url else table[5]
+                td_tags = table_new.find_all(class_=re.compile("^t3"))
+
+                data_row = []
+                csv_row = []
+                year = datetime.now().year
+                for index, cell in enumerate(td_tags):
+                    csv_row.append(cell.get_text())
+                    """
+                    1. csv_row[0] => date (淨值日期)
+                    2. csv_row[1] => close price (最新淨值)
+                    """
+                    if index % 2 != 0:
+                        csv_row[0] = str(year) + csv_row[0].replace('/', '')
+                        csv_row.insert(1, row.stock_name)
+                        csv_row.insert(2, row.symbol)
+                        csv_row.insert(4, 0)
+                        data_row.append(csv_row)
+                        csv_row = []
+                # log.debug(data_row)
+
+                # FIXME 轉換dataframe
+                # df = DataFrameUtils.gen_fund_df(data_row)
+
+                df = pd.DataFrame(data_row)
+                df.columns = CollectionUtils.header_fund(HEADERS_DF)
+                df = df.astype({CLOSE: float, UPS_AND_DOWNS: float})
+                df[UPS_AND_DOWNS] = df[CLOSE] - df[CLOSE].shift(-1, axis=0)
+                df.fillna(0, inplace=True)
+
+                return df
+        except requests.exceptions.ConnectionError as connError:
+            CoreException.show_error(connError, traceback.format_exc())
+            time.sleep(10)
+            cls.fundHtmlRange(row)
+        except Exception:
+            raise
+        finally:
+            time.sleep(5)

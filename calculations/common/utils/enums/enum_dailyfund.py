@@ -1,19 +1,9 @@
 from enum import Enum
 
 
-class DailyStock(Enum):
-    MARKET_DATE = ("market_date", "日期")
-    STOCK_NAME = ("stock_name", "證券名稱")
-    SYMBOL = ("symbol", "證券代號")
-    DEAL_STOCK = ("deal_stock", "成交股數")
-    DEAL_PRICE = ("deal_price", "成交金額")
-    OPEN = ("open", "開盤價")
-    HIGH = ("high", "最高價")
-    LOW = ("low", "最低價")
-    CLOSE = ("close", "收盤價")
-    UPS_AND_DOWNS = ("ups_and_downs", "漲跌價差")
-    VOLUME = ("volume", "成交筆數")
-    CREATETIME = ("createtime", "新增日期")
+class FundGroup(Enum):
+    DAILY = ("daily", "單日")
+    RANGE = ("range", "週期")
 
     def __new__(cls, *values):
         obj = object.__new__(cls)
