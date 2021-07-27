@@ -6,17 +6,15 @@ import time
 import traceback
 
 import pandas as pd
-from pandas import DataFrame
 import talib
+from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import CLOSE, HIGH, LOW, K, D
-from calculations.common.utils.dataframe_utils import DataFrameUtils
+from calculations.common.utils.constants import CLOSE, D, K
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.logic import FunctionKD, FunctionRSI
-from calculations.repository import dailystock_repo
-from talib import abstract
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -43,7 +41,7 @@ if __name__ == "__main__":
         RILEY_STOCKS = ["0050", "0056", "00881", "1802", "2303", "2330", "2324", "2375", "2401", "2441", "2617", "3231", "6116"]
 
         symbol = '2497'
-        df: DataFrame = dailystock_repo.findBySymbol(symbol)
+        df: DataFrame = DailyStockRepo.find_by_symbol(symbol)
 
         # 計算KD, RSI
         FunctionRSI.GenRSI(df)

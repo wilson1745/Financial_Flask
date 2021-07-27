@@ -14,7 +14,7 @@ from calculations import log
 from calculations.common.utils.constants import CLOSE, RSI
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 @interceptor
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     now = time.time()
     try:
         # Get history data
-        stock = dailystock_repo.findBySymbol("2330")
+        stock = DailyStockRepo.find_by_symbol("2330")
 
         # Generate RSI
         GenRSI(stock)

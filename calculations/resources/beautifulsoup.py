@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import asyncio
 import os
 import sys
 import time
@@ -10,19 +9,19 @@ import pandas
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
-from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
+from calculations.common.utils.constants import DS_INSERT, CSV_FINAL_PATH, DATA_NOT_EXIST
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 @interceptor
-async def save_to_final_csv(date):
+def save_to_final_csv(date):
     """ Save CSV and get df """
-    df = await FileUtils.saveToFinalCsvAndReturnDf(date)
+    df = FileUtils.saveToFinalCsvAndReturnDf(date)
 
     """ Save data """
     if df.empty:
@@ -32,8 +31,8 @@ async def save_to_final_csv(date):
 
 
 @interceptor
-async def save_data_direct(date):
-    filepath = (constants.CSV_FINAL_PATH % date)
+def save_data_direct(date):
+    filepath = (CSV_FINAL_PATH % date)
 
     if os.path.isfile(filepath):
         df = pandas.read_csv(filepath)
@@ -41,7 +40,7 @@ async def save_data_direct(date):
         df.columns = new_headers
         save_db(date, df)
     else:
-        log.warn(constants.DATA_NOT_EXIST % date)
+        log.warn(DATA_NOT_EXIST % date)
 
 
 @interceptor
@@ -59,7 +58,8 @@ def save_db(date, df):
     # OracleSqlUtils.save_data_to_db(date, df)
 
     """ Oracle with fast batch """
-    dailystock_repo.saveToDbBatch(date, df.to_numpy().tolist())
+    # dailystock_repo.saveToDbBatch(df.to_numpy().tolist())
+    DailyStockRepo.bulk_save(DS_INSERT, df.to_numpy().tolist())
 
     log.info(f"end saving db ({DateUtils.today()}): {date}")
 
@@ -82,13 +82,13 @@ def main():
         1. await Separate the loop in case the "urllib.request.urlopen(url)" fail the get the response
         2. async
         """
-        """ Convert to csv file """
-        tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
-        asyncio.run(asyncio.wait(tasks1))
-
-        """ Save to db with MI_INDEX_ALLBUT0999 csv file """
-        tasks2 = [save_to_final_csv(data_date) for data_date in date_list]
-        asyncio.run(asyncio.wait(tasks2))
+        # """ Convert to csv file """
+        # tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
+        # asyncio.run(asyncio.wait(tasks1))
+        #
+        # """ Save to db with MI_INDEX_ALLBUT0999 csv file """
+        # tasks2 = [save_to_final_csv(data_date) for data_date in date_list]
+        # asyncio.run(asyncio.wait(tasks2))
 
         """ Save to db with STOCK_DAY_ALL csv file """
         # tasks3 = [save_data_direct(data_date) for data_date in date_list]

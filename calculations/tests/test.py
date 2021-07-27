@@ -1,25 +1,47 @@
-import csv
-import multiprocessing
-import os
 import time
 import traceback
-from multiprocessing.pool import ThreadPool as Pool
-
-import numpy as np
-import pandas as pd
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.date_utils import DateUtils
+from calculations.common.utils.enums.enum_test import Fingers
 from calculations.common.utils.exceptions.core_exception import CoreException
+
+
+def test_ex():
+    try:
+        stdd = "ddd"
+        raise Exception("...........")
+    except Exception as ex:
+        CoreException.show_error(ex, traceback.format_exc())
+
 
 if __name__ == "__main__":
     """ ------------------- App Start ------------------- """
     now = time.time()
     ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
     try:
-        log.info(f"Test start")
+        test_ex()
+
+        # print(Fingers.THUMB.__str__())
+        # print(Fingers('1'))
+
+        # log.info(f"Test start")
+        #
+        # lines = ['1439', '2025', '2029', '2032', '2206', '2428', '2478', '2603', '2614', '2712', '2851', '2881B', '3443', '3661', '3714', '4739',
+        #          '6213', '6257', '6414', '6451', '6672', '6756', '8482', '910322', '911622', '9937']
+        #
+        # ig = IndustryGroup.getAllInMaps()
+        #
+        # # for l in lines:
+        #
+        # print(IndustryGroup("綜合"))
+        # print(ig)
+
+        # df = dailystock_repo.findAllSymbolGroup()
+        #
+        # line_notify.arrangeNotify(df[SYMBOL].values.tolist(), NotifyGroup.getLineGroup())
+
         # filepath = (constants.CSV_PATH % "20210701")
         #
         # # Empty dataFrame

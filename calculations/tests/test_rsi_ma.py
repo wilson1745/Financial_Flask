@@ -2,7 +2,7 @@
 from datetime import datetime
 
 from calculations.logic import FunctionMA, indicator
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 # 取得當天日期
 Date = datetime.now().strftime("%Y%m%d")
@@ -19,7 +19,7 @@ FastPeriod = 5
 SlowPeriod = 15
 
 # 進場判斷
-df = dailystock_repo.findBySymbol(Sid)
+df = DailyStockRepo.find_by_symbol(Sid)
 
 df = FunctionMA.GetCross(df, FastPeriod, SlowPeriod)
 

@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import csv
 import multiprocessing
+import traceback
 from multiprocessing.pool import ThreadPool as Pool
 
 import pandas as pd
@@ -8,9 +9,9 @@ from pandas import DataFrame
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.collection_utils import CollectionUtils
-from calculations.common.utils.constants import CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADERS, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
-    UPS_AND_DOWNS_PCT, HEADERS_DF, CLOSE
+from calculations.common.utils.constants import CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, HEADERS_DF_E, HEADERS_T, MARKET_DATE, \
+    STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, LOW, CLOSE, HIGH
+from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 
 pd.set_option("display.width", None)
@@ -67,7 +68,7 @@ class DataFrameUtils:
             if row[2] and row[2] == '-':
                 if row[3] and row[3] != '0':
                     row[3] = row[2] + row[3]
-                # print(row)
+                # log.debug(row)
             return row
         else:
             log.warning(constants.DATA_NOT_EXIST % row)
@@ -173,7 +174,7 @@ class DataFrameUtils:
 
     @staticmethod
     @interceptor
-    def listDataRows(filepath):
+    def list_rows(filepath):
         try:
             with open(filepath, encoding="utf-8", errors="ignore") as csvfile:
                 # 讀取 CSV 檔案內容
@@ -198,14 +199,52 @@ class DataFrameUtils:
 
     @classmethod
     @interceptor
-    def genFundDf(cls, rows) -> DataFrame:
+    def gen_stock_df(cls, rows: list) -> DataFrame:
+        """ Generate pandas dataframe """
+        try:
+            df = pd.DataFrame(rows)
+            if df.empty:
+                log.warn("No data exist!")
+            else:
+                df.columns = HEADERS_T
+                df.index = pd.to_datetime(df['market_date'])
+                # log.debug(df)
+            return df
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
+            raise e
+
+    @classmethod
+    @interceptor
+    def gen_item_df(cls, rows: list) -> DataFrame:
+        """ Generate pandas dataframe """
+        try:
+            df = pd.DataFrame(rows)
+            if df.empty:
+                log.warn('No data exist!')
+            else:
+                df.columns = HEADER_ITEMFUND_E
+                df.index = df['symbol']
+                # log.debug(df)
+            return df
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
+            raise e
+
+    @classmethod
+    @interceptor
+    def gen_fund_df(cls, rows) -> DataFrame:
         """ 處理(基金)爬蟲完的資料 """
         try:
             df = pd.DataFrame(rows)
-            df.columns = HEADERS_DF
-            df.columns = CollectionUtils.header_fund(df.columns)
-            df = df.astype({CLOSE: float, UPS_AND_DOWNS: float})
-            # df = df.set_index(df[MARKET_DATE])
+            if df.empty:
+                log.warn("No data exist!")
+            else:
+                df.columns = HEADERS_DF_E
+                df = df.set_index(df[MARKET_DATE])
+                # 計算各種指標使用
+                df[LOW] = df[CLOSE]
+                df[HIGH] = df[CLOSE]
             return df
         except Exception:
             raise

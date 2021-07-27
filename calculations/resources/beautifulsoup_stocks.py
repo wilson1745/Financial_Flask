@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import asyncio
 import os
 import sys
 import time
@@ -10,20 +9,21 @@ from pandas import DataFrame
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
-from calculations.common.utils import constants
+from calculations.common.utils.constants import DS_INSERT, TOKEN_NOTIFY, SUCCESS, FAIL, YYYYMMDD_SLASH, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 from calculations.resources import line_notify
 
 
 @interceptor
-def save_db(date: str, df: DataFrame):
-    log.info(f"start saving db ({DateUtils.today()}): {date}")
+def save_db(df: DataFrame):
+    """ Save data into MySQL, Oracle Autonomous """
+    log.info(f"start saving db {DateUtils.today()}")
 
-    """ For Windows pyodbc MySQL """
+    """ MySQL Database """
     # MySqlUtils.insert_dailystock_mysql(date, df)
     # MySqlUtils.saveDailystockBatch(date, df)
 
@@ -31,51 +31,60 @@ def save_db(date: str, df: DataFrame):
     # MySqlUtils.insert_connector_mysql(date, df)
 
     """ Oracle Autonomous Database """
-    # OracleSqlUtils.save_data_to_db(date, df)
+    # DailyStockRepo.save(DS_INSERT, df.to_numpy().tolist())
 
-    """ Oracle with fast batch """
-    dailystock_repo.saveToDbBatch(date, df.to_numpy().tolist())
+    """ Oracle Autonomous Database (fast batch) """
+    DailyStockRepo.bulk_save(DS_INSERT, df.to_numpy().tolist())
 
-    log.info(f"end saving db ({DateUtils.today()}): {date}")
+    log.info(f"end saving db {DateUtils.today()}")
 
 
 @interceptor
-async def main():
-    date = DateUtils.today(constants.YYYYMMDD)
-    log.info(f"start ({DateUtils.today()}): {date}")
+def main_daily() -> DataFrame:
+    """ 台股DailyStock抓蟲的主程式 """
+    now = time.time()
+    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
+    fileName = os.path.basename(__file__)
+    date = DateUtils.today(YYYYMMDD)
 
-    """ Save as HTML file """
-    FileUtils.saveToOriginalHtml(date)
+    # 有資料才使用Line notify
+    try:
+        log.info(f"start ({DateUtils.today()}): {date}")
 
-    """ Convert to csv file """
-    await asyncio.create_task(FileUtils.saveToOriginalCsv(date))
+        """ Save as HTML file """
+        FileUtils.saveToOriginalHtml(date)
 
-    """ Save to db with MI_INDEX_ALLBUT0999 csv file """
-    df = await asyncio.create_task(FileUtils.saveToFinalCsvAndReturnDf(date))
+        """ Convert to csv file """
+        FileUtils.saveToOriginalCsv(date)
 
-    """ Save data """
-    if df.empty:
-        log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({date}) df is None")
-    else:
-        save_db(date, df)
+        """ Save to db with MI_INDEX_ALLBUT0999 csv file """
+        df = FileUtils.saveToFinalCsvAndReturnDf(date)
 
-    log.info(f"end ({DateUtils.today()}): {date}")
+        log.info(f"end ({DateUtils.today()}): {date}")
+        line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
+        return df
+    except Exception:
+        line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
+        raise
+    finally:
+        log.debug(f"Time consuming: {time.time() - now}")
+        log.debug(f"End of {fileName}")
+
+
+@interceptor
+def main():
+    try:
+        df = main_daily()
+
+        """ Save data """
+        if df.empty:
+            log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
+        else:
+            save_db(df)
+    except Exception as e:
+        CoreException.show_error(e, traceback.format_exc())
 
 
 if __name__ == "__main__":
     """ ------------------- App Start ------------------- """
-    now = time.time()
-    ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
-    fileName = os.path.basename(__file__)
-
-    # 有資料才使用Line notify
-    try:
-        asyncio.run(main())
-
-        line_notify.sendMsg([ms, constants.SUCCESS % fileName], constants.TOKEN_NOTIFY)
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
-        line_notify.sendMsg([ms, constants.FAIL % fileName], constants.TOKEN_NOTIFY)
-    finally:
-        log.debug(f"Time consuming: {time.time() - now}")
-        log.debug(f"End of {fileName}")
+    main()

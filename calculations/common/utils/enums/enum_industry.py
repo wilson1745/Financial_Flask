@@ -24,17 +24,15 @@ class IndustryGroup(Enum):
     COMPREHENSIVE = ("98", "綜合")
     OTHER = ("99", "其他")
 
-    # def __init__(self, caption, value):
-    #     self.caption = caption
-    #     self.value = value
-
     def __new__(cls, *values):
         obj = object.__new__(cls)
+
         # first value is canonical value
         obj._value_ = values[0]
-        # for other_value in values[1:]:
-        #     cls._value2member_map_[other_value] = obj
+        for other_value in values[1:]:
+            cls._value2member_map_[other_value] = obj
         obj._all_values = values
+
         return obj
 
     def __repr__(self):
@@ -51,6 +49,17 @@ class IndustryGroup(Enum):
     @classmethod
     def __values__(cls):
         return [m.value for m in cls]
+
+    # @classmethod
+    # def getByCaption(cls, caption: str):
+    #    return [member for name, member in cls.__members__.items() if member._all_values[0] == caption]
+
+    @classmethod
+    def getAllInMaps(cls) -> dict:
+        ob = {}
+        for m in cls:
+            ob[m] = []
+        return ob
 
     # @property
     def getCaption(self) -> str:

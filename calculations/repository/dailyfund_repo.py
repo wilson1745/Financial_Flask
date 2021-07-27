@@ -1,101 +1,49 @@
-import time
-import traceback
+import multiprocessing
+from multiprocessing.pool import ThreadPool
 
-import cx_Oracle
-import pandas as pd
+from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.utils.constants import DF_INSERT
+from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.core.Interceptor import interceptor
-from calculations.repository import pool
+from calculations.repository.interfaces.irepository import IRepository
 from projects.common.constants import DATA_NOT_EXIST
 
-pd.set_option("display.width", None)
-pd.set_option('display.max_colwidth', None)
-pd.set_option("display.max_columns", None)
-pd.set_option("display.max_rows", None)
-pd.set_option("display.unicode.ambiguous_as_wide", True)
-pd.set_option("display.unicode.east_asian_width", True)
 
+class DailyFundRepo(IRepository):
+    """ Table DAILYFUND """
 
-@interceptor
-def query(sql: str, params=None) -> list:
-    """ These pool params are suitable for Apache Pre-fork MPM """
-    # Use the pooled connection
-    log.debug(f"Current pool: {pool}")
-    connection = pool.acquire()
-    cursor = connection.cursor()
+    @classmethod
+    @interceptor
+    def __check_exist(cls, row):
+        """ Filter data if exist """
+        return row if not len(cls.find_top_by_marketdate_symbol(row[0], row[2])) > 0 else None
 
-    try:
-        log.debug(f"connection: {connection}")
-        log.debug(f"cursor: {cursor}")
-        log.debug(f"Sql: {sql}")
-        log.debug(f"Params: {params}")
+    @classmethod
+    @interceptor
+    def find_by_symbol(cls, symbol: str) -> DataFrame:
+        sql = f"SELECT * FROM DAILYFUND d WHERE d.SYMBOL = '{symbol}' ORDER BY d.MARKET_DATE ASC "
+        datas = super().query(sql=sql)
+        return DataFrameUtils.gen_fund_df(datas)
 
-        rs = cursor.execute(sql) if not params else cursor.execute(sql, params)
-        data = rs.fetchall()
+    @classmethod
+    @interceptor
+    def find_top_by_marketdate_symbol(cls, market_date: str, symbol: str):
+        """ find_top_by_marketdate_symbol """
+        sql = f"SELECT * FROM DAILYFUND d WHERE d.MARKET_DATE = '{market_date}' AND SYMBOL = '{symbol}' AND rownum = 1 "
+        return super().query(sql=sql)
 
-        return data
-    except cx_Oracle.Error as e:
-        CoreException.show_error(e, traceback.format_exc())
-        raise e
-    finally:
-        # Release the cursor of the connection
-        log.debug(f"Release connection's cursor: {hex(id(cursor))}")
-        cursor.close()
-        # Release the connection to the pool
-        log.debug(f"Release pool's connection: {hex(id(connection))}")
-        pool.release(connection)
-        # Close the pool
-        # pool.close()
+    @classmethod
+    @interceptor
+    def check_and_save(cls, datas: list):
+        """ Check DB data one by one """
+        pools = ThreadPool(multiprocessing.cpu_count() - 1)
+        new_datas = pools.map(func=cls.__check_exist,
+                              iterable=datas)
+        # log.debug(new_datas)
 
-
-@interceptor
-def findTopOne(market_date: str, symbol: str):
-    sql = f"SELECT * FROM DAILYFUND d WHERE d.MARKET_DATE = '{market_date}' AND SYMBOL = '{symbol}' AND rownum = 1 "
-    datas = query(sql)
-    return datas
-
-
-@interceptor
-def saveToDbBatch(datas: list):
-    """ Save to Oracle Autonomous DB with bulk insert => fast """
-    start = time.time()
-    log.debug(f"today: {start}, stock_data size:{len(datas)}")
-
-    # Use the pooled connection
-    log.debug(f"Current pool: {pool}")
-    connection = pool.acquire()
-    cursor = connection.cursor()
-    try:
-        sql = "INSERT INTO dailyfund (market_date, stock_name, symbol, close, ups_and_downs) " \
-              "values(:market_date, :stock_name, :symbol, :close, :ups_and_downs) "
-
-        cursor.executemany(sql, datas)
-        connection.commit()
-    except cx_Oracle.Error as e:
-        CoreException.show_error(e, traceback.format_exc())
-        """ Rollback to discard them """
-        connection.rollback()
-    finally:
-        log.debug(f"Time: {time.time() - start}")
-        # Release the cursor of the connection
-        log.debug(f"Release connection's cursor: {hex(id(cursor))}")
-        cursor.close()
-        # Release the connection to the pool
-        log.debug(f"Release pool's connection: {hex(id(connection))}")
-        pool.release(connection)
-        # Close the pool
-        # pool.close()
-
-
-@interceptor
-def checkAndSave(data_map: map):
-    """ Check DB data one by one """
-    new_datas = [row for row in data_map if not len(findTopOne(row.market_date, row.symbol)) > 0]
-    # log.debug(new_datas)
-
-    if len(new_datas) > 0:
-        saveToDbBatch(new_datas)
-    else:
-        log.warning(DATA_NOT_EXIST)
+        if len(new_datas) > 0:
+            super().bulk_save(DF_INSERT, list(filter(None, new_datas)))
+        else:
+            log.warning(DATA_NOT_EXIST)

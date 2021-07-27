@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from calculations.common.utils.constants import CLOSE, MARKET_DATE, SYMBOL
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 @interceptor
@@ -17,7 +17,7 @@ def main_start():
     # Get data with all symbols
     stocks_dict = {}
     for symbol in symbols:
-        stocks_dict.update({symbol: dailystock_repo.findBySymbol(symbol)})
+        stocks_dict.update({symbol: DailyStockRepo.find_by_symbol(symbol)})
 
     # Generate key
     for key in stocks_dict.keys():

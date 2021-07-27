@@ -15,15 +15,14 @@ from pandas.core.indexing import _iLocIndexer
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
-from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE, D, K, K_D, MARKET_DATE, RSI, RSI_Y, SGNL_B, SGNL_S, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, \
-    UPS_AND_DOWNS_PCT
+from calculations.common.utils.constants import CLOSE, D, DATA_NOT_EXIST, FAIL, IMAGE_PATH, K, K_D, MARKET_DATE, NOTIFY_LINK, RILEY_STOCKS, RSI, \
+    RSI_Y, SGNL_B, SGNL_S, STOCK_NAME, SUCCESS, SYMBOL, TOKEN_NOTIFY, TOKEN_SENSATIONAL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, YYYYMMDD, YYYYMMDD_SLASH
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.logic import FunctionBollingBand, FunctionKD, FunctionMA, FunctionRSI
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 def __msgArrow(value: float) -> str:
@@ -40,7 +39,7 @@ def __genStringRow(row) -> str:
     """ 建立每隻股票的格式 """
     rowStr = ""
     rowStr += f"\n名稱：{row[STOCK_NAME]} ({row[SYMBOL]})"
-    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
+    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
     rowStr += f"\n收盤價：{row[CLOSE]}"
     rowStr += f"\nRSI(12)值：{row[RSI]}%"
     rowStr += f"\nRSI較昨日：{'↑' if row[RSI_Y] > 0 else '↓'}{row[RSI_Y]}%"
@@ -52,7 +51,7 @@ def __genStringRow(row) -> str:
 def __genIndustryRow(row) -> str:
     rowStr = ""
     rowStr += f"\n指數：{row[SYMBOL]}"
-    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], constants.YYYYMMDD, constants.YYYYMMDD_SLASH)}"
+    rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
     rowStr += f"\n收盤指數：{row[CLOSE]}"
     rowStr += f"\n漲跌點數：{__msgArrow(row[UPS_AND_DOWNS])}"
     rowStr += f"\n漲跌百分比(%)：{__msgArrow(row[UPS_AND_DOWNS_PCT])}%"
@@ -60,13 +59,13 @@ def __genIndustryRow(row) -> str:
 
 
 @interceptor
-def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
+def sendMsg(msg: list, token=TOKEN_SENSATIONAL):
     """ Sending message through Line client """
     try:
         log.debug(f"sendMsg msg: {msg}")
 
         headers = {
-            # "Authorization": "Bearer " + constants.TOKEN_NOTIFY,
+            # "Authorization": "Bearer " + TOKEN_NOTIFY,
             "Authorization": "Bearer " + token,
             "Content-Type": "application/x-www-form-urlencoded"
         }
@@ -74,7 +73,7 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
             "message": ("\n".join(msg))
         }
 
-        response = requests.post(constants.NOTIFY_LINK, headers=headers, params=params, timeout=60)
+        response = requests.post(NOTIFY_LINK, headers=headers, params=params, timeout=60)
 
         """
         200 => success
@@ -95,24 +94,25 @@ def sendMsg(msg: list, token=constants.TOKEN_SENSATIONAL):
     except Exception as ex:
         CoreException.show_error(ex, traceback.format_exc())
         time.sleep(10)
+        raise ex
     finally:
         time.sleep(2)
 
 
 @interceptor
-def sendImg(img: str, text: str, token=constants.TOKEN_SENSATIONAL):
+def sendImg(img: str, text: str, token=TOKEN_SENSATIONAL):
     """ Sending picture through Line client """
     try:
         headers = {
             "Authorization": "Bearer " + token,
         }
         data = ({
-            'message': [f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)} {text}! 👍"]
+            'message': [f"{DateUtils.default_msg(YYYYMMDD_SLASH)} {text}! 👍"]
         })
         file = {
-            'imageFile': open((constants.IMAGE_PATH % img), 'rb')
+            'imageFile': open((IMAGE_PATH % img), 'rb')
         }
-        response = requests.post(constants.NOTIFY_LINK, headers=headers, files=file, data=data, timeout=60)
+        response = requests.post(NOTIFY_LINK, headers=headers, files=file, data=data, timeout=60)
 
         """
         200 => success
@@ -128,6 +128,7 @@ def sendImg(img: str, text: str, token=constants.TOKEN_SENSATIONAL):
     except Exception as ex:
         CoreException.show_error(ex, traceback.format_exc())
         time.sleep(10)
+        raise ex
     finally:
         time.sleep(2)
 
@@ -140,7 +141,7 @@ def sendNotify(stockDict: dict):
 
     key: NotifyGroup
     for key in stockDict:
-        default = f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)}{key.getValue()}"
+        default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{key.getValue()}"
         msg = [default]
 
         if len(stockDict[key]) > 0:
@@ -164,7 +165,7 @@ def sendNotify(stockDict: dict):
 
 @interceptor
 def sendIndustry(df: DataFrame):
-    default = f"{DateUtils.default_msg(constants.YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
+    default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
     msg = [default]
 
     if not df.empty:
@@ -191,7 +192,7 @@ def sendIndustry(df: DataFrame):
 @interceptor
 def genNotifyData(symbol: str):
     log.debug(f"Start genNotifyStr: {symbol} at {datetime.now()} ")
-    data = dailystock_repo.findBySymbol(symbol)
+    data = DailyStockRepo.find_by_symbol(symbol)
     FunctionRSI.GenRSI(data)
     FunctionKD.GenKD(data)
 
@@ -217,7 +218,7 @@ def genNotifyData(symbol: str):
 
         return row
     else:
-        log.warning(constants.DATA_NOT_EXIST % symbol)
+        log.warning(DATA_NOT_EXIST % symbol)
         return None
 
 
@@ -284,25 +285,47 @@ def arrangeNotify(symbols: list = None, stockDict: dict = None):
                         stockDict[NotifyGroup.POTENTIAL].append(row)
 
                 # 送出Line Notify
-                sendNotify(stockDict)
+                # sendNotify(stockDict)
+                return stockDict
     except Exception:
         raise
 
 
-if __name__ == "__main__":
-    """ ------------------- App Start ------------------- """
+@interceptor
+def main_daily() -> dict:
+    """ Line DailyStock通知的主程式 """
     now = time.time()
-    ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
+    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
+    fileName = os.path.basename(__file__)
 
     try:
-        stocks = constants.RILEY_STOCKS
+        stocks = RILEY_STOCKS
         log.debug(f"Symbols: {stocks}")
-        arrangeNotify(stocks, NotifyGroup.getLineGroup())
+
+        stock_dict = NotifyGroup.getLineGroup()
+        arrangeNotify(stocks, stock_dict)
 
         # sendImg('Complete3.png')
-        sendMsg([ms, constants.SUCCESS % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
-        sendMsg([ms, constants.FAIL % os.path.basename(__file__)], constants.TOKEN_NOTIFY)
+        sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
+        return stock_dict
+    except Exception:
+        sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
+        raise
     finally:
         log.debug(f"Time consuming: {time.time() - now}")
+
+
+@interceptor
+def main():
+    try:
+        stock_dict = main_daily()
+
+        """ 送出Line Notify """
+        sendNotify(stock_dict)
+    except Exception as e:
+        CoreException.show_error(e, traceback.format_exc())
+
+
+if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
+    main()

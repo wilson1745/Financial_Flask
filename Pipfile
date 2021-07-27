@@ -9,6 +9,7 @@ flasgger = "*"
 flask-marshmallow = "==0.14.0"
 cx-oracle = "==8.1.0"
 pandas = "*"
+aenum = "*"
 
 [dev-packages]
 

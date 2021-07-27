@@ -19,7 +19,7 @@ from calculations.common.utils.constants import CLOSE, D, K, MIDDLE, SGNL_B, SGN
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 from calculations.resources import line_notify
 
 
@@ -48,7 +48,7 @@ def main():
     symbols = ["0050", "0056", "00881", "1802", "2303"]
 
     pools = Pool(multiprocessing.cpu_count() - 1)
-    results = pools.map(func=dailystock_repo.findBySymbol, iterable=symbols)
+    results = pools.map(func=DailyStockRepo.find_by_symbol, iterable=symbols)
     print(results)
 
 

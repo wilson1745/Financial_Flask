@@ -11,6 +11,7 @@ from datetime import datetime
 from urllib.request import urlopen
 
 import pandas
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from pandas import DataFrame
@@ -18,11 +19,19 @@ from pandas import DataFrame
 from calculations import log
 from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
-from calculations.common.utils.constants import CLOSE, UPS_AND_DOWNS
+from calculations.common.utils.constants import CLOSE, UPS_AND_DOWNS, HEADERS_DF, HTML_PATH, TWSE_MI_INDEX
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from projects.common.utils.date_utils import DateUtils
+
+pd.set_option("display.width", None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.unicode.ambiguous_as_wide", True)
+pd.set_option("display.unicode.east_asian_width", True)
+
 
 # 設置socket默認的等待時間，在read超時後能自動往下繼續跑
 socket.setdefaulttimeout(10)
@@ -38,11 +47,10 @@ class FileUtils:
         log.debug(f"saveToOriginalHtml: {date}")
 
         try:
-            html_path = (constants.HTML_PATH % date)
-
             """ 不管如何都儲存成html檔 => 證交所2pm才會有當天資料 """
             # ex: url = f"https://www.twse.com.tw/exchangeReport/MI_INDEX?response=html&date={date}&type=ALLBUT0999"
-            url = (constants.TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
+            html_path = (HTML_PATH % date)
+            url = (TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
             log.debug(f"Url: {url}")
 
             response = urllib.request.urlopen(url, timeout=60)
@@ -68,7 +76,7 @@ class FileUtils:
 
     @staticmethod
     @interceptor
-    async def saveToOriginalCsv(date: str):
+    def saveToOriginalCsv(date: str):
         """ Save CSV """
         log.debug(f"saveToOriginalCsv: {date}")
         filepath = (constants.HTML_PATH % date)
@@ -86,7 +94,7 @@ class FileUtils:
                     log.warning(f"Table not exist, maybe there is no data on {date}")
                 else:
                     table_last = table[len(table) - 1]
-                    rows = table_last.findAll("tr")
+                    rows = table_last.find_all("tr")
                     # rows = table_9.findAll("tbody")
 
                     csv_filepath = (constants.CSV_PATH % date)
@@ -96,7 +104,7 @@ class FileUtils:
                             csv_row = []
 
                             if not index == 1:
-                                for cell in row.findAll(["td"]):
+                                for cell in row.find_all(["td"]):
                                     csv_row.append(cell.get_text())
                                 writer.writerow(csv_row)
         except Exception:
@@ -104,7 +112,7 @@ class FileUtils:
 
     @staticmethod
     @interceptor
-    async def saveToFinalCsvAndReturnDf(date: str) -> DataFrame:
+    def saveToFinalCsvAndReturnDf(date: str) -> DataFrame:
         """ Save final CSV and return pandas dataframe """
         log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
 
@@ -216,8 +224,15 @@ class FileUtils:
                         csv_row = []
                 # log.debug(data_row)
 
-                # 轉換dataframe
-                df = DataFrameUtils.genFundDf(data_row)
+                # FIXME 轉換dataframe
+                # df = DataFrameUtils.gen_fund_df(data_row)
+
+                df = pd.DataFrame(data_row)
+                df.columns = CollectionUtils.header_fund(HEADERS_DF)
+                df = df.astype({CLOSE: float, UPS_AND_DOWNS: float})
+                df[UPS_AND_DOWNS] = df[CLOSE] - df[CLOSE].shift(-1, axis=0)
+                df.fillna(0, inplace=True)
+
                 return df
         except requests.exceptions.ConnectionError as connError:
             CoreException.show_error(connError, traceback.format_exc())
@@ -266,10 +281,15 @@ class FileUtils:
                         csv_row = []
                 # log.debug(data_row)
 
-                # 轉換dataframe
-                df = DataFrameUtils.genFundDf(data_row)
+                # FIXME 轉換dataframe
+                # df = DataFrameUtils.gen_fund_df(data_row)
+
+                df = pd.DataFrame(data_row)
+                df.columns = CollectionUtils.header_fund(HEADERS_DF)
+                df = df.astype({CLOSE: float, UPS_AND_DOWNS: float})
                 df[UPS_AND_DOWNS] = df[CLOSE] - df[CLOSE].shift(-1, axis=0)
                 df.fillna(0, inplace=True)
+
                 return df
         except requests.exceptions.ConnectionError as connError:
             CoreException.show_error(connError, traceback.format_exc())

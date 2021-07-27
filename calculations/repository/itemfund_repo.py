@@ -1,17 +1,15 @@
 # -*- coding: UTF-8 -*-
-import socket
 import time
 import traceback
 
-import cx_Oracle
 import pandas as pd
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import HEADER_ITEMFUND_E
+from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository import pool
+from calculations.repository.interfaces.irepository import IRepository
 
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
@@ -20,72 +18,30 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.unicode.ambiguous_as_wide', True)
 pd.set_option('display.unicode.east_asian_width', True)
 
-# 設置socket默認的等待時間，在read超時後能自動往下繼續跑
-socket.setdefaulttimeout(10)
 
+class ItemFundRepo(IRepository):
+    """ Table ITEMFUND """
 
-@interceptor
-def genDataFrame(datas: list) -> DataFrame:
-    """ Generate pandas dataframe """
-    try:
-        df = pd.DataFrame(datas)
-        if df.empty:
-            log.warn('No data exist!')
-        else:
-            df.columns = HEADER_ITEMFUND_E
-            df.index = df['symbol']
-            # log.debug(df)
+    @classmethod
+    @interceptor
+    def find_all(cls) -> DataFrame:
+        sql = f"SELECT * FROM ITEMFUND i ORDER BY i.SYMBOL ASC "
+        datas = super().query(sql=sql)
+        return DataFrameUtils.gen_item_df(datas)
 
-        return df
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
-        raise e
-
-
-@interceptor
-def query(sql: str, params=None) -> list:
-    """ These pool params are suitable for Apache Pre-fork MPM """
-    log.debug(f"Current pool: {pool}")
-    connection = pool.acquire()
-
-    try:
-        # Use the pooled connection
-        cursor = connection.cursor()
-        log.debug(f"connection.cursor(): {cursor}")
-        log.debug(f"Sql: {sql}")
-        log.debug(f"Params: {params}")
-
-        rs = cursor.execute(sql) if not params else cursor.execute(sql, params)
-        data = rs.fetchall()
-        cursor.close()
-
-        return data
-    except cx_Oracle.Error as e:
-        CoreException.show_error(e, traceback.format_exc())
-        raise e
-    finally:
-        # Release the connection to the pool
-        log.debug(f"Release pool's connection: {hex(id(connection))}")
-        pool.release(connection)
-        # Close the pool
-        # pool.close()
-
-
-@interceptor
-def findAll() -> DataFrame:
-    sql = f"SELECT * FROM ITEMFUND i ORDER BY i.SYMBOL ASC "
-    datas = query(sql)
-    df = genDataFrame(datas)
-    return df
+    @classmethod
+    @interceptor
+    def find_first_url_is_null(cls) -> DataFrame:
+        sql = f"SELECT * FROM ITEMFUND i WHERE i.FIRST_URL IS NULL ORDER BY i.SYMBOL ASC  "
+        datas = super().query(sql=sql)
+        return DataFrameUtils.gen_item_df(datas)
 
 
 if __name__ == "__main__":
     """ ------------------- App Start ------------------- """
     now = time.time()
-
     try:
-        # day = DateUtils.today(Constants.YYYYMMDD)
-        result = findAll()
+        result = ItemFundRepo.find_all()
         log.debug(result)
     except Exception as main_e:
         CoreException.show_error(main_e, traceback.format_exc())

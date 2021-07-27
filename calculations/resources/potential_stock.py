@@ -10,52 +10,51 @@ import os
 import sys
 import time
 import traceback
-from multiprocessing.pool import ThreadPool as Pool
+from functools import partial
+from multiprocessing.pool import ThreadPool
 
 import pandas as pd
-from pandas import DataFrame
 
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
-from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE, SYMBOL
+from calculations.common.utils.constants import CLOSE, SYMBOL, YYYYMMDD_SLASH, YYYYMMDD, SUCCESS, TOKEN_NOTIFY, FAIL
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 from calculations.resources import line_notify
 
 
+# @interceptor
+# def cal_dropdown_rate(df: DataFrame):
+#     """ 計算近n年最大下跌幅度 """
+#     dropdown = (df.cummax() - df).max() / df.max() * 100
+#     # print(dropdown)
+#
+#     # 計算近n年報酬率
+#     profit = (df.iloc[-1] / df.iloc[0] - 1) * 100
+#     # log.debug(profit)
+#
+#     # 計算近n年標準差(波動率)
+#     std = (df / df.shift()).std() * 200
+#     # log.debug(std)
+#
+#     """
+#     波動率 < 2％：波動率越大代表股價變化幅度越大，我們只選波動率小的股票
+#     獲利 > 10%：近三年報酬率大於10的股票
+#     最大下跌幅度 < 50%：下跌幅度也不能太大
+#     """
+#     constraint = std[std < 0.02].index & profit[profit > 10].index & dropdown[dropdown < 50].index
+#     # constraint = profit[profit > 10].index & dropdown[dropdown < 50].index
+#     # log.debug(constraint)
+#     return constraint
+
+
 @interceptor
-def cal_dropdown_rate(df: DataFrame):
-    """ 計算近n年最大下跌幅度 """
-    dropdown = (df.cummax() - df).max() / df.max() * 100
-    # print(dropdown)
-
-    # 計算近n年報酬率
-    profit = (df.iloc[-1] / df.iloc[0] - 1) * 100
-    # log.debug(profit)
-
-    # 計算近n年標準差(波動率)
-    std = (df / df.shift()).std() * 200
-    # log.debug(std)
-
-    """
-    波動率 < 2％：波動率越大代表股價變化幅度越大，我們只選波動率小的股票
-    獲利 > 10%：近三年報酬率大於10的股票
-    最大下跌幅度 < 50%：下跌幅度也不能太大
-    """
-    constraint = std[std < 0.02].index & profit[profit > 10].index & dropdown[dropdown < 50].index
-    # constraint = profit[profit > 10].index & dropdown[dropdown < 50].index
-    # log.debug(constraint)
-    return constraint
-
-
-@interceptor
-def crawl_price(dateP: str):
-    df = dailystock_repo.findLikeYear(dateP)
+def crawl_price(data, dateP: str):
+    df = DailyStockRepo.find_like_year(dateP)
     if not df.empty:
         df.reset_index(drop=True, inplace=True)
         df = df.set_index(SYMBOL)
@@ -63,14 +62,16 @@ def crawl_price(dateP: str):
 
 
 @interceptor
-def rising_curve(n):
-    return (close60.iloc[-n] + close60.iloc[-1]) / 2 > close60.iloc[-int((n + 1) / 2)]
+def rising_curve(close60, n):
+    result = (close60.iloc[-n] + close60.iloc[-1]) / 2 > close60.iloc[-int((n + 1) / 2)]
+    return result
 
 
-if __name__ == "__main__":
-    """ ------------------- App Start ------------------- """
+@interceptor
+def main_daily():
+    """ Potential DailyStock主的程式 """
     now = time.time()
-    ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
+    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
     data: dict = {}
     fileName = os.path.basename(__file__)
 
@@ -80,9 +81,8 @@ if __name__ == "__main__":
         n_days = 200
 
         while len(dateList) < n_days:
-            dateStr = datetime.datetime.strftime(date, constants.YYYYMMDD)
+            dateStr = datetime.datetime.strftime(date, YYYYMMDD)
             dateList.append(dateStr)
-
             # 減一天
             date -= datetime.timedelta(days=1)
 
@@ -90,8 +90,10 @@ if __name__ == "__main__":
         log.debug(f"dateList: {dateList}")
 
         """ Do not use all my processing power """
-        pools = Pool(multiprocessing.cpu_count() - 1)
-        pools.map(func=crawl_price, iterable=dateList)
+        pools = ThreadPool(multiprocessing.cpu_count() - 1)
+        partial_func = partial(crawl_price, data)
+        pools.map(func=partial_func,
+                  iterable=dateList)
 
         # Sort order by market_date
         data = collections.OrderedDict(sorted(data.items()))
@@ -106,26 +108,106 @@ if __name__ == "__main__":
         close60 = close.rolling(60, min_periods=10).mean()
 
         rising = (
-                rising_curve(5) &
-                rising_curve(10) &
-                rising_curve(20) &
-                rising_curve(60) &
-                rising_curve(30) &
-                rising_curve(40) &
-                rising_curve(50) &
+                rising_curve(close60, 5) &
+                rising_curve(close60, 10) &
+                rising_curve(close60, 20) &
+                rising_curve(close60, 60) &
+                rising_curve(close60, 30) &
+                rising_curve(close60, 40) &
+                rising_curve(close60, 50) &
                 (close.iloc[-1] > close60.iloc[-1])
         )
 
         potentials: list = rising[rising].index
         log.debug(f"Rising stock: {potentials}")
 
-        # Send Line Notify
-        line_notify.arrangeNotify(potentials, NotifyGroup.getPotentialGroup())
+        stock_dict = NotifyGroup.getPotentialGroup()
+        line_notify.arrangeNotify(potentials, stock_dict)
 
-        line_notify.sendMsg([ms, constants.SUCCESS % fileName], constants.TOKEN_NOTIFY)
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
-        line_notify.sendMsg([ms, constants.FAIL % fileName], constants.TOKEN_NOTIFY)
+        line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
+        return stock_dict
+    except Exception:
+        line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
+        raise
     finally:
         log.debug(f"Time consuming: {time.time() - now}")
         log.debug(f"End of {fileName}")
+
+
+@interceptor
+def main():
+    try:
+        stock_dict = main_daily()
+
+        # Send Line Notify
+        line_notify.sendNotify(stock_dict)
+    except Exception as e:
+        CoreException.show_error(e, traceback.format_exc())
+
+
+if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
+    main()
+
+    # now = time.time()
+    # ms = DateUtils.default_msg(YYYYMMDD_SLASH)
+    # data: dict = {}
+    # fileName = os.path.basename(__file__)
+    #
+    # try:
+    #     dateList = []
+    #     date = datetime.datetime.now()
+    #     n_days = 200
+    #
+    #     while len(dateList) < n_days:
+    #         dateStr = datetime.datetime.strftime(date, YYYYMMDD)
+    #         dateList.append(dateStr)
+    #
+    #         # 減一天
+    #         date -= datetime.timedelta(days=1)
+    #
+    #     dateList.reverse()
+    #     log.debug(f"dateList: {dateList}")
+    #
+    #     """ Do not use all my processing power """
+    #     pools = ThreadPool(multiprocessing.cpu_count() - 1)
+    #     pools.map(func=crawl_price, iterable=dateList)
+    #
+    #     # Sort order by market_date
+    #     data = collections.OrderedDict(sorted(data.items()))
+    #     # log.debug(f"data: {data}")
+    #
+    #     # 扁平化資料面
+    #     close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
+    #     close.index = pd.to_datetime(close.index)
+    #     # log.debug(f"close: {close}")
+    #
+    #     # 60 days moving average
+    #     close60 = close.rolling(60, min_periods=10).mean()
+    #
+    #     rising = (
+    #             rising_curve(5) &
+    #             rising_curve(10) &
+    #             rising_curve(20) &
+    #             rising_curve(60) &
+    #             rising_curve(30) &
+    #             rising_curve(40) &
+    #             rising_curve(50) &
+    #             (close.iloc[-1] > close60.iloc[-1])
+    #     )
+    #
+    #     potentials: list = rising[rising].index
+    #     log.debug(f"Rising stock: {potentials}")
+    #
+    #     # Send Line Notify
+    #     stock_dict = NotifyGroup.getPotentialGroup()
+    #     line_notify.arrangeNotify(potentials, stock_dict)
+    #     line_notify.sendNotify(stock_dict)
+    #
+    #     line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
+    # except Exception as e:
+    #     CoreException.show_error(e, traceback.format_exc())
+    #     line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
+    # finally:
+    #     log.debug(f"Time consuming: {time.time() - now}")
+    #     log.debug(f"End of {fileName}")

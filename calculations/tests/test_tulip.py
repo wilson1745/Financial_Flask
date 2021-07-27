@@ -1,16 +1,11 @@
 # -*- coding: UTF-8 -*-
-import numpy as np
 import pandas as pd
 import talib
-import tulipy
 from pandas import DataFrame
-from talib._ta_lib import MA_Type
-from talib import abstract
 
-from calculations.common.utils.constants import CLOSE, RSI, D, K, HIGH, LOW
-from calculations.common.utils.dataframe_utils import DataFrameUtils
+from calculations.common.utils.constants import CLOSE, RSI
 from calculations.logic import FunctionKD
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -20,7 +15,7 @@ pd.set_option("display.unicode.ambiguous_as_wide", True)
 pd.set_option("display.unicode.east_asian_width", True)
 
 symbol = "2330"
-df: DataFrame = dailystock_repo.findBySymbol(symbol)
+df: DataFrame = DailyStockRepo.find_by_symbol(symbol)
 # df = DataFrameUtils.dfForTalib(df)
 # df = df.astype('float')
 

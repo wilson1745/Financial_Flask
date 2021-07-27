@@ -11,6 +11,7 @@ TWSE_MI_INDEX = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=%s&dat
 TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data"
 TWSE_INDUSTRY_INDEX = 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=%s'
 MONEYDJ_URL = 'https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s'
+CNYES_URL = 'https://fund.api.cnyes.com/fund/api/v1/funds/%s/nav?format=table&page=%s'
 
 # FUNDRICH
 FUNDRICH_INDEX = "https://www.fundrich.com.tw/fund/%s.html?id=%s"
@@ -41,6 +42,8 @@ TOKEN_NOTIFY = "kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX"
 # 個人使用 or Riley使用
 # TOKEN_SENSATIONAL = TOKEN_NOTIFY
 TOKEN_SENSATIONAL = "hlFjUiKkT9jWw1FfnLAVgnwaWJ4CY5DzIg7J33X2vdc"
+TOKEN_FUNDS = "38rUaL90s5WlYdMwGTM1YKOQo69ZXBODzboJRmEr4aE"
+
 NOTIFY_LINK = "https://notify-api.line.me/api/notify"
 SELL = "sell"
 NORMAL = "normal"
@@ -92,6 +95,12 @@ SGNL_S = 'sgnl_s'
 
 UPS_AND_DOWNS_PCT = 'ups_and_downs_pct'
 
+# CNYES headers
+TRADE_DATE = 'tradeDate'
+NAV = 'nav'
+CHANGE = 'change'
+CHANGE_PERCENT = 'changePercent'
+
 # DailyStock headers
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
 HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPEN, HIGH, LOW, CLOSE, UPS_AND_DOWNS, VOLUME, CREATETIME]
@@ -107,3 +116,10 @@ HEADERS_DF_E = [MARKET_DATE, STOCK_NAME, SYMBOL, CLOSE, UPS_AND_DOWNS, CREATETIM
 
 SUCCESS = "%s 成功"
 FAIL = "%s 失敗"
+
+# SQL
+DS_INSERT = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, open, high, low, close, ups_and_downs) " \
+            "values(:market_date, :symbol, :stock_name, :deal_stock, :volume, :deal_price, :open, :high, :low, :close, :ups_and_downs) "
+
+DF_INSERT = "INSERT INTO dailyfund (market_date, stock_name, symbol, close, ups_and_downs) " \
+            "values(:market_date, :stock_name, :symbol, :close, :ups_and_downs) "

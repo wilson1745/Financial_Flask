@@ -12,7 +12,7 @@ from calculations import log
 from calculations.common.utils.constants import CLOSE, D, HIGH, K, LOW
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailyfund_repo import DailyFundRepo
 
 
 @interceptor
@@ -102,9 +102,9 @@ def GenKD(data: DataFrame):
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     try:
-        stock = dailystock_repo.findBySymbol("2330")
-        # result = GetDataKD(stock)
-        # log.debug(result.tail())
+        # stock = DailyStockRepo.find_by_symbol("2330")
+
+        stock = DailyFundRepo.find_by_symbol('B15%2C086')
 
         GenKD(stock)
         # log.debug(stock.tail())

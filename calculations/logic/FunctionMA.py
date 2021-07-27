@@ -10,7 +10,7 @@ from pandas import DataFrame
 from calculations import log
 from calculations.common.utils.constants import CLOSE, HIGH, LOW, MARKET_DATE, OPEN, POS, VOLUME
 from calculations.core.Interceptor import interceptor
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 @interceptor
@@ -50,7 +50,7 @@ def GetCross(df: DataFrame, fastPeriod: int = 5, slowPeriod: int = 15) -> DataFr
 @interceptor
 def GetMaData(sid):
     """ 計算MA線 """
-    df = dailystock_repo.findBySymbol(sid)
+    df = DailyStockRepo.find_by_symbol(sid)
 
     # 清理資料並使用Date當作我們的索引值
     df.index = pd.to_datetime(df[MARKET_DATE])

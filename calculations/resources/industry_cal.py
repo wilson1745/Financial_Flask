@@ -3,16 +3,18 @@ import sys
 import time
 import traceback
 
+from pandas import DataFrame
+
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
-from calculations.common.utils import constants
-from calculations.common.utils.constants import RISING_SYMBOLS_PATH
+from calculations.common.utils.constants import FAIL, RISING_SYMBOLS_PATH, SUCCESS, TOKEN_NOTIFY, YYYYMMDD_SLASH
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_industry import IndustryGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.industry_utils import IndustryUtils
+from calculations.core.Interceptor import interceptor
 from calculations.resources import line_notify
 
 
@@ -58,10 +60,11 @@ def defineIndustry():
     # print(enum_list)  # prints [1, 2]
 
 
-if __name__ == "__main__":
-    """------------------- App Start -------------------"""
+@interceptor
+def main_daily() -> DataFrame:
+    """ 台股產業現況的主程式 """
     now = time.time()
-    ms = DateUtils.default_msg(constants.YYYYMMDD_SLASH)
+    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
     fileName = os.path.basename(__file__)
 
     try:
@@ -75,11 +78,28 @@ if __name__ == "__main__":
         """ 抓出有潛力的stock """
         industry_rows = IndustryUtils.readPriceIndex()
         df = DataFrameUtils.genIndustryDf(industry_rows)
-        line_notify.sendIndustry(df)
 
-        line_notify.sendMsg([ms, constants.SUCCESS % fileName], constants.TOKEN_NOTIFY)
-    except Exception as main_e:
-        CoreException.show_error(main_e, traceback.format_exc())
-        line_notify.sendMsg([ms, constants.FAIL % fileName], constants.TOKEN_NOTIFY)
+        line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
+        return df
+    except Exception:
+        line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
+        raise
     finally:
         log.debug(f"Time consuming: {time.time() - now}")
+        log.debug(f"End of {fileName}")
+
+
+@interceptor
+def main():
+    try:
+        df = main_daily()
+
+        """ 送出Line Notify """
+        line_notify.sendIndustry(df)
+    except Exception as e:
+        CoreException.show_error(e, traceback.format_exc())
+
+
+if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
+    main()

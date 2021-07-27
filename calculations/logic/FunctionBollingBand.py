@@ -8,7 +8,7 @@ from calculations.common.utils.constants import CLOSE, D, K, LOWER, MIDDLE, SGNL
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.logic import FunctionKD
-from calculations.repository import dailystock_repo
+from calculations.repository.dailystock_repo import DailyStockRepo
 
 
 @interceptor
@@ -40,7 +40,7 @@ def BuySellSignal(df: DataFrame):
 # ------------------- App Start -------------------
 if __name__ == "__main__":
     try:
-        stock_df = dailystock_repo.findBySymbol("2324")
+        stock_df = DailyStockRepo.find_by_symbol("2324")
         # result = GetDataKD(stock)
         # log.debug(result.tail())
 
