@@ -2,15 +2,15 @@
 import csv
 import multiprocessing
 import traceback
-from multiprocessing.pool import ThreadPool as Pool
+from multiprocessing.pool import ThreadPool, ThreadPool as Pool
 
 import pandas as pd
 from pandas import DataFrame
 
 from calculations import log
 from calculations.common.utils import constants
-from calculations.common.utils.constants import CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, HEADERS_DF_E, HEADERS_T, MARKET_DATE, \
-    STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, LOW, CLOSE, HIGH
+from calculations.common.utils.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, HEADERS_DF_E, HEADERS_T, \
+    HIGH, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 
@@ -25,33 +25,9 @@ pd.set_option("display.unicode.east_asian_width", True)
 class DataFrameUtils:
     """ TODO add description """
 
-    @staticmethod
-    @interceptor
-    def __dailystockRow(row):
-        """ 處理爬蟲完的資料 (DailyStock) """
-        if row:
-            row[0] = row[0].replace('=', '')
-            row[0] = row[0].replace('"', '')
-            row[2] = row[2].replace(',', '')
-            row[3] = row[3].replace(',', '')
-            row[4] = row[4].replace(',', '')
-            row[5] = row[5].replace(',', '')
-            row[6] = row[6].replace(',', '')
-            row[7] = row[7].replace(',', '')
-            row[8] = row[8].replace(',', '')
-            row[5] = row[5].replace('--', '0')
-            row[6] = row[6].replace('--', '0')
-            row[7] = row[7].replace('--', '0')
-            row[8] = row[8].replace('--', '0')
-
-            if row[9] and row[9] == '-':
-                if row[10] and row[10] != '0':
-                    row[10] = row[9] + row[10]
-                # print(row)
-            return row
-        else:
-            log.warning(constants.DATA_NOT_EXIST % row)
-            return None
+    def __init__(self):
+        """ Constructor """
+        pass
 
     @staticmethod
     @interceptor
@@ -76,18 +52,9 @@ class DataFrameUtils:
 
     @staticmethod
     @interceptor
-    def arrangeMiIndexHtml(rows: list) -> list:
-        """ 處理爬蟲完的資料 """
-        data_row = []
-
-        # 以迴圈輸出每一列
-        index = 0
-        for row in rows:
-            if index > 1:
-                data_row.append(row)
-            index = index + 1
-
-        for row in data_row:
+    def __dailys_tock_row(row):
+        """ 處理爬蟲完的資料 (DailyStock) """
+        if row:
             row[0] = row[0].replace('=', '')
             row[0] = row[0].replace('"', '')
             row[2] = row[2].replace(',', '')
@@ -105,6 +72,26 @@ class DataFrameUtils:
             if row[9] and row[9] == '-':
                 if row[10] and row[10] != '0':
                     row[10] = row[9] + row[10]
+                # log.debug(row)
+        else:
+            log.warning(constants.DATA_NOT_EXIST % row)
+
+    @classmethod
+    @interceptor
+    def __arrangeMiIndexHtml(cls, rows: list) -> list:
+        """ 處理爬蟲完的資料 """
+        data_row = []
+
+        # 輸出每一列(刪除前2行的資訊)
+        for index, row in enumerate(rows):
+            # log.debug(f"{index}: {value}")
+            if index > 1:
+                data_row.append(row)
+        # data_row = rows[2:]
+
+        pools = ThreadPool(multiprocessing.cpu_count() - 1)
+        pools.map(func=cls.__dailys_tock_row,
+                  iterable=data_row)
 
         return data_row
 
@@ -121,7 +108,7 @@ class DataFrameUtils:
             #                                  callback=CoreException.show,
             #                                  error_callback=CoreException.error)
 
-            data_row = cls.arrangeMiIndexHtml(rows)
+            data_row = cls.__arrangeMiIndexHtml(rows)
 
             # FIXME 這寫法有點笨...
             df = pd.DataFrame(data_row)
@@ -136,9 +123,7 @@ class DataFrameUtils:
 
             # 先儲存CSV
             df.columns = HEADERS
-            # df.to_csv((CSV_FINAL_PATH % date), index=False, header=True)
-            # df.columns = CollectionUtils.header_daily_stock(HEADERS)
-            log.debug(df)
+            # log.debug(df)
 
             return df
         except Exception:
@@ -235,16 +220,13 @@ class DataFrameUtils:
     @interceptor
     def gen_fund_df(cls, rows) -> DataFrame:
         """ 處理(基金)爬蟲完的資料 """
-        try:
-            df = pd.DataFrame(rows)
-            if df.empty:
-                log.warn("No data exist!")
-            else:
-                df.columns = HEADERS_DF_E
-                df = df.set_index(df[MARKET_DATE])
-                # 計算各種指標使用
-                df[LOW] = df[CLOSE]
-                df[HIGH] = df[CLOSE]
-            return df
-        except Exception:
-            raise
+        df = pd.DataFrame(rows)
+        if df.empty:
+            log.warn("No data exist!")
+        else:
+            df.columns = HEADERS_DF_E
+            df = df.set_index(df[MARKET_DATE])
+            # 計算各種指標使用
+            df[LOW] = df[CLOSE]
+            df[HIGH] = df[CLOSE]
+        return df

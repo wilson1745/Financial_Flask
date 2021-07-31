@@ -1,6 +1,4 @@
 # -*- coding: UTF-8 -*-
-import time
-import traceback
 
 import pandas as pd
 from pandas import DataFrame
@@ -9,7 +7,6 @@ from calculations import log
 from calculations.common.utils.constants import SYMBOL
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.enums.enum_yes_no import YesNo
-from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.repository.interfaces.irepository import IRepository
 
@@ -27,6 +24,7 @@ class DailyStockRepo(IRepository):
     @classmethod
     @interceptor
     def find_by_symbol(cls, symbol: str) -> DataFrame:
+        """ find_by_symbol """
         sql = f"SELECT * FROM DAILYSTOCK d WHERE d.SYMBOL = '{symbol}' ORDER BY d.MARKET_DATE ASC "
         datas = super().query(sql=sql)
         return DataFrameUtils.gen_stock_df(datas)
@@ -34,6 +32,7 @@ class DailyStockRepo(IRepository):
     @classmethod
     @interceptor
     def find_in_symbols(cls, params: list) -> DataFrame:
+        """ find_in_symbols """
         bindNames = [":" + str(i + 1) for i in range(len(params))]
         sql = "SELECT * FROM DAILYSTOCK d WHERE d.SYMBOL IN (%s) ORDER BY d.MARKET_DATE ASC " % (",".join(bindNames))
         datas = super().query(sql=sql, params=params)
@@ -42,6 +41,7 @@ class DailyStockRepo(IRepository):
     @classmethod
     @interceptor
     def find_month_by_symbol_and_yearmonth(cls, symbol: str, year_month: str) -> DataFrame:
+        """ find_month_by_symbol_and_yearmonth """
         sql = f"SELECT * FROM DAILYSTOCK d WHERE d.SYMBOL = '{symbol}' AND d.MARKET_DATE LIKE '{year_month}%' ORDER BY " \
               f"d.MARKET_DATE ASC "
         datas = super().query(sql=sql)
@@ -50,6 +50,7 @@ class DailyStockRepo(IRepository):
     @classmethod
     @interceptor
     def find_by_symbol_and_market_with_range(cls, symbol: str, start: str, end: str) -> DataFrame:
+        """ find_by_symbol_and_market_with_range """
         sql = f"SELECT * FROM DAILYSTOCK d WHERE d.SYMBOL = '{symbol}' AND d.MARKET_DATE >= '{start}' AND d.MARKET_DATE <= '{end}' ORDER BY " \
               f"d.MARKET_DATE ASC "
         datas = super().query(sql=sql)
@@ -67,7 +68,7 @@ class DailyStockRepo(IRepository):
     @classmethod
     @interceptor
     def find_like_year(cls, param: str) -> DataFrame:
-        """ FIXME """
+        """ find_like_year """
         sql = f"SELECT * FROM DAILYSTOCK d WHERE d.MARKET_DATE LIKE '{param}%' ORDER BY d.MARKET_DATE ASC "
         datas = super().query(sql=sql)
         return DataFrameUtils.gen_stock_df(datas)

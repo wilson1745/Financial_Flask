@@ -62,10 +62,10 @@ class IRepository:
             cursor.executemany(sql, datas)
             connection.commit()
         except cx_Oracle.Error as e:
-            CoreException.show_error(e, traceback.format_exc())
+            log.error(f"bulk_save cx_Oracle.Error: {e}")
             """ Rollback to discard them """
             connection.rollback()
-            raise
+            raise e
         finally:
             log.debug(f"Time: {time.time() - start}")
             log.debug(f"Release connection's cursor: {hex(id(cursor))}")

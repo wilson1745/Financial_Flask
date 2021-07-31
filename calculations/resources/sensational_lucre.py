@@ -5,45 +5,50 @@ import traceback
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import log
-from calculations.common.utils.constants import YYYYMMDD_SLASH
-from calculations.common.utils.date_utils import DateUtils
+from calculations.common.utils.constants import COMPLETE, DS_INSERT, START
+from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
-from calculations.resources import beautifulsoup_stocks, industry_cal, line_notify, potential_stock
+from calculations.common.utils.notify_utils import NotifyUtils
+from calculations.resources.beautifulsoup_stocks import BeautifulSoupStocks
+from calculations.resources.dailystock_notify import DailyStockNotify
+from calculations.resources.industry_cal import IndustryCalculation
 from calculations.resources.interfaces.istocks import IStocks
+from calculations.common.utils.line_utils import LineUtils
+from calculations.resources.potential_stock import PotentialStock
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     """
-    1. beatifulsoup_stocks: save_db(date, df) -> return dataframe
+    1. BeautifulSoupStocks.main_daily() -> return dataframe
     2. line_notify: line_notify.sendNotify(stockDict) -> return dict
     3. potential_stock: line_notify.arrangeNotify(potentials, NotifyGroup.getPotentialGroup()) -> return list
     4. industrial_cal: line_notify.sendIndustry(df) -> return dataframe
     """
     now = time.time()
-    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
 
+    lineNotify = LineUtils(NotifyTok.RILEY)
     try:
-        line_notify.sendImg('Start.png', 'Start')
-
         """ 1. beatifulsoup_stocks.py """
-        stocks_df = beautifulsoup_stocks.main_daily()
-        # Must save today's data
-        IStocks.save_db(stocks_df)
+        stocks_df = BeautifulSoupStocks.main_daily()
+        # Must save today's data => for line notify
+        IStocks.save_db(DS_INSERT, stocks_df)
 
-        """ 2. line_notify.py """
-        stock_dict = line_notify.main_daily()
+        """ 2. line_utils.py """
+        daily_dict = DailyStockNotify.main_daily()
 
         """ 3. potential_stock.py """
-        potentials_dict = potential_stock.main_daily()
+        potentials_dict = PotentialStock.main_daily()
 
         """ 4. industrial_cal.py """
-        industry_df = industry_cal.main_daily()
+        industry_df = IndustryCalculation.main_daily()
 
-        # Start the process of Line Notify
-        line_notify.sendNotify(stock_dict)
-        line_notify.sendNotify(potentials_dict)
-        line_notify.sendIndustry(industry_df)
+        """ Start the process of Line Notify """
+        lineNotify.send_img(START)
 
-        line_notify.sendImg('Complete.png', 'Complete')
+        NotifyUtils.send_notify(daily_dict, lineNotify)
+        NotifyUtils.send_notify(potentials_dict, lineNotify)
+        NotifyUtils.send_industry(industry_df, lineNotify)
+
+        lineNotify.send_img(COMPLETE)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:

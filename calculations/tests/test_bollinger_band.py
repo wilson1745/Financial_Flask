@@ -32,6 +32,7 @@ def GenBollingerBand(data: DataFrame):
     # BBAND20 = abstract.BBANDS(df, timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
     data['upper'], data['middle'], data['lower'] = talib.BBANDS(data[CLOSE], timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
     data = data.dropna()
+    print(data)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ from pandas import DataFrame
 from calculations import log
 from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
-from calculations.common.utils.constants import CLOSE, UPS_AND_DOWNS, HEADERS_DF, HTML_PATH, TWSE_MI_INDEX
+from calculations.common.utils.constants import CLOSE, HEADERS_DF, HTML_PATH, TWSE_MI_INDEX, UPS_AND_DOWNS
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -32,16 +32,16 @@ pd.set_option("display.max_rows", None)
 pd.set_option("display.unicode.ambiguous_as_wide", True)
 pd.set_option("display.unicode.east_asian_width", True)
 
-
 # 設置socket默認的等待時間，在read超時後能自動往下繼續跑
 socket.setdefaulttimeout(10)
 
 
 class FileUtils:
+    """ TODO description """
 
     @classmethod
     @interceptor
-    def saveToOriginalHtml(cls, date: str):
+    def save_to_original_html(cls, date: str):
         """ Get HTML from [www.twse.com.tw] """
         # log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
         log.debug(f"saveToOriginalHtml: {date}")
@@ -67,7 +67,7 @@ class FileUtils:
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
             # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止
-            cls.saveToOriginalHtml(date)
+            cls.save_to_original_html(date)
         except Exception:
             raise
         finally:
@@ -76,72 +76,67 @@ class FileUtils:
 
     @staticmethod
     @interceptor
-    def saveToOriginalCsv(date: str):
+    def save_to_original_csv(date: str):
         """ Save CSV """
         log.debug(f"saveToOriginalCsv: {date}")
         filepath = (constants.HTML_PATH % date)
 
-        try:
-            if not os.path.isfile(filepath):
-                log.warning(constants.FILE_NOT_EXIST % filepath)
+        if not os.path.isfile(filepath):
+            log.warning(constants.FILE_NOT_EXIST % filepath)
+        else:
+            log.debug(f"Reading {filepath}")
+            soup = BeautifulSoup(open(filepath, 'r', encoding='UTF-8'), 'html.parser')
+            # table = soup.findAll("table", {"class":"wikitable"})[0]
+            table = soup.findAll('table')
+
+            if not table:
+                log.warning(f"Table not exist, maybe there is no data on {date}")
             else:
-                log.debug(f"Reading {filepath}")
-                soup = BeautifulSoup(open(filepath, "r", encoding="UTF-8"), "html.parser")
-                # table = soup.findAll("table", {"class":"wikitable"})[0]
-                table = soup.findAll("table")
+                table_last = table[len(table) - 1]
+                rows = table_last.find_all('tr')
+                # rows = table_9.findAll("tbody")
 
-                if not table:
-                    log.warning(f"Table not exist, maybe there is no data on {date}")
-                else:
-                    table_last = table[len(table) - 1]
-                    rows = table_last.find_all("tr")
-                    # rows = table_9.findAll("tbody")
+                csv_filepath = (constants.CSV_PATH % date)
+                with open(csv_filepath, 'w', newline='', encoding='UTF-8') as f:
+                    writer = csv.writer(f)
+                    for index, row in enumerate(rows):
+                        csv_row = []
 
-                    csv_filepath = (constants.CSV_PATH % date)
-                    with open(csv_filepath, "w", newline="", encoding="UTF-8") as f:
-                        writer = csv.writer(f)
-                        for index, row in enumerate(rows):
-                            csv_row = []
-
-                            if not index == 1:
-                                for cell in row.find_all(["td"]):
-                                    csv_row.append(cell.get_text())
-                                writer.writerow(csv_row)
-        except Exception:
-            raise
+                        if not index == 1:
+                            for cell in row.find_all(['td']):
+                                csv_row.append(cell.get_text())
+                            writer.writerow(csv_row)
 
     @staticmethod
     @interceptor
-    def saveToFinalCsvAndReturnDf(date: str) -> DataFrame:
+    def save_to_final_csv_return_df(date: str) -> DataFrame:
         """ Save final CSV and return pandas dataframe """
         log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
 
-        try:
-            # Empty dataFrame
-            df = pandas.DataFrame()
-            filepath = (constants.CSV_PATH % date)
+        # Empty dataFrame
+        df = pandas.DataFrame()
+        filepath = (constants.CSV_PATH % date)
 
-            if not os.path.isfile(filepath):
-                log.warning(constants.FILE_NOT_EXIST % filepath)
-            else:
-                log.debug(f"Reading {filepath}")
-                with open(filepath, errors="ignore", encoding="UTF-8") as csvfile:
-                    # 讀取 CSV 檔案內容
-                    rows = csv.reader(csvfile)
+        if not os.path.isfile(filepath):
+            log.warning(constants.FILE_NOT_EXIST % filepath)
+        else:
+            log.debug(f"Reading {filepath}")
+            with open(filepath, errors="ignore", encoding="UTF-8") as csvfile:
+                # 讀取 CSV 檔案內容
+                rows = csv.reader(csvfile)
 
-                    # 轉換html至csv格式的dataframe
-                    df = DataFrameUtils.arrangeHtmlToDataFrame(rows, date)
+                # 轉換html至csv格式的dataframe
+                df = DataFrameUtils.arrangeHtmlToDataFrame(rows, date)
 
-                    # Save CSV file
-                    df.to_csv((constants.CSV_FINAL_PATH % date), index=False, header=True)
-                    df.columns = CollectionUtils.header_daily_stock(constants.HEADERS)
-            return df
-        except Exception:
-            raise
+                # Save CSV file
+                df.to_csv((constants.CSV_FINAL_PATH % date), index=False, header=True)
+                df.columns = CollectionUtils.header_daily_stock(constants.HEADERS)
+
+        return df
 
     @staticmethod
     @interceptor
-    def getDataDirect(date: str) -> DataFrame:
+    def gen_data_direct(date: str) -> DataFrame:
         """ Get data from CSV directly """
         try:
             # Empty dataFrame
@@ -155,13 +150,14 @@ class FileUtils:
                 new_headers = CollectionUtils.header_daily_stock(df[:1])
                 df.columns = new_headers
                 log.debug(df)
+
             return df
         except Exception:
             raise
 
     @staticmethod
     @interceptor
-    def genTxtFile(error_dates: list):
+    def gen_txt_file(error_dates: list):
         """ Save txt file """
         try:
             filepath = constants.URL_ERROR_TXT_PATH % DateUtils.today(constants.YYYY_MM_DD)
@@ -172,7 +168,7 @@ class FileUtils:
 
     @staticmethod
     @interceptor
-    def readTxtFile(date: str):
+    def read_txt_file(date: str):
         """ Read txt file """
         try:
             filepath = constants.URL_ERROR_TXT_PATH % DateUtils.today(constants.YYYY_MM_DD) if not date else date
@@ -188,9 +184,9 @@ class FileUtils:
 
     @classmethod
     @interceptor
-    def fundHtmlDaily(cls, row) -> DataFrame:
+    def fund_html_daily(cls, row) -> DataFrame:
         """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
-        log.debug(f"fundReadHtmlRange: {row}")
+        log.debug(f"fund_html_daily: {row}")
         try:
             url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
             log.debug(f"Url: {url}")
@@ -237,7 +233,7 @@ class FileUtils:
         except requests.exceptions.ConnectionError as connError:
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
-            cls.fundHtmlRange(row)
+            cls.fund_html_range(row)
         except Exception:
             raise
         finally:
@@ -245,9 +241,9 @@ class FileUtils:
 
     @classmethod
     @interceptor
-    def fundHtmlRange(cls, row) -> DataFrame:
+    def fund_html_range(cls, row) -> DataFrame:
         """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
-        log.debug(f"fundReadHtmlRange: {row}")
+        log.debug(f"fund_html_range: {row}")
         try:
             url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
             log.debug(f"Url: {url}")
@@ -294,7 +290,7 @@ class FileUtils:
         except requests.exceptions.ConnectionError as connError:
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
-            cls.fundHtmlRange(row)
+            cls.fund_html_range(row)
         except Exception:
             raise
         finally:

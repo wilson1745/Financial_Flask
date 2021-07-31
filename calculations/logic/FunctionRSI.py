@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 """
-Reference:
 https://pyecontech.com/2019/06/26/%e5%88%9d%e5%ad%b8%e8%80%85%e7%9a%84python%e9%87%91%e8%9e%8d%e5%88%86%e6%9e%90%e6%97%a5%e8%a8%98-ep6-rsi/
 """
 import time

@@ -1,90 +1,74 @@
 # -*- coding: UTF-8 -*-
+import multiprocessing
 import os
-import sys
 import time
 import traceback
+from multiprocessing.pool import ThreadPool
 
 from pandas import DataFrame
 
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
-
 from calculations import log
-from calculations.common.utils.constants import DS_INSERT, TOKEN_NOTIFY, SUCCESS, FAIL, YYYYMMDD_SLASH, YYYYMMDD
+from calculations.common.utils.constants import DS_INSERT, FAIL, SUCCESS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
 from calculations.core.Interceptor import interceptor
-from calculations.repository.dailystock_repo import DailyStockRepo
-from calculations.resources import line_notify
+from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
+from calculations.resources.interfaces.istocks import IStocks
+from calculations.common.utils.line_utils import LineUtils
 
 
-@interceptor
-def save_db(df: DataFrame):
-    """ Save data into MySQL, Oracle Autonomous """
-    log.info(f"start saving db {DateUtils.today()}")
+class BeautifulSoupStocks(IStocks, IFinancialDaily):
+    """ BeautifulSoup for range (ex: 20181226 - 20181227) """
 
-    """ MySQL Database """
-    # MySqlUtils.insert_dailystock_mysql(date, df)
-    # MySqlUtils.saveDailystockBatch(date, df)
+    def __init__(self):
+        """ Constructor """
+        super().__init__()
 
-    """ For Mac MySQL connector """
-    # MySqlUtils.insert_connector_mysql(date, df)
+    @classmethod
+    @interceptor
+    def main_daily(cls) -> DataFrame:
+        """ 台股DailyStock抓蟲的主程式 """
+        now = time.time()
+        date = DateUtils.today(YYYYMMDD)
 
-    """ Oracle Autonomous Database """
-    # DailyStockRepo.save(DS_INSERT, df.to_numpy().tolist())
+        pools = ThreadPool(multiprocessing.cpu_count() - 1)
+        lineNotify = LineUtils()
+        # 有資料才使用Line notify
+        try:
+            """ Save as HTML file """
+            FileUtils.save_to_original_html(date)
 
-    """ Oracle Autonomous Database (fast batch) """
-    DailyStockRepo.bulk_save(DS_INSERT, df.to_numpy().tolist())
+            """ Convert to csv file """
+            FileUtils.save_to_original_csv(date)
 
-    log.info(f"end saving db {DateUtils.today()}")
+            """ Save to db with MI_INDEX_ALLBUT0999 csv file """
+            df = FileUtils.save_to_final_csv_return_df(date)
 
+            lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
+            return df
+        except Exception:
+            lineNotify.send_mine(FAIL % os.path.basename(__file__))
+            raise
+        finally:
+            log.debug(f"Time consuming: {time.time() - now}")
+            pools.close()
 
-@interceptor
-def main_daily() -> DataFrame:
-    """ 台股DailyStock抓蟲的主程式 """
-    now = time.time()
-    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
-    fileName = os.path.basename(__file__)
-    date = DateUtils.today(YYYYMMDD)
+    @classmethod
+    @interceptor
+    def main(cls):
+        """ Main """
+        try:
+            df = cls.main_daily()
 
-    # 有資料才使用Line notify
-    try:
-        log.info(f"start ({DateUtils.today()}): {date}")
+            """ Save data """
+            if df.empty:
+                log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
+            else:
+                super().save_db(DS_INSERT, df)
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
 
-        """ Save as HTML file """
-        FileUtils.saveToOriginalHtml(date)
-
-        """ Convert to csv file """
-        FileUtils.saveToOriginalCsv(date)
-
-        """ Save to db with MI_INDEX_ALLBUT0999 csv file """
-        df = FileUtils.saveToFinalCsvAndReturnDf(date)
-
-        log.info(f"end ({DateUtils.today()}): {date}")
-        line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
-        return df
-    except Exception:
-        line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
-        raise
-    finally:
-        log.debug(f"Time consuming: {time.time() - now}")
-        log.debug(f"End of {fileName}")
-
-
-@interceptor
-def main():
-    try:
-        df = main_daily()
-
-        """ Save data """
-        if df.empty:
-            log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
-        else:
-            save_db(df)
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
-
-
-if __name__ == "__main__":
-    """ ------------------- App Start ------------------- """
-    main()
+# if __name__ == "__main__":
+#     """ ------------------- App Start ------------------- """
+#     BeautifulSoupStocks.main()

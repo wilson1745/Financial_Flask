@@ -23,13 +23,14 @@ class DailyFundRepo(IRepository):
     @classmethod
     @interceptor
     def find_by_symbol(cls, symbol: str) -> DataFrame:
+        """ find_by_symbol """
         sql = f"SELECT * FROM DAILYFUND d WHERE d.SYMBOL = '{symbol}' ORDER BY d.MARKET_DATE ASC "
         datas = super().query(sql=sql)
         return DataFrameUtils.gen_fund_df(datas)
 
     @classmethod
     @interceptor
-    def find_top_by_marketdate_symbol(cls, market_date: str, symbol: str):
+    def find_top_by_marketdate_symbol(cls, market_date: str, symbol: str) -> list:
         """ find_top_by_marketdate_symbol """
         sql = f"SELECT * FROM DAILYFUND d WHERE d.MARKET_DATE = '{market_date}' AND SYMBOL = '{symbol}' AND rownum = 1 "
         return super().query(sql=sql)
@@ -39,11 +40,14 @@ class DailyFundRepo(IRepository):
     def check_and_save(cls, datas: list):
         """ Check DB data one by one """
         pools = ThreadPool(multiprocessing.cpu_count() - 1)
-        new_datas = pools.map(func=cls.__check_exist,
-                              iterable=datas)
-        # log.debug(new_datas)
+        new_datas = pools.map(func=cls.__check_exist, iterable=datas)
+        log.debug(f"check_and_save: {new_datas}")
 
         if len(new_datas) > 0:
             super().bulk_save(DF_INSERT, list(filter(None, new_datas)))
         else:
             log.warning(DATA_NOT_EXIST)
+
+# if __name__ == "__main__":
+#     """ ------------------- App Start ------------------- """
+#     df = DailyFundRepo.find_by_symbol("B03%2C631")
