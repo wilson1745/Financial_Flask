@@ -3,6 +3,10 @@ from calculations.common.utils.constants import CLOSE, DEAL_PRICE, DEAL_STOCK, H
 
 class CollectionUtils:
 
+    def __init__(self):
+        """ Constructor """
+        pass
+
     @staticmethod
     def create_new_header(orignal_headers) -> list:
         new_headers = []
@@ -97,20 +101,7 @@ class CollectionUtils:
         """因為格式為109/1/1，為民國年，需轉換成西元年"""
         date_arr = data_ROC.split("/")
         new_year = int(date_arr[0]) + 1911
-
         return f"{new_year}-{date_arr[1]}-{date_arr[2]}"
-
-    @staticmethod
-    def print_data(date, stock_data):
-        print("",
-              stock_data.stock_symbol,
-              date,
-              stock_data.open,
-              stock_data.high,
-              stock_data.low,
-              stock_data.close,
-              int(stock_data.volume.replace(",", "")),
-              date)
 
     @staticmethod
     def header_fund(orignal_headers) -> list:

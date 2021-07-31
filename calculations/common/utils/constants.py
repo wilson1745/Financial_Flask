@@ -81,6 +81,7 @@ SECOND_URL = 'second_url'
 POS = 'POS'
 RSI = 'RSI'
 RSI_Y = 'RSI_Y'
+CLOSE_Y = 'CLOSE_Y'
 K = 'K'
 D = 'D'
 K_D = 'K_D'
@@ -116,6 +117,15 @@ HEADERS_DF_E = [MARKET_DATE, STOCK_NAME, SYMBOL, CLOSE, UPS_AND_DOWNS, CREATETIM
 
 SUCCESS = "%s 成功"
 FAIL = "%s 失敗"
+
+# PIC
+START = 'Start'
+COMPLETE = 'Complete'
+ERROR = 'ERROR'
+
+# '⇩ ⇧ 🔺  🔻  ▲ ▼  ⬇️⬆ ⬇ 🔼 🔽 ➕ ➖ ⮬ ⮯   🔼 ▲'
+UP_EMO = '🔺'
+DOWN_EMO = '▼'
 
 # SQL
 DS_INSERT = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock, volume, deal_price, open, high, low, close, ups_and_downs) " \

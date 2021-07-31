@@ -1,3 +1,7 @@
+# -*- coding: UTF-8 -*-
+"""
+https://hahow.in/creations/5b175848567cc1001e401c0c
+"""
 import traceback
 
 import talib
@@ -22,7 +26,7 @@ def GenBollingerBand(df: DataFrame):
 
 @interceptor
 def BuySellSignal(df: DataFrame):
-    """ TODO """
+    """ TODO description """
     # 建立買進信號：KD在低檔（小於25）金叉，且收盤價仍在布林通道中線以下時。
     # df[SGNL_B] = (df[K] < 25) & \
     #                (df[K] > df[D]) & \
@@ -37,8 +41,8 @@ def BuySellSignal(df: DataFrame):
                  (df[CLOSE].shift() > df[UPPER].shift())
 
 
-# ------------------- App Start -------------------
 if __name__ == "__main__":
+    """ ------------------- App Start ------------------- """
     try:
         stock_df = DailyStockRepo.find_by_symbol("2324")
         # result = GetDataKD(stock)

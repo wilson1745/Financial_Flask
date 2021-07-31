@@ -7,207 +7,162 @@ import collections
 import datetime
 import multiprocessing
 import os
-import sys
 import time
 import traceback
 from functools import partial
 from multiprocessing.pool import ThreadPool
 
 import pandas as pd
-
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
+from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import CLOSE, SYMBOL, YYYYMMDD_SLASH, YYYYMMDD, SUCCESS, TOKEN_NOTIFY, FAIL
-from calculations.common.utils.date_utils import DateUtils
+from calculations.common.utils.constants import CLOSE, FAIL, SUCCESS, SYMBOL, YYYYMMDD
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
+from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
-from calculations.resources import line_notify
+from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
+from calculations.common.utils.line_utils import LineUtils
 
 
-# @interceptor
-# def cal_dropdown_rate(df: DataFrame):
-#     """ 計算近n年最大下跌幅度 """
-#     dropdown = (df.cummax() - df).max() / df.max() * 100
-#     # print(dropdown)
-#
-#     # 計算近n年報酬率
-#     profit = (df.iloc[-1] / df.iloc[0] - 1) * 100
-#     # log.debug(profit)
-#
-#     # 計算近n年標準差(波動率)
-#     std = (df / df.shift()).std() * 200
-#     # log.debug(std)
-#
-#     """
-#     波動率 < 2％：波動率越大代表股價變化幅度越大，我們只選波動率小的股票
-#     獲利 > 10%：近三年報酬率大於10的股票
-#     最大下跌幅度 < 50%：下跌幅度也不能太大
-#     """
-#     constraint = std[std < 0.02].index & profit[profit > 10].index & dropdown[dropdown < 50].index
-#     # constraint = profit[profit > 10].index & dropdown[dropdown < 50].index
-#     # log.debug(constraint)
-#     return constraint
+class PotentialStock(IFinancialDaily):
+    """ 台股加速度指標 """
 
+    def __init__(self):
+        """ Constructor """
+        super().__init__()
 
-@interceptor
-def crawl_price(data, dateP: str):
-    df = DailyStockRepo.find_like_year(dateP)
-    if not df.empty:
-        df.reset_index(drop=True, inplace=True)
-        df = df.set_index(SYMBOL)
-        data[dateP] = df
+    @classmethod
+    @interceptor
+    def __rising_curve(cls, close60, n):
+        """ Rising curve """
+        return (close60.iloc[-n] + close60.iloc[-1]) / 2 > close60.iloc[-int((n + 1) / 2)]
 
+    @classmethod
+    @interceptor
+    def __crawl_price(cls, data, dateP: str):
+        """ Crawl price """
+        df = DailyStockRepo.find_like_year(dateP)
+        if not df.empty:
+            df.reset_index(drop=True, inplace=True)
+            df = df.set_index(SYMBOL)
+            data[dateP] = df
 
-@interceptor
-def rising_curve(close60, n):
-    result = (close60.iloc[-n] + close60.iloc[-1]) / 2 > close60.iloc[-int((n + 1) / 2)]
-    return result
+    # @classmethod
+    # @interceptor
+    # def __cal_dropdown_rate(cls, df: DataFrame):
+    #     """ 計算近n年最大下跌幅度 """
+    #     dropdown = (df.cummax() - df).max() / df.max() * 100
+    #     # print(dropdown)
+    #
+    #     # 計算近n年報酬率
+    #     profit = (df.iloc[-1] / df.iloc[0] - 1) * 100
+    #     # log.debug(profit)
+    #
+    #     # 計算近n年標準差(波動率)
+    #     std = (df / df.shift()).std() * 200
+    #     # log.debug(std)
+    #
+    #     """
+    #     波動率 < 2％：波動率越大代表股價變化幅度越大，我們只選波動率小的股票
+    #     獲利 > 10%：近三年報酬率大於10的股票
+    #     最大下跌幅度 < 50%：下跌幅度也不能太大
+    #     """
+    #     constraint = std[std < 0.02].index & profit[profit > 10].index & dropdown[dropdown < 50].index
+    #     # constraint = profit[profit > 10].index & dropdown[dropdown < 50].index
+    #     # log.debug(constraint)
+    #     return constraint
 
+    @staticmethod
+    @interceptor
+    def query_data(symbol: str) -> DataFrame:
+        """ DailyStockRepo """
+        log.debug(f"Start genNotifyStr: {symbol} at {datetime.datetime.now()} ")
+        data_df = DailyStockRepo.find_by_symbol(symbol)
+        return data_df
 
-@interceptor
-def main_daily():
-    """ Potential DailyStock主的程式 """
-    now = time.time()
-    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
-    data: dict = {}
-    fileName = os.path.basename(__file__)
+    @classmethod
+    @interceptor
+    def main_daily(cls) -> dict:
+        """ Potential DailyStock的主程式 """
+        now = time.time()
+        data: dict = {}
 
-    try:
-        dateList = []
-        date = datetime.datetime.now()
-        n_days = 200
-
-        while len(dateList) < n_days:
-            dateStr = datetime.datetime.strftime(date, YYYYMMDD)
-            dateList.append(dateStr)
-            # 減一天
-            date -= datetime.timedelta(days=1)
-
-        dateList.reverse()
-        log.debug(f"dateList: {dateList}")
-
-        """ Do not use all my processing power """
         pools = ThreadPool(multiprocessing.cpu_count() - 1)
-        partial_func = partial(crawl_price, data)
-        pools.map(func=partial_func,
-                  iterable=dateList)
+        lineNotify = LineUtils()
+        try:
+            dateList = []
+            date = datetime.datetime.now()
+            n_days = 200
 
-        # Sort order by market_date
-        data = collections.OrderedDict(sorted(data.items()))
-        # log.debug(f"data: {data}")
+            while len(dateList) < n_days:
+                dateStr = datetime.datetime.strftime(date, YYYYMMDD)
+                dateList.append(dateStr)
+                # 減一天
+                date -= datetime.timedelta(days=1)
 
-        # 扁平化資料面
-        close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
-        close.index = pd.to_datetime(close.index)
-        # log.debug(f"close: {close}")
+            dateList.reverse()
+            log.debug(f"dateList: {dateList}")
 
-        # 60 days moving average
-        close60 = close.rolling(60, min_periods=10).mean()
+            """ Do not use all my processing power """
+            partial_func = partial(cls.__crawl_price, data)
+            pools.map(func=partial_func,
+                      iterable=dateList)
 
-        rising = (
-                rising_curve(close60, 5) &
-                rising_curve(close60, 10) &
-                rising_curve(close60, 20) &
-                rising_curve(close60, 60) &
-                rising_curve(close60, 30) &
-                rising_curve(close60, 40) &
-                rising_curve(close60, 50) &
-                (close.iloc[-1] > close60.iloc[-1])
-        )
+            # Sort order by market_date
+            data = collections.OrderedDict(sorted(data.items()))
+            # log.debug(f"data: {data}")
 
-        potentials: list = rising[rising].index
-        log.debug(f"Rising stock: {potentials}")
+            # 扁平化資料面
+            close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
+            close.index = pd.to_datetime(close.index)
+            # log.debug(f"close: {close}")
 
-        stock_dict = NotifyGroup.getPotentialGroup()
-        line_notify.arrangeNotify(potentials, stock_dict)
+            # 60 days moving average
+            close60 = close.rolling(60, min_periods=10).mean()
+            rising = (
+                    cls.__rising_curve(close60, 5) &
+                    cls.__rising_curve(close60, 10) &
+                    cls.__rising_curve(close60, 20) &
+                    cls.__rising_curve(close60, 60) &
+                    cls.__rising_curve(close60, 30) &
+                    cls.__rising_curve(close60, 40) &
+                    cls.__rising_curve(close60, 50) &
+                    (close.iloc[-1] > close60.iloc[-1])
+            )
 
-        line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
-        return stock_dict
-    except Exception:
-        line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
-        raise
-    finally:
-        log.debug(f"Time consuming: {time.time() - now}")
-        log.debug(f"End of {fileName}")
+            potentials: list = rising[rising].index
+            log.debug(f"Rising symbols: {potentials}")
 
+            # 產生DailyFund的notify訊息
+            df_list = pools.map(func=cls.query_data, iterable=potentials)
+            stocks_dict = NotifyUtils.arrange_notify(df_list, NotifyGroup.getPotentialGroup())
 
-@interceptor
-def main():
-    try:
-        stock_dict = main_daily()
+            lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
+            return stocks_dict
+        except Exception:
+            lineNotify.send_mine(FAIL % os.path.basename(__file__))
+            raise
+        finally:
+            log.debug(f"Time consuming: {time.time() - now}")
+            pools.close()
+            # pools.join()
 
-        # Send Line Notify
-        line_notify.sendNotify(stock_dict)
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
+    @classmethod
+    @interceptor
+    def main(cls):
+        """ Main """
+        try:
+            # Get data
+            stock_dict = cls.main_daily()
 
+            # Send notify
+            NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.RILEY))
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
 
-if __name__ == "__main__":
-    """ ------------------- App Start ------------------- """
-    main()
-
-    # now = time.time()
-    # ms = DateUtils.default_msg(YYYYMMDD_SLASH)
-    # data: dict = {}
-    # fileName = os.path.basename(__file__)
-    #
-    # try:
-    #     dateList = []
-    #     date = datetime.datetime.now()
-    #     n_days = 200
-    #
-    #     while len(dateList) < n_days:
-    #         dateStr = datetime.datetime.strftime(date, YYYYMMDD)
-    #         dateList.append(dateStr)
-    #
-    #         # 減一天
-    #         date -= datetime.timedelta(days=1)
-    #
-    #     dateList.reverse()
-    #     log.debug(f"dateList: {dateList}")
-    #
-    #     """ Do not use all my processing power """
-    #     pools = ThreadPool(multiprocessing.cpu_count() - 1)
-    #     pools.map(func=crawl_price, iterable=dateList)
-    #
-    #     # Sort order by market_date
-    #     data = collections.OrderedDict(sorted(data.items()))
-    #     # log.debug(f"data: {data}")
-    #
-    #     # 扁平化資料面
-    #     close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
-    #     close.index = pd.to_datetime(close.index)
-    #     # log.debug(f"close: {close}")
-    #
-    #     # 60 days moving average
-    #     close60 = close.rolling(60, min_periods=10).mean()
-    #
-    #     rising = (
-    #             rising_curve(5) &
-    #             rising_curve(10) &
-    #             rising_curve(20) &
-    #             rising_curve(60) &
-    #             rising_curve(30) &
-    #             rising_curve(40) &
-    #             rising_curve(50) &
-    #             (close.iloc[-1] > close60.iloc[-1])
-    #     )
-    #
-    #     potentials: list = rising[rising].index
-    #     log.debug(f"Rising stock: {potentials}")
-    #
-    #     # Send Line Notify
-    #     stock_dict = NotifyGroup.getPotentialGroup()
-    #     line_notify.arrangeNotify(potentials, stock_dict)
-    #     line_notify.sendNotify(stock_dict)
-    #
-    #     line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
-    # except Exception as e:
-    #     CoreException.show_error(e, traceback.format_exc())
-    #     line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
-    # finally:
-    #     log.debug(f"Time consuming: {time.time() - now}")
-    #     log.debug(f"End of {fileName}")
+# if __name__ == "__main__":
+#     """ ------------------- App Start ------------------- """
+#     PotentialStock.main()

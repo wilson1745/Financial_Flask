@@ -25,6 +25,7 @@ class ItemFundRepo(IRepository):
     @classmethod
     @interceptor
     def find_all(cls) -> DataFrame:
+        """ find_all """
         sql = f"SELECT * FROM ITEMFUND i ORDER BY i.SYMBOL ASC "
         datas = super().query(sql=sql)
         return DataFrameUtils.gen_item_df(datas)
@@ -32,17 +33,19 @@ class ItemFundRepo(IRepository):
     @classmethod
     @interceptor
     def find_first_url_is_null(cls) -> DataFrame:
+        """ find_first_url_is_null """
         sql = f"SELECT * FROM ITEMFUND i WHERE i.FIRST_URL IS NULL ORDER BY i.SYMBOL ASC  "
         datas = super().query(sql=sql)
         return DataFrameUtils.gen_item_df(datas)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     """ ------------------- App Start ------------------- """
     now = time.time()
     try:
         result = ItemFundRepo.find_all()
-        log.debug(result)
+        # log.debug(result)
+        # log.debug(list(result.index.values))
     except Exception as main_e:
         CoreException.show_error(main_e, traceback.format_exc())
     finally:

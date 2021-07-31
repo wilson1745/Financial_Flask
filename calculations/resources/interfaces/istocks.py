@@ -1,21 +1,21 @@
 from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import DS_INSERT
 from calculations.common.utils.date_utils import DateUtils
 from calculations.core.Interceptor import interceptor
-from calculations.repository.dailystock_repo import DailyStockRepo
+from calculations.repository.interfaces.irepository import IRepository
 
 
 class IStocks:
-    """ Base Class """
+    """ Service Base Class """
 
-    # def __init__(self):
-    #     """ Constructor """
+    def __init__(self):
+        """ Constructor """
+        pass
 
     @classmethod
     @interceptor
-    def save_db(cls, df: DataFrame):
+    def save_db(cls, sql: str, df: DataFrame):
         """ Save data into MySQL, Oracle Autonomous """
         log.info(f"start saving db {DateUtils.today()}")
 
@@ -27,9 +27,9 @@ class IStocks:
         # MySqlUtils.insert_connector_mysql(date, df)
 
         """ Oracle Autonomous Database """
-        # DailyStockRepo.save(DS_INSERT, df.to_numpy().tolist())
+        # IRepository.save(sql, df.to_numpy().tolist())
 
         """ Oracle Autonomous Database (fast batch) """
-        DailyStockRepo.bulk_save(DS_INSERT, df.to_numpy().tolist())
+        IRepository.bulk_save(sql, df.to_numpy().tolist())
 
         log.info(f"end saving db {DateUtils.today()}")

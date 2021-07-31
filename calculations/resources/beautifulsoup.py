@@ -1,113 +1,114 @@
 # -*- coding: UTF-8 -*-
+import multiprocessing
 import os
 import sys
 import time
 import traceback
+from multiprocessing.pool import ThreadPool
 
 import pandas
-
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
+import pandas as pd
+from pandas import DataFrame
 
 from calculations import log
 from calculations.common.utils.collection_utils import CollectionUtils
-from calculations.common.utils.constants import DS_INSERT, CSV_FINAL_PATH, DATA_NOT_EXIST
+from calculations.common.utils.constants import CSV_FINAL_PATH, DATA_NOT_EXIST, DS_INSERT, FAIL, SUCCESS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
 from calculations.core.Interceptor import interceptor
-from calculations.repository.dailystock_repo import DailyStockRepo
+from calculations.resources.interfaces.istocks import IStocks
+from calculations.common.utils.line_utils import LineUtils
 
 
-@interceptor
-def save_to_final_csv(date):
-    """ Save CSV and get df """
-    df = FileUtils.saveToFinalCsvAndReturnDf(date)
+class BeautifulSoup(IStocks):
+    """ Service BeautifulSoup for range (ex: 20181226 - 20181227) """
 
-    """ Save data """
-    if df.empty:
-        log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({date}) df is empty")
-    else:
-        save_db(date, df)
+    def __init__(self):
+        """ Constructor """
+        super().__init__()
 
+    @classmethod
+    @interceptor
+    def __read_data_direct(cls, date) -> DataFrame:
+        """ Read data through the csv files and generate dataframe """
+        filepath = (CSV_FINAL_PATH % date)
+        df = pd.DataFrame()
 
-@interceptor
-def save_data_direct(date):
-    filepath = (CSV_FINAL_PATH % date)
+        if os.path.isfile(filepath):
+            df = pandas.read_csv(filepath)
+            new_headers = CollectionUtils.header_daily_stock(df[:1])
+            df.columns = new_headers
+        else:
+            log.warn(DATA_NOT_EXIST % date)
 
-    if os.path.isfile(filepath):
-        df = pandas.read_csv(filepath)
-        new_headers = CollectionUtils.header_daily_stock(df[:1])
-        df.columns = new_headers
-        save_db(date, df)
-    else:
-        log.warn(DATA_NOT_EXIST % date)
+        return df
 
+    @classmethod
+    @interceptor
+    def __main_daily(cls, start: str = DateUtils.today(YYYYMMDD), ended: str = DateUtils.today(YYYYMMDD)) -> DataFrame:
+        """ 台股DailyStock抓蟲的主程式 """
+        now = time.time()
 
-@interceptor
-def save_db(date, df):
-    log.info(f"start saving db ({DateUtils.today()}): {date}")
+        pools = ThreadPool(multiprocessing.cpu_count() - 1)
+        lineNotify = LineUtils()
+        try:
+            date_list = DateUtils.getDateList(start, ended, "D")
+            # log.debug(f"Date range: {date_list}")
 
-    """ For Windows pyodbc MySQL """
-    # MySqlUtils.insert_dailystock_mysql(date, df)
-    # MySqlUtils.saveDailystockBatch(date, df)
+            """ Download html file by date """
+            for data_date in date_list:
+                """ Save as HTML file """
+                FileUtils.save_to_original_html(data_date)
 
-    """ For Mac MySQL connector """
-    # MySqlUtils.insert_connector_mysql(date, df.to_numpy().tolist())
+            """ Convert to csv file """
+            # tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
+            # asyncio.run(asyncio.wait(tasks1))
+            pools.map(func=FileUtils.save_to_original_csv, iterable=date_list)
 
-    """ Oracle Autonomous Database """
-    # OracleSqlUtils.save_data_to_db(date, df)
+            """ Convert to MI_INDEX_ALLBUT0999 csv file and return dataframe list """
+            # tasks2 = [save_to_final_csv(data_date) for data_date in date_list]
+            # asyncio.run(asyncio.wait(tasks2))
+            df_list = pools.map(func=FileUtils.save_to_final_csv_return_df, iterable=date_list)
+            df = pd.concat(df_list)
 
-    """ Oracle with fast batch """
-    # dailystock_repo.saveToDbBatch(df.to_numpy().tolist())
-    DailyStockRepo.bulk_save(DS_INSERT, df.to_numpy().tolist())
+            """ Read STOCK_DAY_ALL csv file directly """
+            # tasks3 = [save_data_direct(data_date) for data_date in date_list]
+            # asyncio.run(asyncio.wait(tasks3))
+            # df_list = pools.map(func=FileUtils.saveToFinalCsvAndReturnDf, iterable=date_list)
+            # df = pd.concat(df_list)
+            # log.debug(df)
 
-    log.info(f"end saving db ({DateUtils.today()}): {date}")
+            lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
+            return df
+        except Exception:
+            lineNotify.send_mine(FAIL % os.path.basename(__file__))
+            raise
+        finally:
+            log.debug(f"Time consuming: {time.time() - now}")
+            pools.close()
+            # pools.join()
 
+    @classmethod
+    @interceptor
+    def main(cls):
+        """ Main program """
+        start = sys.argv[1] if len(sys.argv) > 1 else "20181226"
+        ended = sys.argv[2] if len(sys.argv) > 1 else "20181227"
 
-@interceptor
-def main():
-    try:
-        # 時間範圍
-        date_list = DateUtils.getDateList(start, ended, "D")
-        log.debug(date_list)
+        try:
+            df = cls.__main_daily(start, ended)
+            log.debug(df)
 
-        """ Download html file by date """
-        for data_date in date_list:
-            log.info(f"Start scraping html: {data_date}")
-            """ Save as HTML file """
-            FileUtils.saveToOriginalHtml(data_date)
-            log.info(f"End scraping html: {data_date}")
+            """ Save data """
+            if df.empty:
+                log.warning(f"{os.path.basename(__file__)} __main_daily(): df is empty")
+            else:
+                super().save_db(DS_INSERT, df)
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
 
-        """
-        1. await Separate the loop in case the "urllib.request.urlopen(url)" fail the get the response
-        2. async
-        """
-        # """ Convert to csv file """
-        # tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
-        # asyncio.run(asyncio.wait(tasks1))
-        #
-        # """ Save to db with MI_INDEX_ALLBUT0999 csv file """
-        # tasks2 = [save_to_final_csv(data_date) for data_date in date_list]
-        # asyncio.run(asyncio.wait(tasks2))
-
-        """ Save to db with STOCK_DAY_ALL csv file """
-        # tasks3 = [save_data_direct(data_date) for data_date in date_list]
-        # asyncio.run(asyncio.wait(tasks3))
-    except Exception:
-        raise
-
-
-# ------------------- App Start -------------------
-if __name__ == "__main__":
-    now = time.time()
-    start = sys.argv[1] if len(sys.argv) > 1 else "20181226"
-    ended = sys.argv[2] if len(sys.argv) > 1 else "20181227"
-
-    try:
-        main()
-        # FileUtils.readTxtFile(None)
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
-    finally:
-        log.debug(f"Async time consuming: {time.time() - now}")
-        log.debug(f"End of {os.path.basename(__file__)}")
+# if __name__ == "__main__":
+#     """ ------------------- App Start ------------------- """
+#     BeautifulSoup.main()
+#     # FileUtils.readTxtFile(None)

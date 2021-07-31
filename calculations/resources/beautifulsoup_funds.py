@@ -2,22 +2,22 @@
 import json
 import multiprocessing
 import os
-import sys
+import socket
 import time
 import traceback
 from datetime import datetime
 from functools import partial
 from multiprocessing.pool import ThreadPool
+from urllib.error import URLError
 from urllib.request import urlopen
 
 import pandas as pd
 import requests
-
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
+from pandas import DataFrame
 
 from calculations import log
-from calculations.common.utils.constants import CLOSE, CNYES_URL, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, TRADE_DATE, NAV, CHANGE, \
-    CHANGE_PERCENT, YYYYMMDD, YYYYMMDD_SLASH, SUCCESS, FAIL, TOKEN_NOTIFY, DATA_NOT_EXIST
+from calculations.common.utils.constants import CHANGE, CHANGE_PERCENT, CLOSE, CNYES_URL, DATA_NOT_EXIST, MARKET_DATE, NAV, STOCK_NAME, \
+    SUCCESS, SYMBOL, TRADE_DATE, UPS_AND_DOWNS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_dailyfund import FundGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -25,145 +25,171 @@ from calculations.common.utils.file_utils import FileUtils
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailyfund_repo import DailyFundRepo
 from calculations.repository.itemfund_repo import ItemFundRepo
-from calculations.resources import line_notify
+from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
+from calculations.common.utils.line_utils import LineUtils
+
+# 設置socket默認的等待時間，在read超時後能自動往下繼續跑
+socket.setdefaulttimeout(10)
 
 
-@interceptor
-def main_old(group: FundGroup):
-    """ Grab history data """
-    date = DateUtils.today(YYYYMMDD)
-    log.info(f"start ({DateUtils.today()}): {date}")
+class BeautifulsoupFunds(IFinancialDaily):
+    """ TODO description Service """
 
-    try:
-        item_df = ItemFundRepo.find_all()
-        if item_df.empty:
-            log.warning(f"itemfund_repo.findAll() is None")
-        else:
-            pools = ThreadPool(multiprocessing.cpu_count() - 1)
-            """ Daily or Range """
-            df_list = pools.map(func=FileUtils.fundHtmlDaily if group is FundGroup.DAILY else FileUtils.fundHtmlRange,
-                                iterable=item_df.itertuples())
-            df = pd.concat(df_list)
+    def __init__(self):
+        """ Constructor """
+        super().__init__()
 
-            if not df.empty:
-                # log.debug(df)
-                """ Daily or Range """
-                # print(list(df.itertuples(index=False, name=None)))
-                # print(list(df.itertuples(name=None)))
-                # print(list(df.itertuples(index=False)))
-                # print(df.values.tolist())
+    @staticmethod
+    @interceptor
+    def __arrange_data(df_row, data_row):
+        """ Arrange dataframe """
+        data_row[TRADE_DATE] = datetime.fromtimestamp(data_row[TRADE_DATE]).strftime(YYYYMMDD)
+        data_row[MARKET_DATE] = data_row[TRADE_DATE]
+        data_row[STOCK_NAME] = df_row.stock_name
+        data_row[SYMBOL] = df_row.symbol
+        data_row[CLOSE] = data_row[NAV]
+        data_row[UPS_AND_DOWNS] = data_row[CHANGE]
+        return data_row
 
-                # DailyFundRepo.check_and_save(list(df.itertuples())) if group is FundGroup.DAILY \
-                #     else DailyFundRepo.check_and_save(df.values.tolist())
-                DailyFundRepo.check_and_save(df.values.tolist())
-            else:
-                log.warning(DATA_NOT_EXIST)
-    except Exception:
-        raise
-    finally:
-        log.info(f"end ({DateUtils.today()}): {date}")
+    @classmethod
+    def __get_response(cls, df_row: tuple, current_page: int):
+        """ Get HTML from [https://fund.api.cnyes.com/fund/api/v1/funds/%s/nav?format=table&page=%s] """
+        pools = ThreadPool(multiprocessing.cpu_count() - 1)
+        try:
+            url = CNYES_URL % (df_row.symbol, current_page)
+            log.debug(url)
+            response = urlopen(url, timeout=120)
+            res_data = json.loads(response.read())
+            datas = res_data['items']['data']
+            # log.debug(datas)
 
+            partial_func = partial(cls.__arrange_data, df_row)
+            stream_datas = pools.map(func=partial_func, iterable=datas)
 
-@interceptor
-def arrangeData(df_row, data_row):
-    """ Arrange dataframe """
-    data_row[TRADE_DATE] = datetime.fromtimestamp(data_row[TRADE_DATE]).strftime(YYYYMMDD)
-    data_row[MARKET_DATE] = data_row[TRADE_DATE]
-    data_row[STOCK_NAME] = df_row.stock_name
-    data_row[SYMBOL] = df_row.symbol
-    data_row[CLOSE] = data_row[NAV]
-    data_row[UPS_AND_DOWNS] = data_row[CHANGE]
-    return data_row
+            return stream_datas
+        except requests.exceptions.ConnectionError as connError:
+            log.error(f"__get_response ConnectionError: {connError}")
+            CoreException.show_error(connError, traceback.format_exc())
+            time.sleep(10)
+            cls.__get_response(df_row, current_page)
+        except URLError as urlError:
+            log.error(f"__get_response URLError: {urlError}")
+            CoreException.show_error(urlError, traceback.format_exc())
+            time.sleep(10)
+            cls.__get_response(df_row, current_page)
+        except Exception:
+            raise
+        finally:
+            time.sleep(6)
+            pools.close()
+            # pools.join()
 
+    @classmethod
+    @interceptor
+    def __get_page_data(cls, df_row: tuple, start_page: int, end_page: int):
+        """ Crawl page data """
+        data_lists = []
+        # Range needs plus one
+        for current_page in range(start_page, end_page + 1):
+            response_list = cls.__get_response(df_row, current_page)
+            # Try to drop 'None' in case URLError or other exception return None object
+            response_list = list(filter(None, response_list))
+            data_lists.extend(response_list)
 
-def getResponse(df_row: tuple, current_page: int) -> list:
-    """ Get HTML from [https://fund.api.cnyes.com/fund/api/v1/funds/%s/nav?format=table&page=%s] """
-    try:
-        url = CNYES_URL % (df_row.symbol, current_page)
-        log.debug(url)
-        response = urlopen(url, timeout=120)
-        res_data = json.loads(response.read())
-        datas = res_data['items']['data']
-        # log.debug(datas)
+        df = pd.DataFrame(data_lists)
+        df.fillna(0, inplace=True)
+        return df
+
+    @classmethod
+    def main_old(cls, group: FundGroup):
+        """ Grab history data """
+        date = DateUtils.today(YYYYMMDD)
+        log.info(f"start ({DateUtils.today()}): {date}")
 
         pools = ThreadPool(multiprocessing.cpu_count() - 1)
-        partial_func = partial(arrangeData, df_row)
-        stream_datas = pools.map(func=partial_func,
-                                 iterable=datas)
-
-        return stream_datas
-    except requests.exceptions.ConnectionError as connError:
-        CoreException.show_error(connError, traceback.format_exc())
-        time.sleep(15)
-        getResponse(df_row, current_page)
-    except Exception:
-        raise
-    finally:
-        time.sleep(6)
-
-
-@interceptor
-def getPageData(df_row: tuple, start_page: int, end_page: int):
-    """ Crawl page data """
-    data_lists = []
-    # Range needs plus one
-    for current_page in range(start_page, end_page + 1):
-        data_lists.extend(getResponse(df_row, current_page))
-
-    df = pd.DataFrame(data_lists)
-    df.fillna(0, inplace=True)
-    return df
-
-
-@interceptor
-def main(group: FundGroup):
-    """ Grab history data """
-    date = DateUtils.today(YYYYMMDD)
-    log.info(f"start ({DateUtils.today()}): {date}")
-
-    try:
-        start_page = 1
-        # Daily or Range
-        end_page = 1 if group is FundGroup.DAILY else 6
-
-        item_df = ItemFundRepo.find_first_url_is_null()
-        if item_df.empty:
-            log.warning('ItemFundRepo.find_first_url_is_null() is None')
-        else:
-            df_list = []
-            for item_row in item_df.itertuples(index=False):
-                df = getPageData(item_row, start_page, end_page)
-                # Daily or Range
-                df_list.append(df.head(1)) if group is FundGroup.DAILY else df_list.append(df)
-
-            # log.debug(df_list)
-            df = pd.concat(df_list)
-
-            if not df.empty:
-                df = df.drop(columns=[TRADE_DATE, NAV, CHANGE, CHANGE_PERCENT])
-                log.debug(df)
-                DailyFundRepo.check_and_save(df.values.tolist())
+        try:
+            item_df = ItemFundRepo.find_all()
+            if item_df.empty:
+                log.warning(f"itemfund_repo.findAll() is None")
             else:
-                log.warning(DATA_NOT_EXIST)
-    except Exception:
-        raise
-    finally:
-        log.info(f"end ({DateUtils.today()}): {date}")
+                """ Daily or Range """
+                df_list = pools.map(func=FileUtils.fund_html_daily if group is FundGroup.DAILY else FileUtils.fund_html_range,
+                                    iterable=item_df.itertuples())
+                df = pd.concat(df_list)
 
+                if not df.empty:
+                    # log.debug(df)
+                    """ Daily or Range """
+                    # print(list(df.itertuples(index=False, name=None)))
+                    # print(list(df.itertuples(name=None)))
+                    # print(list(df.itertuples(index=False)))
+                    # print(df.values.tolist())
 
-if __name__ == "__main__":
-    """ ------------------- App Start ------------------- """
-    now = time.time()
-    ms = DateUtils.default_msg(YYYYMMDD_SLASH)
-    fileName = os.path.basename(__file__)
+                    # DailyFundRepo.check_and_save(list(df.itertuples())) if group is FundGroup.DAILY \
+                    #     else DailyFundRepo.check_and_save(df.values.tolist())
+                    DailyFundRepo.check_and_save(df.values.tolist())
+                else:
+                    log.warning(DATA_NOT_EXIST)
+        except Exception:
+            raise
+        finally:
+            log.info(f"end ({DateUtils.today()}): {date}")
+            pools.close()
 
-    try:
-        main(FundGroup.DAILY)
-        # main(FundGroup.RANGE)
-        line_notify.sendMsg([ms, SUCCESS % fileName], TOKEN_NOTIFY)
-    except Exception as e:
-        CoreException.show_error(e, traceback.format_exc())
-        line_notify.sendMsg([ms, FAIL % fileName], TOKEN_NOTIFY)
-    finally:
-        log.debug(f"Time consuming: {time.time() - now}")
-        log.debug(f"End of {fileName}")
+    @classmethod
+    @interceptor
+    def main_daily(cls, group: FundGroup) -> DataFrame:
+        """ 基金DailyFund抓蟲的主程式 """
+        date = DateUtils.today(YYYYMMDD)
+        log.info(f"start ({DateUtils.today()}): {date}")
+        lineNotify = LineUtils()
+
+        try:
+            start_page = 1
+            # Daily or Range
+            end_page = 1 if group is FundGroup.DAILY else 6
+
+            item_df = ItemFundRepo.find_first_url_is_null()
+            if item_df.empty:
+                raise Exception('ItemFundRepo.find_first_url_is_null() is None')
+            else:
+                df_list = []
+                # Use normal loop in case blocking IP
+                for item_row in item_df.itertuples(index=False):
+                    df = cls.__get_page_data(item_row, start_page, end_page)
+                    # Daily or Range
+                    df_list.append(df.head(1)) if group is FundGroup.DAILY else df_list.append(df)
+
+                # log.debug(df_list)
+                df = pd.concat(df_list)
+
+                if not df.empty:
+                    df = df.drop(columns=[TRADE_DATE, NAV, CHANGE, CHANGE_PERCENT])
+                    # log.debug(df)
+
+                lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
+                return df
+        except Exception:
+            lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
+            raise
+        finally:
+            log.info(f"end ({DateUtils.today()}): {date}")
+
+    @classmethod
+    @interceptor
+    def main(cls):
+        """ Main """
+        try:
+            df = cls.main_daily(FundGroup.DAILY)
+
+            """ Save data """
+            if df.empty:
+                log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
+            else:
+                DailyFundRepo.check_and_save(df.values.tolist())
+        except Exception as e:
+            CoreException.show_error(e, traceback.format_exc())
+
+# if __name__ == '__main__':
+#     """ ------------------- App Start ------------------- """
+#     BeautifulsoupFunds.main()
