@@ -6,34 +6,35 @@ import socket
 import time
 import traceback
 from datetime import datetime
-from functools import partial
 from multiprocessing.pool import ThreadPool
 from urllib.error import URLError
 from urllib.request import urlopen
 
 import pandas as pd
 import requests
+from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import log
+from calculations import CPU_THREAD, LOG
 from calculations.common.utils.constants import CHANGE, CHANGE_PERCENT, CLOSE, CNYES_URL, DATA_NOT_EXIST, MARKET_DATE, NAV, STOCK_NAME, \
     SUCCESS, SYMBOL, TRADE_DATE, UPS_AND_DOWNS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_dailyfund import FundGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
+from calculations.common.utils.line_utils import LineUtils
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailyfund_repo import DailyFundRepo
 from calculations.repository.itemfund_repo import ItemFundRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-from calculations.common.utils.line_utils import LineUtils
-
 # 設置socket默認的等待時間，在read超時後能自動往下繼續跑
+from projects.common.constants import THREAD
+
 socket.setdefaulttimeout(10)
 
 
 class BeautifulsoupFunds(IFinancialDaily):
-    """ TODO description Service """
+    """ BeautifulSoup for funds """
 
     def __init__(self):
         """ Constructor """
@@ -54,26 +55,25 @@ class BeautifulsoupFunds(IFinancialDaily):
     @classmethod
     def __get_response(cls, df_row: tuple, current_page: int):
         """ Get HTML from [https://fund.api.cnyes.com/fund/api/v1/funds/%s/nav?format=table&page=%s] """
-        pools = ThreadPool(multiprocessing.cpu_count() - 1)
         try:
             url = CNYES_URL % (df_row.symbol, current_page)
-            log.debug(url)
+            LOG.debug(url)
             response = urlopen(url, timeout=120)
             res_data = json.loads(response.read())
             datas = res_data['items']['data']
             # log.debug(datas)
 
-            partial_func = partial(cls.__arrange_data, df_row)
-            stream_datas = pools.map(func=partial_func, iterable=datas)
+            with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+                stream_datas = Parallel()(delayed(cls.__arrange_data)(df_row, data) for data in datas)
 
             return stream_datas
         except requests.exceptions.ConnectionError as connError:
-            log.error(f"__get_response ConnectionError: {connError}")
+            LOG.error(f"__get_response ConnectionError: {connError}")
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
             cls.__get_response(df_row, current_page)
         except URLError as urlError:
-            log.error(f"__get_response URLError: {urlError}")
+            LOG.error(f"__get_response URLError: {urlError}")
             CoreException.show_error(urlError, traceback.format_exc())
             time.sleep(10)
             cls.__get_response(df_row, current_page)
@@ -81,8 +81,6 @@ class BeautifulsoupFunds(IFinancialDaily):
             raise
         finally:
             time.sleep(6)
-            pools.close()
-            # pools.join()
 
     @classmethod
     @interceptor
@@ -104,13 +102,13 @@ class BeautifulsoupFunds(IFinancialDaily):
     def main_old(cls, group: FundGroup):
         """ Grab history data """
         date = DateUtils.today(YYYYMMDD)
-        log.info(f"start ({DateUtils.today()}): {date}")
+        LOG.info(f"start ({DateUtils.today()}): {date}")
 
         pools = ThreadPool(multiprocessing.cpu_count() - 1)
         try:
             item_df = ItemFundRepo.find_all()
             if item_df.empty:
-                log.warning(f"itemfund_repo.findAll() is None")
+                LOG.warning(f"itemfund_repo.findAll() is None")
             else:
                 """ Daily or Range """
                 df_list = pools.map(func=FileUtils.fund_html_daily if group is FundGroup.DAILY else FileUtils.fund_html_range,
@@ -124,16 +122,13 @@ class BeautifulsoupFunds(IFinancialDaily):
                     # print(list(df.itertuples(name=None)))
                     # print(list(df.itertuples(index=False)))
                     # print(df.values.tolist())
-
-                    # DailyFundRepo.check_and_save(list(df.itertuples())) if group is FundGroup.DAILY \
-                    #     else DailyFundRepo.check_and_save(df.values.tolist())
                     DailyFundRepo.check_and_save(df.values.tolist())
                 else:
-                    log.warning(DATA_NOT_EXIST)
+                    LOG.warning(DATA_NOT_EXIST)
         except Exception:
             raise
         finally:
-            log.info(f"end ({DateUtils.today()}): {date}")
+            LOG.info(f"end ({DateUtils.today()}): {date}")
             pools.close()
 
     @classmethod
@@ -141,7 +136,7 @@ class BeautifulsoupFunds(IFinancialDaily):
     def main_daily(cls, group: FundGroup) -> DataFrame:
         """ 基金DailyFund抓蟲的主程式 """
         date = DateUtils.today(YYYYMMDD)
-        log.info(f"start ({DateUtils.today()}): {date}")
+        LOG.info(f"start ({DateUtils.today()}): {date}")
         lineNotify = LineUtils()
 
         try:
@@ -173,7 +168,7 @@ class BeautifulsoupFunds(IFinancialDaily):
             lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
             raise
         finally:
-            log.info(f"end ({DateUtils.today()}): {date}")
+            LOG.info(f"end ({DateUtils.today()}): {date}")
 
     @classmethod
     @interceptor
@@ -184,7 +179,7 @@ class BeautifulsoupFunds(IFinancialDaily):
 
             """ Save data """
             if df.empty:
-                log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
+                LOG.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
             else:
                 DailyFundRepo.check_and_save(df.values.tolist())
         except Exception as e:

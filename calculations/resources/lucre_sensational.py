@@ -4,7 +4,7 @@ import traceback
 
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import COMPLETE, DS_INSERT, START
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -32,6 +32,7 @@ if __name__ == '__main__':
         # Must save today's data => for line notify
         IStocks.save_db(DS_INSERT, stocks_df)
 
+        # FIXME 使用apply_async去同時分擔2 3 4取得notify的線程
         """ 2. line_utils.py """
         daily_dict = DailyStockNotify.main_daily()
 
@@ -52,4 +53,4 @@ if __name__ == '__main__':
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:
-        log.debug(f"Time consuming: {time.time() - now}")
+        LOG.debug(f"Time consuming: {time.time() - now}")

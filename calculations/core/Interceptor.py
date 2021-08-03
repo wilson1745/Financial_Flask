@@ -1,6 +1,6 @@
 from functools import wraps
 
-from calculations import log
+from calculations import LOG
 
 
 def interceptor(func):
@@ -22,9 +22,9 @@ def interceptor(func):
         #
         # # Log before and after the function
         # log.info(f"====== Start {func.__name__} {'(' + ', '.join('%s = %r' % p for p in params) + ' )'}======")
-        log.info(f"====== Start {func.__name__} ======")
+        LOG.info(f"====== Start {func.__name__} ======")
         result = func(*func_args, **func_kwargs)
-        log.info(f"====== End {func.__name__} ======")
+        LOG.info(f"====== End {func.__name__} ======")
         return result
 
     return wrapper

@@ -12,7 +12,7 @@ from pandas import DataFrame
 from sklearn.metrics import auc, confusion_matrix, roc_curve
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.date_utils import DateUtils
@@ -150,16 +150,16 @@ if __name__ == "__main__":
         """ 測驗結果分析 """
         # 混淆矩陣
         matrix = confusion_matrix(test_y, prediction)
-        log.debug(f"confusion_matrix(test_y, prediction): {matrix}")
+        LOG.debug(f"confusion_matrix(test_y, prediction): {matrix}")
         # 準確率
         score = model.score(test_X, test_y)
-        log.debug(f"model.score(test_X, test_y): {score}")
+        LOG.debug(f"model.score(test_X, test_y): {score}")
 
         # 計算 ROC 曲線
         false_positive_rate, true_positive_rate, thresholds = roc_curve(test_y, prediction)
         # 計算 AUC 面積
         area = auc(false_positive_rate, true_positive_rate)
-        log.debug(f"auc(false_positive_rate, true_positive_rate): {area}")
+        LOG.debug(f"auc(false_positive_rate, true_positive_rate): {area}")
 
         """ 透過 AUC，決定決策樹深度的最佳參數 """
         maxAUC: float = 0
@@ -194,8 +194,8 @@ if __name__ == "__main__":
                 maxAUC = auc_area
                 maxDepth = test_depth
 
-        log.debug(f"maxAUC: {maxAUC}")
-        log.debug(f"maxDepth: {maxDepth}")
+        LOG.debug(f"maxAUC: {maxAUC}")
+        LOG.debug(f"maxDepth: {maxDepth}")
 
         # 繪圖視覺化
         plt.figure(figsize=(14, 10))
@@ -216,4 +216,4 @@ if __name__ == "__main__":
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:
-        log.info(f"====== End of {os.path.basename(__file__)} ======")
+        LOG.info(f"====== End of {os.path.basename(__file__)} ======")

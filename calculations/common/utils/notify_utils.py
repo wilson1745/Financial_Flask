@@ -5,7 +5,7 @@ from multiprocessing.pool import ThreadPool
 
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import CLOSE, CLOSE_Y, D, DOWN_EMO, K, K_D, MARKET_DATE, RSI, RSI_Y, SGNL_B, SGNL_S, STOCK_NAME, SYMBOL, \
     UP_EMO, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, YYYYMMDD, YYYYMMDD_SLASH
 from calculations.common.utils.date_utils import DateUtils
@@ -165,7 +165,7 @@ class NotifyUtils:
 
         try:
             if df_list is None:
-                log.warning("Warning => data_dfs: list = None")
+                LOG.warning("Warning => data_dfs: list = None")
             else:
                 results = pools.map(func=cls.__gen_notify_data, iterable=df_list)
                 # results = list(filter(None, results))

@@ -16,7 +16,7 @@ import requests
 from bs4 import BeautifulSoup
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
 from calculations.common.utils.constants import CLOSE, HEADERS_DF, HTML_PATH, TWSE_MI_INDEX, UPS_AND_DOWNS
@@ -24,6 +24,7 @@ from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from projects.common.utils.date_utils import DateUtils
+from urllib.error import URLError
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -44,14 +45,14 @@ class FileUtils:
     def save_to_original_html(cls, date: str):
         """ Get HTML from [www.twse.com.tw] """
         # log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
-        log.debug(f"saveToOriginalHtml: {date}")
+        LOG.debug(f"saveToOriginalHtml: {date}")
 
         try:
             """ 不管如何都儲存成html檔 => 證交所2pm才會有當天資料 """
             # ex: url = f"https://www.twse.com.tw/exchangeReport/MI_INDEX?response=html&date={date}&type=ALLBUT0999"
             html_path = (HTML_PATH % date)
             url = (TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
-            log.debug(f"Url: {url}")
+            LOG.debug(f"Url: {url}")
 
             response = urllib.request.urlopen(url, timeout=60)
             webContent = response.read()
@@ -63,10 +64,15 @@ class FileUtils:
             """ 使用urlopen方法太過頻繁，引起遠程主機的懷疑，被網站認定為是攻擊行為。導致urlopen()後，request.read()一直卡死在那裡。最後拋出10054異常。 """
             response.close()
         except requests.exceptions.ConnectionError as connError:
-            log.warning(f"ConnectionError saveToOriginalHtml: {date}")
+            LOG.warning(f"ConnectionError saveToOriginalHtml: {date}")
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
             # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止
+            cls.save_to_original_html(date)
+        except URLError as urlError:
+            LOG.error(f"__get_response URLError: {urlError}")
+            CoreException.show_error(urlError, traceback.format_exc())
+            time.sleep(10)
             cls.save_to_original_html(date)
         except Exception:
             raise
@@ -78,19 +84,19 @@ class FileUtils:
     @interceptor
     def save_to_original_csv(date: str):
         """ Save CSV """
-        log.debug(f"saveToOriginalCsv: {date}")
+        LOG.debug(f"saveToOriginalCsv: {date}")
         filepath = (constants.HTML_PATH % date)
 
         if not os.path.isfile(filepath):
-            log.warning(constants.FILE_NOT_EXIST % filepath)
+            LOG.warning(constants.FILE_NOT_EXIST % filepath)
         else:
-            log.debug(f"Reading {filepath}")
+            LOG.debug(f"Reading {filepath}")
             soup = BeautifulSoup(open(filepath, 'r', encoding='UTF-8'), 'html.parser')
             # table = soup.findAll("table", {"class":"wikitable"})[0]
             table = soup.findAll('table')
 
             if not table:
-                log.warning(f"Table not exist, maybe there is no data on {date}")
+                LOG.warning(f"Table not exist, maybe there is no data on {date}")
             else:
                 table_last = table[len(table) - 1]
                 rows = table_last.find_all('tr')
@@ -111,17 +117,17 @@ class FileUtils:
     @interceptor
     def save_to_final_csv_return_df(date: str) -> DataFrame:
         """ Save final CSV and return pandas dataframe """
-        log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
+        LOG.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
 
         # Empty dataFrame
         df = pandas.DataFrame()
         filepath = (constants.CSV_PATH % date)
 
         if not os.path.isfile(filepath):
-            log.warning(constants.FILE_NOT_EXIST % filepath)
+            LOG.warning(constants.FILE_NOT_EXIST % filepath)
         else:
-            log.debug(f"Reading {filepath}")
-            with open(filepath, errors="ignore", encoding="UTF-8") as csvfile:
+            LOG.debug(f"Reading {filepath}")
+            with open(filepath, errors='ignore', encoding='UTF-8') as csvfile:
                 # 讀取 CSV 檔案內容
                 rows = csv.reader(csvfile)
 
@@ -138,65 +144,56 @@ class FileUtils:
     @interceptor
     def gen_data_direct(date: str) -> DataFrame:
         """ Get data from CSV directly """
-        try:
-            # Empty dataFrame
-            df = pandas.DataFrame()
-            filepath = (constants.CSV_FINAL_PATH % date)
+        # Empty dataFrame
+        df = pandas.DataFrame()
+        filepath = (constants.CSV_FINAL_PATH % date)
 
-            if not os.path.isfile(filepath):
-                log.warning(constants.DATA_NOT_EXIST % date)
-            else:
-                df = pandas.read_csv(filepath)
-                new_headers = CollectionUtils.header_daily_stock(df[:1])
-                df.columns = new_headers
-                log.debug(df)
+        if not os.path.isfile(filepath):
+            LOG.warning(constants.DATA_NOT_EXIST % date)
+        else:
+            df = pandas.read_csv(filepath)
+            new_headers = CollectionUtils.header_daily_stock(df[:1])
+            df.columns = new_headers
+            LOG.debug(df)
 
-            return df
-        except Exception:
-            raise
+        return df
 
     @staticmethod
     @interceptor
     def gen_txt_file(error_dates: list):
         """ Save txt file """
-        try:
-            filepath = constants.URL_ERROR_TXT_PATH % DateUtils.today(constants.YYYY_MM_DD)
-            with open(filepath, "w") as output:
-                output.write(json.dumps(error_dates))
-        except Exception:
-            raise
+        filepath = constants.URL_ERROR_TXT_PATH % DateUtils.today(constants.YYYY_MM_DD)
+        with open(filepath, "w") as output:
+            output.write(json.dumps(error_dates))
 
     @staticmethod
     @interceptor
     def read_txt_file(date: str):
         """ Read txt file """
-        try:
-            filepath = constants.URL_ERROR_TXT_PATH % DateUtils.today(constants.YYYY_MM_DD) if not date else date
-            with open(filepath, errors="ignore", encoding="UTF-8") as output:
-                content = json.loads(output.read())
-                log.debug(f"row size: {len(content)}")
-                log.debug(f"{content}")
+        filepath = constants.URL_ERROR_TXT_PATH % DateUtils.today(constants.YYYY_MM_DD) if not date else date
+        with open(filepath, errors="ignore", encoding="UTF-8") as output:
+            content = json.loads(output.read())
+            LOG.debug(f"row size: {len(content)}")
+            LOG.debug(f"{content}")
 
-            # FIXME return type?
-            return content
-        except Exception:
-            raise
+        # FIXME return type?
+        return content
 
     @classmethod
     @interceptor
     def fund_html_daily(cls, row) -> DataFrame:
         """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
-        log.debug(f"fund_html_daily: {row}")
+        LOG.debug(f"fund_html_daily: {row}")
         try:
             url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
-            log.debug(f"Url: {url}")
+            LOG.debug(f"Url: {url}")
 
             response = urllib.request.urlopen(url, timeout=60)
             soup = BeautifulSoup(response, 'html.parser')
             table = soup.findAll('table')
 
             if not table:
-                log.warning(f"Table not exist")
+                LOG.warning(f"Table not exist")
             else:
                 # second_url could lead to the different table (for now)
                 table_new = table[5] if 'yp010000' == row.second_url else table[4]
@@ -243,17 +240,17 @@ class FileUtils:
     @interceptor
     def fund_html_range(cls, row) -> DataFrame:
         """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
-        log.debug(f"fund_html_range: {row}")
+        LOG.debug(f"fund_html_range: {row}")
         try:
             url = constants.MONEYDJ_URL % (row.first_url, row.second_url, row.symbol)
-            log.debug(f"Url: {url}")
+            LOG.debug(f"Url: {url}")
 
             response = urllib.request.urlopen(url, timeout=60)
             soup = BeautifulSoup(response, 'html.parser')
             table = soup.findAll('table')
 
             if not table:
-                log.warning(f"Table not exist")
+                LOG.warning(f"Table not exist")
             else:
                 # second_url could lead to the different table (for now)
                 table_new = table[6] if 'yp010000' == row.second_url else table[5]

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import talib
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import CLOSE, RSI
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -80,11 +80,11 @@ if __name__ == "__main__":
         # Generate RSI
         GenRSI(stock)
         # stock = stock.round(2)
-        log.debug(stock)
+        LOG.debug(stock)
 
         # Making picture
         plot(stock)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:
-        log.debug(f"Time consuming: {time.time() - now}")
+        LOG.debug(f"Time consuming: {time.time() - now}")

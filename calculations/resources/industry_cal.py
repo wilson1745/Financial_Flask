@@ -4,7 +4,7 @@ import traceback
 
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import FAIL, RISING_SYMBOLS_PATH, SUCCESS
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.enums.enum_industry import IndustryGroup
@@ -103,7 +103,7 @@ class IndustryCalculation(IFinancialDaily):
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
         finally:
-            log.debug(f"Time consuming: {time.time() - now}")
+            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor

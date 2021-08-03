@@ -8,7 +8,7 @@ from urllib.request import urlopen
 import requests
 from bs4 import BeautifulSoup
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -33,18 +33,18 @@ class IndustryUtils:
                 filepath = (constants.HTML_PATH % dateStr)
 
                 if not os.path.isfile(filepath):
-                    log.warning(constants.FILE_NOT_EXIST % filepath)
+                    LOG.warning(constants.FILE_NOT_EXIST % filepath)
                     # 減一天
                     date -= datetime.timedelta(days=1)
                     continue
                 else:
                     isNoFile = False
-                    log.debug(f"Reading {filepath}")
+                    LOG.debug(f"Reading {filepath}")
                     soup = BeautifulSoup(open(filepath, 'r', encoding='UTF-8'), 'html.parser')
                     table = soup.findAll('table')
 
                     if not table:
-                        log.warning(f"Table not exist")
+                        LOG.warning(f"Table not exist")
                     else:
                         table_last = table[0]
                         rows = table_last.find_all('tr')
@@ -66,11 +66,11 @@ class IndustryUtils:
     @interceptor
     def saveIndustryHtml(cls, mode: str = '2') -> None:
         """ Get HTML from [www.twse.com.tw] 本國上市證券國際證券辨識號碼一覽表 """
-        log.debug(f"readIndustryHtml strMode: {mode}")
+        LOG.debug(f"readIndustryHtml strMode: {mode}")
 
         try:
             url = (constants.TWSE_INDUSTRY_INDEX % mode)
-            log.debug(f"Url: {url}")
+            LOG.debug(f"Url: {url}")
 
             response = urllib.request.urlopen(url, timeout=60)
             webContent = response.read()
@@ -86,7 +86,7 @@ class IndustryUtils:
             """
             如果遇到沒有發送訊息的話，使用[遞歸]重新進行，直到成功為止 (https://www.cnblogs.com/Neeo/articles/11520952.html#urlliberror)
             """
-            log.warning(f"ConnectionError: {connError}")
+            LOG.warning(f"ConnectionError: {connError}")
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
             # again
@@ -102,17 +102,17 @@ class IndustryUtils:
 
         try:
             if not os.path.isfile(filepath):
-                log.warning(constants.FILE_NOT_EXIST % filepath)
+                LOG.warning(constants.FILE_NOT_EXIST % filepath)
             else:
-                log.debug(f"Reading {filepath}")
+                LOG.debug(f"Reading {filepath}")
                 soup = BeautifulSoup(open(filepath, 'r'), 'html.parser')
                 table = soup.findAll('table')
 
                 if not table:
-                    log.warning(f"Table not exist")
+                    LOG.warning(f"Table not exist")
                 else:
                     table_last = table[len(table) - 1]
                     rows = table_last.find_all('tr')
-                    log.debug(rows[2:10])
+                    LOG.debug(rows[2:10])
         except Exception:
             raise

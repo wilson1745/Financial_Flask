@@ -4,7 +4,7 @@ import traceback
 
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import COMPLETE, START
 from calculations.common.utils.enums.enum_dailyfund import FundGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         df_fund = BeautifulsoupFunds.main_daily(FundGroup.DAILY)
         # Must save today's data
         if df_fund.empty:
-            log.warning(f"BeautifulsoupFunds.main_daily: df is None")
+            LOG.warning(f"BeautifulsoupFunds.main_daily: df is None")
         else:
             DailyFundRepo.check_and_save(df_fund.values.tolist())
 
@@ -45,4 +45,4 @@ if __name__ == '__main__':
         CoreException.show_error(e, traceback.format_exc())
         # TODO send fail image
     finally:
-        log.debug(f"Time consuming: {time.time() - now}")
+        LOG.debug(f"Time consuming: {time.time() - now}")

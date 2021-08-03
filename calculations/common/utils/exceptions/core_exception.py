@@ -1,6 +1,6 @@
 import os
 
-from calculations import log
+from calculations import LOG
 
 
 class CoreException:
@@ -11,13 +11,13 @@ class CoreException:
 
     @staticmethod
     def show_error(e: Exception, trace: str):
-        log.error(f"Exception: {e}")
-        log.error(f'Exception: {trace}')
+        LOG.error(f"Exception: {e}")
+        LOG.error(f'Exception: {trace}')
 
     @staticmethod
     def show(get_result):
-        log.debug("Callback: {} PID: {}".format(get_result, os.getpid()))
+        LOG.debug("Callback: {} PID: {}".format(get_result, os.getpid()))
 
     @staticmethod
     def error(value):
-        log.error("error: {}".format(value))
+        LOG.error("error: {}".format(value))

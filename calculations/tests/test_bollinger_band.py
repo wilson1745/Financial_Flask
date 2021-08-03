@@ -9,7 +9,7 @@ import pandas as pd
 import talib
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import CLOSE, D, K
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -95,5 +95,5 @@ if __name__ == "__main__":
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:
-        log.debug(f"Async time consuming: {time.time() - now}")
-        log.debug(f"End of {os.path.basename(__file__)}")
+        LOG.debug(f"Async time consuming: {time.time() - now}")
+        LOG.debug(f"End of {os.path.basename(__file__)}")

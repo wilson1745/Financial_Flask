@@ -2,7 +2,7 @@ import os
 import time
 import traceback
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.constants import MARKET_DATE
 from calculations.common.utils.date_utils import DateUtils
@@ -24,9 +24,9 @@ def main():
         MA_20 = df.rolling(20).mean()
         MA_5.dropna(inplace=True)
 
-        log.debug(MA_5.head(10))
-        log.debug(MA_5)
-        log.debug(MA_20)
+        LOG.debug(MA_5.head(10))
+        LOG.debug(MA_5)
+        LOG.debug(MA_20)
     except Exception:
         raise
 
@@ -43,5 +43,5 @@ if __name__ == '__main__':
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:
-        log.debug(f"Time consuming: {time.time() - now}")
-        log.debug(f"End of {fileName}")
+        LOG.debug(f"Time consuming: {time.time() - now}")
+        LOG.debug(f"End of {fileName}")

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import CLOSE, HIGH, LOW, MARKET_DATE, OPEN, POS, VOLUME
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
@@ -61,13 +61,13 @@ def GetMaData(sid):
 
     # 分別計算7天,15天與30天的移動平均線
     df["MA_7"] = MA(df[CLOSE], 7)
-    log.debug(df["MA_7"])
+    LOG.debug(df["MA_7"])
 
     df["MA_15"] = MA(df[CLOSE], 15)
-    log.debug(df["MA_15"])
+    LOG.debug(df["MA_15"])
 
     df["MA_30"] = MA(df[CLOSE], 30)
-    log.debug(df["MA_30"])
+    LOG.debug(df["MA_30"])
 
     # 指數移動平均線
     df["EMA_12"] = df[CLOSE].ewm(span=12).mean()

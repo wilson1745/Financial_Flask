@@ -3,15 +3,15 @@ from multiprocessing.pool import ThreadPool
 
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import DF_INSERT
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.core.Interceptor import interceptor
-from calculations.repository.interfaces.irepository import IRepository
+from calculations.repository.interfaces.ioracle_repo import IOracleRepo
 from projects.common.constants import DATA_NOT_EXIST
 
 
-class DailyFundRepo(IRepository):
+class DailyFundRepo(IOracleRepo):
     """ Table DAILYFUND """
 
     @classmethod
@@ -41,12 +41,12 @@ class DailyFundRepo(IRepository):
         """ Check DB data one by one """
         pools = ThreadPool(multiprocessing.cpu_count() - 1)
         new_datas = pools.map(func=cls.__check_exist, iterable=datas)
-        log.debug(f"check_and_save: {new_datas}")
+        LOG.debug(f"check_and_save: {new_datas}")
 
         if len(new_datas) > 0:
             super().bulk_save(DF_INSERT, list(filter(None, new_datas)))
         else:
-            log.warning(DATA_NOT_EXIST)
+            LOG.warning(DATA_NOT_EXIST)
 
 # if __name__ == "__main__":
 #     """ ------------------- App Start ------------------- """

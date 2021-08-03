@@ -10,7 +10,7 @@ from urllib.request import urlopen
 import pandas as pd
 import requests
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.constants import CLOSE, CNYES_URL, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS
 from calculations.common.utils.date_utils import DateUtils
@@ -43,7 +43,7 @@ def __getResponse(df_row: tuple, current_page: int) -> list:
     """ TODO Description """
     try:
         url = CNYES_URL % (df_row.symbol, current_page)
-        log.debug(url)
+        LOG.debug(url)
         response = urlopen(url)
         res_data = json.loads(response.read())
         datas = res_data['items']['data']
@@ -82,7 +82,7 @@ def getPageData(df_row: tuple, start_page: int, end_page: int):
 def main(group: FundGroup):
     """ Grab history data """
     date = DateUtils.today(constants.YYYYMMDD)
-    log.info(f"start ({DateUtils.today()}): {date}")
+    LOG.info(f"start ({DateUtils.today()}): {date}")
 
     try:
         start_page = 1
@@ -90,7 +90,7 @@ def main(group: FundGroup):
 
         item_df = ItemFundRepo.find_first_url_is_null()
         if item_df.empty:
-            log.warning('ItemFundRepo.find_first_url_is_null() is None')
+            LOG.warning('ItemFundRepo.find_first_url_is_null() is None')
         else:
             df_list = []
             for item_row in item_df.itertuples(index=False):
@@ -101,21 +101,21 @@ def main(group: FundGroup):
 
             if not df.empty:
                 df = df.drop(columns=['tradeDate', 'nav', 'change', 'changePercent'])
-                log.debug(df)
+                LOG.debug(df)
                 DailyFundRepo.check_and_save(df.values.tolist())
             else:
-                log.warning(constants.DATA_NOT_EXIST)
+                LOG.warning(constants.DATA_NOT_EXIST)
     except Exception:
         raise
     finally:
-        log.info(f"end ({DateUtils.today()}): {date}")
+        LOG.info(f"end ({DateUtils.today()}): {date}")
 
 
 @interceptor
 def main_daily():
     """ Grab history data """
     date = DateUtils.today(constants.YYYYMMDD)
-    log.info(f"start ({DateUtils.today()}): {date}")
+    LOG.info(f"start ({DateUtils.today()}): {date}")
 
     try:
         start_page = 1
@@ -123,7 +123,7 @@ def main_daily():
 
         item_df = ItemFundRepo.find_first_url_is_null()
         if item_df.empty:
-            log.warning('ItemFundRepo.find_first_url_is_null() is None')
+            LOG.warning('ItemFundRepo.find_first_url_is_null() is None')
         else:
             df_list = []
             for item_row in item_df.itertuples(index=False):
@@ -135,14 +135,14 @@ def main_daily():
 
             if not df.empty:
                 df = df.drop(columns=['tradeDate', 'nav', 'change', 'changePercent'])
-                log.debug(df)
+                LOG.debug(df)
                 # DailyFundRepo.check_and_save(df.values.tolist())
             else:
-                log.warning(constants.DATA_NOT_EXIST)
+                LOG.warning(constants.DATA_NOT_EXIST)
     except Exception:
         raise
     finally:
-        log.info(f"end ({DateUtils.today()}): {date}")
+        LOG.info(f"end ({DateUtils.today()}): {date}")
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ from multiprocessing.pool import ThreadPool, ThreadPool as Pool
 import pandas as pd
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, HEADERS_DF_E, HEADERS_T, \
     HIGH, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
@@ -47,7 +47,7 @@ class DataFrameUtils:
                 # log.debug(row)
             return row
         else:
-            log.warning(constants.DATA_NOT_EXIST % row)
+            LOG.warning(constants.DATA_NOT_EXIST % row)
             return None
 
     @staticmethod
@@ -74,7 +74,7 @@ class DataFrameUtils:
                     row[10] = row[9] + row[10]
                 # log.debug(row)
         else:
-            log.warning(constants.DATA_NOT_EXIST % row)
+            LOG.warning(constants.DATA_NOT_EXIST % row)
 
     @classmethod
     @interceptor
@@ -167,7 +167,7 @@ class DataFrameUtils:
 
                 # 以迴圈輸出每一列
                 for row in rows:
-                    log.debug(row)
+                    LOG.debug(row)
         except Exception:
             raise
 
@@ -189,7 +189,7 @@ class DataFrameUtils:
         try:
             df = pd.DataFrame(rows)
             if df.empty:
-                log.warn("No data exist!")
+                LOG.warn("No data exist!")
             else:
                 df.columns = HEADERS_T
                 df.index = pd.to_datetime(df['market_date'])
@@ -206,7 +206,7 @@ class DataFrameUtils:
         try:
             df = pd.DataFrame(rows)
             if df.empty:
-                log.warn('No data exist!')
+                LOG.warn('No data exist!')
             else:
                 df.columns = HEADER_ITEMFUND_E
                 df.index = df['symbol']
@@ -222,7 +222,7 @@ class DataFrameUtils:
         """ 處理(基金)爬蟲完的資料 """
         df = pd.DataFrame(rows)
         if df.empty:
-            log.warn("No data exist!")
+            LOG.warn("No data exist!")
         else:
             df.columns = HEADERS_DF_E
             df = df.set_index(df[MARKET_DATE])
