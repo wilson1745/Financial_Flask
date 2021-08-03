@@ -11,10 +11,10 @@ from calculations.common.utils.enums.enum_industry import IndustryGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.industry_utils import IndustryUtils
+from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core.Interceptor import interceptor
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-from calculations.common.utils.line_utils import LineUtils
 
 
 class IndustryCalculation(IFinancialDaily):
@@ -77,8 +77,7 @@ class IndustryCalculation(IFinancialDaily):
     def query_data() -> DataFrame:
         """ 抓出有潛力的stock """
         industry_rows = IndustryUtils.readPriceIndex()
-        df = DataFrameUtils.genIndustryDf(industry_rows)
-        return df
+        return DataFrameUtils.genIndustryDf(industry_rows)
 
     @classmethod
     @interceptor

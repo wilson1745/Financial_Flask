@@ -9,23 +9,22 @@ import multiprocessing
 import os
 import time
 import traceback
-from functools import partial
 from multiprocessing.pool import ThreadPool
 
 import pandas as pd
-from joblib import parallel_backend, Parallel, delayed
+from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import LOG, CPU_THREAD
+from calculations import CPU_THREAD, LOG
 from calculations.common.utils.constants import CLOSE, FAIL, SUCCESS, SYMBOL, YYYYMMDD
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-from calculations.common.utils.line_utils import LineUtils
 from projects.common.constants import THREAD
 
 
@@ -92,7 +91,6 @@ class PotentialStock(IFinancialDaily):
         now = time.time()
         data_dict: dict = {}
 
-        pools = ThreadPool(multiprocessing.cpu_count() - 1)
         lineNotify = LineUtils()
         try:
             dateList = []
@@ -149,8 +147,6 @@ class PotentialStock(IFinancialDaily):
             raise
         finally:
             LOG.debug(f"Time consuming: {time.time() - now}")
-            pools.close()
-            # pools.join()
 
     @classmethod
     @interceptor
@@ -202,7 +198,6 @@ class PotentialStock(IFinancialDaily):
             NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.RILEY))
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
-
 
 # if __name__ == '__main__':
 #     """ ------------------- App Start ------------------- """
