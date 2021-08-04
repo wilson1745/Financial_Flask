@@ -1,7 +1,7 @@
 import time
 import traceback
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -27,5 +27,5 @@ if __name__ == "__main__":
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:
-        log.info(f"Test end")
-        log.debug(f"Time consuming: {time.time() - now}")
+        LOG.info(f"Test end")
+        LOG.debug(f"Time consuming: {time.time() - now}")

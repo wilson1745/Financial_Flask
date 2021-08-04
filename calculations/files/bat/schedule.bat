@@ -22,8 +22,8 @@ cd C:\Users\wilso\PycharmProjects\Financial_Flask\calculations\resources\
 ::call python -m industry_cal
 ::echo over industry_cal
 
-call python -m sensational_lucre
-echo over sensational_lucre
+call python -m lucre_sensational
+echo over lucre_sensational
 
 :: Line notify sends image
 ::call python -c "import line_notify;line_notify.sendImg('Complete.png', 'Complete')"

@@ -1,21 +1,19 @@
 # -*- coding: UTF-8 -*-
-import multiprocessing
 import os
 import time
 import traceback
-from multiprocessing.pool import ThreadPool
 
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import DS_INSERT, FAIL, SUCCESS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
+from calculations.common.utils.line_utils import LineUtils
 from calculations.core.Interceptor import interceptor
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
 from calculations.resources.interfaces.istocks import IStocks
-from calculations.common.utils.line_utils import LineUtils
 
 
 class BeautifulSoupStocks(IStocks, IFinancialDaily):
@@ -32,7 +30,6 @@ class BeautifulSoupStocks(IStocks, IFinancialDaily):
         now = time.time()
         date = DateUtils.today(YYYYMMDD)
 
-        pools = ThreadPool(multiprocessing.cpu_count() - 1)
         lineNotify = LineUtils()
         # 有資料才使用Line notify
         try:
@@ -51,8 +48,7 @@ class BeautifulSoupStocks(IStocks, IFinancialDaily):
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
         finally:
-            log.debug(f"Time consuming: {time.time() - now}")
-            pools.close()
+            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor
@@ -63,7 +59,7 @@ class BeautifulSoupStocks(IStocks, IFinancialDaily):
 
             """ Save data """
             if df.empty:
-                log.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
+                LOG.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
             else:
                 super().save_db(DS_INSERT, df)
         except Exception as e:

@@ -3,7 +3,7 @@ import datetime
 
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils import constants
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
@@ -78,4 +78,4 @@ if __name__ == "__main__":
 
     df = getDayKBar(symbol, year_month)
     # df = getDayKBarbyNum(symbol, num)
-    log.debug(df)
+    LOG.debug(df)

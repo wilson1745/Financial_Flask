@@ -1,14 +1,13 @@
 # -*- coding: UTF-8 -*-
-
 import pandas as pd
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import SYMBOL
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.enums.enum_yes_no import YesNo
 from calculations.core.Interceptor import interceptor
-from calculations.repository.interfaces.irepository import IRepository
+from calculations.repository.interfaces.ioracle_repo import IOracleRepo
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -18,7 +17,7 @@ pd.set_option("display.unicode.ambiguous_as_wide", True)
 pd.set_option("display.unicode.east_asian_width", True)
 
 
-class DailyStockRepo(IRepository):
+class DailyStockRepo(IOracleRepo):
     """ Table DAILYSTOCK """
 
     @classmethod
@@ -82,7 +81,7 @@ class DailyStockRepo(IRepository):
         df = pd.DataFrame(datas)
 
         if df.empty:
-            log.warn('No data exist!')
+            LOG.warn('No data exist!')
         else:
             df.columns = [SYMBOL]
             df.index = df[SYMBOL]

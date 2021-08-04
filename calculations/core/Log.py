@@ -15,6 +15,7 @@ class Logger(object):
 
     def __init__(self, filename, level='info', when='D', backCount=30,
                  fmt='%(asctime)s - %(levelname)s - %(pathname)s[line:%(lineno)d]: %(message)s'):
+        """ Constructor """
         # logging.basicConfig(level=logging.DEBUG)
         self.logger = logging.getLogger(filename)
 

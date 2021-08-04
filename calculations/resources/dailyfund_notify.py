@@ -1,24 +1,24 @@
 # -*- coding: UTF-8 -*-
-import multiprocessing
 import os
 import time
 import traceback
 from datetime import datetime
-from multiprocessing.pool import ThreadPool
 
+from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import FAIL, SUCCESS
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailyfund_repo import DailyFundRepo
 from calculations.repository.itemfund_repo import ItemFundRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-from calculations.common.utils.line_utils import LineUtils
+from projects.common.constants import THREAD
 
 
 class DailyFundNotify(IFinancialDaily):
@@ -32,9 +32,8 @@ class DailyFundNotify(IFinancialDaily):
     @interceptor
     def query_data(symbol: str) -> DataFrame:
         """ DailyFundRepo """
-        log.debug(f"Start genNotifyStr: {symbol} at {datetime.now()} ")
-        data_df = DailyFundRepo.find_by_symbol(symbol)
-        return data_df
+        LOG.debug(f"Start genNotifyStr: {symbol} at {datetime.now()} ")
+        return DailyFundRepo.find_by_symbol(symbol)
 
     @classmethod
     @interceptor
@@ -42,15 +41,15 @@ class DailyFundNotify(IFinancialDaily):
         """ 基金通知的主程式 """
         now = time.time()
 
-        pools = ThreadPool(multiprocessing.cpu_count() - 1)
         lineNotify = LineUtils()
         try:
             item_df = ItemFundRepo.find_all()
             symbols = list(item_df.index.values)
-            log.debug(f"Symbols: {symbols}")
+            LOG.debug(f"Symbols: {symbols}")
 
             # 產生DailyFund的notify訊息
-            df_list = pools.map(func=cls.query_data, iterable=symbols)
+            with parallel_backend(THREAD, n_jobs=-1):
+                df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in symbols)
             stocks_dict = NotifyUtils.arrange_notify(df_list, NotifyGroup.getLineGroup())
 
             lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
@@ -59,9 +58,7 @@ class DailyFundNotify(IFinancialDaily):
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
         finally:
-            log.debug(f"Time consuming: {time.time() - now}")
-            pools.close()
-            # pools.join()
+            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor

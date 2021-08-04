@@ -1,11 +1,15 @@
 """ Top level than other modules in core package """
-from calculations import log
-from calculations.repository.oracle_db import ConnectionPool
+from calculations import LOG
+from calculations.repository.mysql_db import MysqlConnectionPool
+from calculations.repository.oracle_db import OracleConnectionPool
 
-pool = ConnectionPool().pool
-log.info("Initiallize OracleDB's AdwPool completely")
+MYSQL_POOL = MysqlConnectionPool().pool
+LOG.info("Initiallize MySQL's database completely")
 
-if __name__ == "__main__":
-    log.info("repository 作為主程序啟動")
+ORACLE_POOL = OracleConnectionPool().pool
+LOG.info("Initiallize OracleDB's AdwPool completely")
+
+if __name__ == '__main__':
+    LOG.info("Repository 作為主程序啟動")
 else:
-    log.info("repository 初始化")
+    LOG.info("Repository 初始化")

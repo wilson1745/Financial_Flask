@@ -9,8 +9,8 @@ cd C:\Users\wilso\PycharmProjects\Financial_Flask\calculations\resources\
 ::call python -c "import line_notify;line_notify.sendImg('Start.png', 'Start')"
 ::echo over line_notify
 
-call python -m funds_lucre
-echo over funds_lucre
+call python -m lucre_funds
+echo over lucre_funds
 
 :: Line notify sends image
 ::call python -c "import line_notify;line_notify.sendImg('Complete.png', 'Complete')"

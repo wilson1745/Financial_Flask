@@ -4,7 +4,7 @@ import traceback
 import mysql.connector
 import pyodbc
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.db_connections import DbConnections
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -12,7 +12,7 @@ from calculations.core.Interceptor import interceptor
 
 @interceptor
 def insert_connector_mysql(today, stock_data):
-    log.info("Save data into MySQL DB")
+    LOG.info("Save data into MySQL DB")
 
     # 連接 MySQL/MariaDB 資料庫
     connection = mysql.connector.connect(
@@ -44,7 +44,7 @@ def insert_connector_mysql(today, stock_data):
 def insert_dailystock_mysql(today, stock_data) -> bool:
     # 顯示目前系統上的所有SQL driver
     # log.debug(pyodbc.drivers())
-    log.info("Save data into MySQL DB")
+    LOG.info("Save data into MySQL DB")
 
     con = DbConnections('mysql')
     with pyodbc.connect(
@@ -86,8 +86,8 @@ def insert_dailystock_mysql(today, stock_data) -> bool:
 def saveDailystockBatch(today: str, stock_data: list):
     # 顯示目前系統上的所有SQL driver
     # log.debug(pyodbc.drivers())
-    log.info("Save data into MySQL DB")
-    log.debug(f"today: {today}, stock_data size:{len(stock_data)}")
+    LOG.info("Save data into MySQL DB")
+    LOG.debug(f"today: {today}, stock_data size:{len(stock_data)}")
     start = time.time()
 
     conn = mysql.connector.connect(
@@ -112,4 +112,4 @@ def saveDailystockBatch(today: str, stock_data: list):
         CoreException.show_error(e, traceback.format_exc())
         conn.rollback()
     finally:
-        log.debug(f"Time: {time.time() - start}")
+        LOG.debug(f"Time: {time.time() - start}")

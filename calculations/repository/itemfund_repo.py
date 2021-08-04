@@ -5,11 +5,11 @@ import traceback
 import pandas as pd
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
-from calculations.repository.interfaces.irepository import IRepository
+from calculations.repository.interfaces.ioracle_repo import IOracleRepo
 
 pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
@@ -19,7 +19,7 @@ pd.set_option('display.unicode.ambiguous_as_wide', True)
 pd.set_option('display.unicode.east_asian_width', True)
 
 
-class ItemFundRepo(IRepository):
+class ItemFundRepo(IOracleRepo):
     """ Table ITEMFUND """
 
     @classmethod
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     except Exception as main_e:
         CoreException.show_error(main_e, traceback.format_exc())
     finally:
-        log.debug(f"Time consuming: {time.time() - now}")
+        LOG.debug(f"Time consuming: {time.time() - now}")

@@ -4,7 +4,7 @@ import traceback
 
 import requests
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import IMAGE_PATH, NOTIFY_LINK, YYYYMMDD_SLASH
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
@@ -36,7 +36,7 @@ class LineUtils:
     @interceptor
     def send_msg(self, msg: list, tok: NotifyTok = None):
         """ Sending message through Line client """
-        log.debug(f"sendMsg msg: {msg}")
+        LOG.debug(f"sendMsg msg: {msg}")
 
         try:
             # Decide Line token
@@ -56,14 +56,20 @@ class LineUtils:
             200 => success
             414 => message too long
             """
-            log.debug(f"Response status: {response.status_code}")
+            LOG.debug(f"Response status: {response.status_code}")
             response.close()
+        except ConnectionResetError as connResetError:
+            LOG.warning(f"ConnectionResetError msg: {msg}")
+            CoreException.show_error(connResetError, traceback.format_exc())
+            time.sleep(10)
+            # Send notify again
+            self.send_msg(msg)
         except requests.exceptions.ConnectionError as connError:
             # FIXME 觀察一陣子
             """
             如果遇到沒有發送訊息的話，使用[遞歸]重新進行，直到成功為止 (https://www.cnblogs.com/Neeo/articles/11520952.html#urlliberror)
             """
-            log.warning(f"ConnectionError msg: {msg}")
+            LOG.warning(f"ConnectionError msg: {msg}")
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
             # Send notify again
@@ -94,7 +100,7 @@ class LineUtils:
             200 => success
             414 => message too long
             """
-            log.debug(f"Response status: {response.status_code}")
+            LOG.debug(f"Response status: {response.status_code}")
             response.close()
         except requests.exceptions.ConnectionError as connError:
             CoreException.show_error(connError, traceback.format_exc())

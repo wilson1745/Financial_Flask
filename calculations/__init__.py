@@ -1,14 +1,20 @@
+import multiprocessing
 from datetime import datetime
 from pathlib import Path
 
 from calculations.core import Log
 
 """ Top level than other modules in core package """
-log = Log.Logger((str(Path(Path(__file__).resolve().parents[0])) + r"\files\logs\%s.log")
+LOG = Log.Logger((str(Path(Path(__file__).resolve().parents[0])) + r"\files\logs\%s.log")
                  % datetime.now().strftime("%Y_%m_%d"), level="debug").logger
-log.info("Initiallize calculations logger completely")
+LOG.info(f"Initiallize Log.Logger logger: {LOG}")
 
-if __name__ == "__main__":
-    log.info("calculations 作為主程序啟動")
+""" For parallel process (Do not use all my processing power) """
+# CPU_THREAD = multiprocessing.cpu_count()
+CPU_THREAD = multiprocessing.cpu_count() - 1
+LOG.info(f"Initiallize multiprocessing.cpu_count() cpu_thread: {CPU_THREAD} ")
+
+if __name__ == '__main__':
+    LOG.info("Project Calculations 作為主程序啟動")
 else:
-    log.info("calculations 初始化")
+    LOG.info("Project Calculations 初始化")

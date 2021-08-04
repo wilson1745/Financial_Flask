@@ -7,7 +7,7 @@ import traceback
 import talib
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import CLOSE, D, K, LOWER, MIDDLE, SGNL_B, SGNL_S, UPPER
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -53,6 +53,6 @@ if __name__ == "__main__":
         BuySellSignal(stock_df)
 
         # log.debug(stock.tail())
-        log.debug(stock_df)
+        LOG.debug(stock_df)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

@@ -8,7 +8,7 @@ import traceback
 import pandas
 from pandas import DataFrame
 
-from calculations import log
+from calculations import LOG
 from calculations.common.utils.constants import CLOSE, D, HIGH, K, LOW
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -108,6 +108,6 @@ if __name__ == "__main__":
 
         GenKD(stock)
         # log.debug(stock.tail())
-        log.debug(stock)
+        LOG.debug(stock)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
