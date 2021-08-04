@@ -20,9 +20,6 @@ from threading import Thread
 
 from joblib import delayed, Parallel, parallel_backend
 
-from calculations import CPU_THREAD
-from projects.common.constants import THREAD
-
 
 def f_IO(a):  # IO 密集型
     time.sleep(5)
@@ -121,5 +118,5 @@ if __name__ == "__main__":
     sub_f = f_IO
     main(sub_f)
 
-    # with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+    # with parallel_backend(THREAD, n_jobs=-1):
     #     Parallel()(delayed(query_data)(num) for num in range(10))

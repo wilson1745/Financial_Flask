@@ -9,7 +9,7 @@ import pandas as pd
 from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import CPU_THREAD, LOG
+from calculations import LOG
 from calculations.common.utils.collection_utils import CollectionUtils
 from calculations.common.utils.constants import CSV_FINAL_PATH, DATA_NOT_EXIST, DS_INSERT, FAIL, SUCCESS
 from calculations.common.utils.date_utils import DateUtils
@@ -63,19 +63,19 @@ class BeautifulSoup(IStocks):
             """ 2. Convert to csv file """
             # # tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
             # # asyncio.run(asyncio.wait(tasks1))
-            with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+            with parallel_backend(THREAD, n_jobs=-1):
                 Parallel()(delayed(FileUtils.save_to_original_csv)(date) for date in date_list)
 
             """ 3. Convert to MI_INDEX_ALLBUT0999 csv file and return dataframe list """
             # # tasks2 = [save_to_final_csv(data_date) for data_date in date_list]
             # # asyncio.run(asyncio.wait(tasks2))
-            with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+            with parallel_backend(THREAD, n_jobs=-1):
                 df_list = Parallel()(delayed(FileUtils.save_to_final_csv_return_df)(date) for date in date_list)
 
             """ 0. Read STOCK_DAY_ALL csv file directly """
             # tasks3 = [save_data_direct(data_date) for data_date in date_list]
             # asyncio.run(asyncio.wait(tasks3))
-            # with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+            # with parallel_backend(THREAD, n_jobs=-1):
             #     df_list = Parallel()(delayed(FileUtils.gen_data_direct)(date) for date in date_list)
 
             df = pd.concat(df_list)

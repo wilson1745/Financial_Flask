@@ -2,7 +2,7 @@
 import csv
 import multiprocessing
 import traceback
-from multiprocessing.pool import ThreadPool, ThreadPool as Pool
+from multiprocessing.pool import ThreadPool
 
 import pandas as pd
 from pandas import DataFrame
@@ -137,7 +137,7 @@ class DataFrameUtils:
             # Empty dataFrame
             df = pd.DataFrame()
 
-            pools = Pool(multiprocessing.cpu_count() - 1)
+            pools = ThreadPool(multiprocessing.cpu_count() - 1)
             results = pools.map(func=cls.__industryRow, iterable=industry_rows)
 
             if len(results) > 0:
@@ -152,7 +152,6 @@ class DataFrameUtils:
                 # Sort by column
                 df = df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False)
                 # log.debug(df)
-
             return df
         except Exception:
             raise

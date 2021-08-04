@@ -9,10 +9,9 @@ LOG = Log.Logger((str(Path(Path(__file__).resolve().parents[0])) + r"\files\logs
                  % datetime.now().strftime("%Y_%m_%d"), level="debug").logger
 LOG.info(f"Initiallize Log.Logger logger: {LOG}")
 
-""" For parallel process """
-CPU_THREAD = multiprocessing.cpu_count()
-# FIXME Do not use all my processing power????
-# CPU_THREAD = multiprocessing.cpu_count() - 1
+""" For parallel process (Do not use all my processing power) """
+# CPU_THREAD = multiprocessing.cpu_count()
+CPU_THREAD = multiprocessing.cpu_count() - 1
 LOG.info(f"Initiallize multiprocessing.cpu_count() cpu_thread: {CPU_THREAD} ")
 
 if __name__ == '__main__':

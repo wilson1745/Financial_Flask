@@ -7,7 +7,7 @@ from datetime import datetime
 from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import CPU_THREAD, LOG
+from calculations import LOG
 from calculations.common.utils.constants import FAIL, RILEY_STOCKS, SUCCESS
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
@@ -46,7 +46,7 @@ class DailyStockNotify(IFinancialDaily):
             LOG.debug(f"Symbols: {symbols}")
 
             # 產生DailyStock的notify訊息
-            with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+            with parallel_backend(THREAD, n_jobs=-1):
                 df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in symbols)
             stocks_dict = NotifyUtils.arrange_notify(df_list, NotifyGroup.getLineGroup())
 

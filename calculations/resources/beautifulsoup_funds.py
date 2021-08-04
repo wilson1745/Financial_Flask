@@ -15,7 +15,7 @@ import requests
 from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import CPU_THREAD, LOG
+from calculations import LOG
 from calculations.common.utils.constants import CHANGE, CHANGE_PERCENT, CLOSE, CNYES_URL, DATA_NOT_EXIST, MARKET_DATE, NAV, STOCK_NAME, \
     SUCCESS, SYMBOL, TRADE_DATE, UPS_AND_DOWNS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
@@ -63,7 +63,7 @@ class BeautifulsoupFunds(IFinancialDaily):
             datas = res_data['items']['data']
             # log.debug(datas)
 
-            with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+            with parallel_backend(THREAD, n_jobs=-1):
                 stream_datas = Parallel()(delayed(cls.__arrange_data)(df_row, data) for data in datas)
 
             return stream_datas

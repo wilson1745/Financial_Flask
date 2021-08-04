@@ -58,6 +58,12 @@ class LineUtils:
             """
             LOG.debug(f"Response status: {response.status_code}")
             response.close()
+        except ConnectionResetError as connResetError:
+            LOG.warning(f"ConnectionResetError msg: {msg}")
+            CoreException.show_error(connResetError, traceback.format_exc())
+            time.sleep(10)
+            # Send notify again
+            self.send_msg(msg)
         except requests.exceptions.ConnectionError as connError:
             # FIXME 觀察一陣子
             """

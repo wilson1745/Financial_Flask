@@ -15,7 +15,7 @@ import pandas as pd
 from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import CPU_THREAD, LOG
+from calculations import LOG
 from calculations.common.utils.constants import CLOSE, FAIL, SUCCESS, SYMBOL, YYYYMMDD
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
@@ -107,7 +107,7 @@ class PotentialStock(IFinancialDaily):
             LOG.debug(f"dateList: {dateList}")
 
             # FIXME Do not use all my processing power
-            with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+            with parallel_backend(THREAD, n_jobs=-1):
                 Parallel()(delayed(cls.__crawl_price)(data_dict, date) for date in dateList)
 
             # Sort order by market_date
@@ -136,7 +136,7 @@ class PotentialStock(IFinancialDaily):
             LOG.debug(f"Rising symbols: {potentials}")
 
             # 產生DailyFund的notify訊息
-            with parallel_backend(THREAD, n_jobs=CPU_THREAD):
+            with parallel_backend(THREAD, n_jobs=-1):
                 df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in potentials)
             stocks_dict = NotifyUtils.arrange_notify(df_list, NotifyGroup.getPotentialGroup())
 
@@ -164,7 +164,7 @@ class PotentialStock(IFinancialDaily):
                           '6128', '6552', '6715', '8996']
 
             # 產生DailyFund的notify訊息
-            with parallel_backend('threading', n_jobs=CPU_THREAD):
+            with parallel_backend(THREAD, n_jobs=-1):
                 df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in potentials)
 
             # df_list = pools.map(func=cls.query_data, iterable=potentials)
@@ -199,6 +199,7 @@ class PotentialStock(IFinancialDaily):
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     PotentialStock.main()
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    PotentialStock.main()

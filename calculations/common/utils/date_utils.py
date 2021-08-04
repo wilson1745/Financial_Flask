@@ -38,4 +38,4 @@ class DateUtils:
 
     @classmethod
     def default_msg(cls, fmt: str) -> str:
-        return f"\n--------({cls.today(fmt)})--------\n"
+        return f"\n-------({cls.today(fmt)})-------\n"
