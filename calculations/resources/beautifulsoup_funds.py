@@ -5,6 +5,7 @@ import os
 import socket
 import time
 import traceback
+import urllib
 from datetime import datetime
 from multiprocessing.pool import ThreadPool
 from urllib.error import URLError
@@ -27,9 +28,9 @@ from calculations.core.Interceptor import interceptor
 from calculations.repository.dailyfund_repo import DailyFundRepo
 from calculations.repository.itemfund_repo import ItemFundRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-# 設置socket默認的等待時間，在read超時後能自動往下繼續跑
 from projects.common.constants import THREAD
 
+# 設置socket默認的等待時間，在read超時後能自動往下繼續跑
 socket.setdefaulttimeout(10)
 
 
@@ -58,7 +59,7 @@ class BeautifulsoupFunds(IFinancialDaily):
         try:
             url = CNYES_URL % (df_row.symbol, current_page)
             LOG.debug(url)
-            response = urlopen(url, timeout=120)
+            response = urlopen(url, timeout=180)
             res_data = json.loads(response.read())
             datas = res_data['items']['data']
             # log.debug(datas)
@@ -67,6 +68,11 @@ class BeautifulsoupFunds(IFinancialDaily):
                 stream_datas = Parallel()(delayed(cls.__arrange_data)(df_row, data) for data in datas)
 
             return stream_datas
+        except urllib.error.HTTPError as httpError:
+            LOG.error(f"__get_response HTTPError: {httpError}")
+            CoreException.show_error(httpError, traceback.format_exc())
+            time.sleep(10)
+            cls.__get_response(df_row, current_page)
         except requests.exceptions.ConnectionError as connError:
             LOG.error(f"__get_response ConnectionError: {connError}")
             CoreException.show_error(connError, traceback.format_exc())
@@ -90,9 +96,14 @@ class BeautifulsoupFunds(IFinancialDaily):
         # Range needs plus one
         for current_page in range(start_page, end_page + 1):
             response_list = cls.__get_response(df_row, current_page)
-            # Try to drop 'None' in case URLError or other exception return None object
-            response_list = list(filter(None, response_list))
-            data_lists.extend(response_list)
+
+            if response_list is None:
+                LOG.warning('No data exist!')
+            else:
+                # Try to drop 'None' in case URLError or other exception return None object
+                LOG.debug(f"response_list: {response_list}")
+                response_list = list(filter(None, response_list))
+                data_lists.extend(response_list)
 
         df = pd.DataFrame(data_lists)
         df.fillna(0, inplace=True)

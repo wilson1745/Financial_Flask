@@ -63,11 +63,9 @@ if __name__ == '__main__':
         # daily_dict = DailyStockNotify.main_daily()
         # potentials_dict = PotentialStock.main_daily()
         # industry_df = IndustryCalculation.main_daily()
-
         # NotifyUtils.send_notify(daily_dict, lineNotify)
         # NotifyUtils.send_notify(potentials_dict, lineNotify)
         # NotifyUtils.send_industry(industry_df, lineNotify)
-
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:

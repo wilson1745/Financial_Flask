@@ -5,20 +5,17 @@ https://www.finlab.tw/%E5%8A%A0%E9%80%9F%E5%BA%A6%E6%8C%87%E6%A8%99%E5%AF%A6%E5%
 """
 import collections
 import datetime
-import multiprocessing
 import os
 import time
 import traceback
-from multiprocessing.pool import ThreadPool
 
 import pandas as pd
 from joblib import delayed, Parallel, parallel_backend
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 from calculations import LOG
 from calculations.common.utils.constants import CLOSE, FAIL, SUCCESS, SYMBOL, YYYYMMDD
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
-from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
@@ -37,8 +34,15 @@ class PotentialStock(IFinancialDaily):
 
     @classmethod
     @interceptor
-    def __rising_curve(cls, close60, n):
-        """ Rising curve """
+    def __rising_curve(cls, close60, n) -> Series:
+        """ Rising curve
+        return Series like:
+        0050      False
+        0051      False
+        0052       True
+        0053       True
+        """
+        # (n天前 + 當天)/2 > n/2天前 的k天均線
         return (close60.iloc[-n] + close60.iloc[-1]) / 2 > close60.iloc[-int((n + 1) / 2)]
 
     @classmethod
@@ -121,6 +125,9 @@ class PotentialStock(IFinancialDaily):
 
             # 60 days moving average
             close60 = close.rolling(60, min_periods=10).mean()
+            # LOG.debug(f"close60: {close60}")
+
+            # 所有的條件做交集(&)
             rising = (
                     cls.__rising_curve(close60, 5) &
                     cls.__rising_curve(close60, 10) &
@@ -131,7 +138,9 @@ class PotentialStock(IFinancialDaily):
                     cls.__rising_curve(close60, 50) &
                     (close.iloc[-1] > close60.iloc[-1])
             )
+            # LOG.debug(f"rising: {rising}")
 
+            # 從rising這條序列中，選取rising為 True的股票，忽略False的股票
             potentials: list = rising[rising].index
             LOG.debug(f"Rising symbols: {potentials}")
 
@@ -155,35 +164,67 @@ class PotentialStock(IFinancialDaily):
         now = time.time()
         data_dict: dict = {}
 
-        pools = ThreadPool(multiprocessing.cpu_count())
         lineNotify = LineUtils()
         try:
-            potentials = ['00625K', '00682U', '00683L', '00685L', '00711B', '00775B', '1533',
-                          '1536', '1795', '2241', '2393', '2406', '2476', '2486', '3016', '3036A',
-                          '3138', '3257', '3543', '3661', '3686', '4119', '4739', '4919', '4952',
-                          '6128', '6552', '6715', '8996']
+            dateList = []
+            date = datetime.datetime.now()
+            n_days = 200
 
-            # 產生DailyFund的notify訊息
+            while len(dateList) < n_days:
+                dateStr = datetime.datetime.strftime(date, YYYYMMDD)
+                dateList.append(dateStr)
+                # 減一天
+                date -= datetime.timedelta(days=1)
+
+            dateList.reverse()
+            LOG.debug(f"dateList: {dateList}")
+
+            # FIXME Do not use all my processing power
             with parallel_backend(THREAD, n_jobs=-1):
-                df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in potentials)
+                Parallel()(delayed(cls.__crawl_price)(data_dict, date) for date in dateList)
 
-            # df_list = pools.map(func=cls.query_data, iterable=potentials)
-            # with parallel_backend("multiprocessing", n_jobs=multiprocessing.cpu_count()):
-            #     df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in potentials)
+            # Sort order by market_date
+            data = collections.OrderedDict(sorted(data_dict.items()))
+            # log.debug(f"data: {data}")
 
-            # print(df_list)
+            # 扁平化資料面
+            close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
+            close.index = pd.to_datetime(close.index)
+            # log.debug(f"close: {close}")
 
-            stocks_dict = NotifyUtils.arrange_notify(df_list, NotifyGroup.getPotentialGroup())
+            # 60 days moving average
+            close60 = close.rolling(60, min_periods=10).mean()
+            # LOG.debug(f"close60: {close60}")
 
-            # lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
-            return stocks_dict
+            start_time = time.time()
+
+            # with parallel_backend(THREAD, n_jobs=-1):
+            #     rising_curves = Parallel()(delayed(cls.__rising_curve)(close60, days) for days in [5, 10, 20, 60, 30, 40, 50])
+
+            # LOG.debug(f"rising_curves: {rising_curves}")
+
+            for days in [5, 10, 20, 60, 30, 40, 50]:
+                cls.__rising_curve(close60, days)
+
+            LOG.debug("{:.4f}s".format(time.time() - start_time))
+
+            # # 所有的條件做交集(&)
+            # rising = (
+            #         cls.__rising_curve(close60, 5) &
+            #         cls.__rising_curve(close60, 10) &
+            #         cls.__rising_curve(close60, 20) &
+            #         cls.__rising_curve(close60, 60) &
+            #         cls.__rising_curve(close60, 30) &
+            #         cls.__rising_curve(close60, 40) &
+            #         cls.__rising_curve(close60, 50) &
+            #         (close.iloc[-1] > close60.iloc[-1])
+            # )
+            # LOG.debug(f"rising: {rising}")
         except Exception:
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
         finally:
             LOG.debug(f"Time consuming: {time.time() - now}")
-            pools.close()
-            # pools.join()
 
     @classmethod
     @interceptor
@@ -195,7 +236,7 @@ class PotentialStock(IFinancialDaily):
             # stock_dict = cls.main_daily_2()
 
             # Send notify
-            NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.RILEY))
+            # NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.RILEY))
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 

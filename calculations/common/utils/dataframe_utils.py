@@ -5,6 +5,7 @@ import traceback
 from multiprocessing.pool import ThreadPool
 
 import pandas as pd
+from joblib import parallel_backend, Parallel, delayed
 from pandas import DataFrame
 
 from calculations import LOG
@@ -13,6 +14,7 @@ from calculations.common.utils.constants import CLOSE, CREATETIME, DEAL_PRICE, D
     HIGH, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
+from projects.common.constants import THREAD
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -31,7 +33,7 @@ class DataFrameUtils:
 
     @staticmethod
     @interceptor
-    def __industryRow(row):
+    def __industry_row(row):
         """ 處理爬蟲完的資料 (Industry) """
         if row:
             row[0] = row[0].replace('--', '0')
@@ -78,7 +80,7 @@ class DataFrameUtils:
 
     @classmethod
     @interceptor
-    def __arrangeMiIndexHtml(cls, rows: list) -> list:
+    def __arrange_mi_index_html(cls, rows: list) -> list:
         """ 處理爬蟲完的資料 """
         data_row = []
 
@@ -89,15 +91,14 @@ class DataFrameUtils:
                 data_row.append(row)
         # data_row = rows[2:]
 
-        pools = ThreadPool(multiprocessing.cpu_count() - 1)
-        pools.map(func=cls.__dailys_tock_row,
-                  iterable=data_row)
+        with parallel_backend(THREAD, n_jobs=-1):
+            Parallel()(delayed(cls.__dailys_tock_row)(row) for row in data_row)
 
         return data_row
 
     @classmethod
     @interceptor
-    def arrangeHtmlToDataFrame(cls, rows, date) -> DataFrame:
+    def arrange_html_to_df(cls, rows, date) -> DataFrame:
         """ 處理爬蟲完的資料 """
         try:
             # df = pd.DataFrame()
@@ -108,7 +109,7 @@ class DataFrameUtils:
             #                                  callback=CoreException.show,
             #                                  error_callback=CoreException.error)
 
-            data_row = cls.__arrangeMiIndexHtml(rows)
+            data_row = cls.__arrange_mi_index_html(rows)
 
             # FIXME 這寫法有點笨...
             df = pd.DataFrame(data_row)
@@ -123,7 +124,7 @@ class DataFrameUtils:
 
             # 先儲存CSV
             df.columns = HEADERS
-            # log.debug(df)
+            # LOG.debug(df)
 
             return df
         except Exception:
@@ -131,14 +132,14 @@ class DataFrameUtils:
 
     @classmethod
     @interceptor
-    def genIndustryDf(cls, industry_rows: list) -> DataFrame:
+    def gen_industry_df(cls, industry_rows: list) -> DataFrame:
         """ 處理爬蟲完的資料(價格指數) """
         try:
+            with parallel_backend(THREAD, n_jobs=-1):
+                results = Parallel()(delayed(cls.__industry_row)(row) for row in industry_rows)
+
             # Empty dataFrame
             df = pd.DataFrame()
-
-            pools = ThreadPool(multiprocessing.cpu_count() - 1)
-            results = pools.map(func=cls.__industryRow, iterable=industry_rows)
 
             if len(results) > 0:
                 df = pd.DataFrame(results)
@@ -172,7 +173,7 @@ class DataFrameUtils:
 
     @staticmethod
     @interceptor
-    def dfForTalib(df: DataFrame) -> DataFrame:
+    def df_for_talib(df: DataFrame) -> DataFrame:
         try:
             df = df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1)
             """ 寫法保留：df欄位變換名稱用 """

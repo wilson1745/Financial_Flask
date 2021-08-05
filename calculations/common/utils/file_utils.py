@@ -8,6 +8,7 @@ import time
 import traceback
 import urllib
 from datetime import datetime
+from urllib.error import URLError
 from urllib.request import urlopen
 
 import pandas
@@ -24,7 +25,6 @@ from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from projects.common.utils.date_utils import DateUtils
-from urllib.error import URLError
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -54,7 +54,7 @@ class FileUtils:
             url = (TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
             LOG.debug(f"Url: {url}")
 
-            response = urllib.request.urlopen(url, timeout=60)
+            response = urlopen(url, timeout=60)
             webContent = response.read()
 
             f = open(html_path, "wb")
@@ -132,7 +132,7 @@ class FileUtils:
                 rows = csv.reader(csvfile)
 
                 # 轉換html至csv格式的dataframe
-                df = DataFrameUtils.arrangeHtmlToDataFrame(rows, date)
+                df = DataFrameUtils.arrange_html_to_df(rows, date)
 
                 # Save CSV file
                 df.to_csv((constants.CSV_FINAL_PATH % date), index=False, header=True)

@@ -1,3 +1,4 @@
+import time
 from functools import wraps
 
 from calculations import LOG
@@ -23,10 +24,11 @@ def interceptor(func):
         #     params.append(('kwargs', func_kwargs))
 
         """ Log start -> Excute function -> Log end """
+        start_time = time.time()
         # LOG.info(f"====== Start {func.__name__} {'(' + ', '.join('%s = %r' % p for p in params) + ' )'}======")
         LOG.info(f"====== Start {func.__name__} ======")
         result = func(*func_args, **func_kwargs)
-        LOG.info(f"====== End {func.__name__} ======")
+        LOG.info(f"====== End {func.__name__} ====== " + "{:.4f}s".format(time.time() - start_time))
         return result
 
     return wrapper

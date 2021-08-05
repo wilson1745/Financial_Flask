@@ -29,7 +29,7 @@ if __name__ == "__main__":
         filePath = f"./files/{symbol}_{DateUtils.today(constants.YYYYMMDD)}"
 
         df: DataFrame = DailyStockRepo.find_by_symbol_and_market_with_range(symbol, start, end)
-        df = DataFrameUtils.dfForTalib(df)
+        df = DataFrameUtils.df_for_talib(df)
         # print(data)
 
         ta_list = ["MACD", "RSI", "MOM", "STOCH"]

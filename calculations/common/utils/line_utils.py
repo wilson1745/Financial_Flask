@@ -3,6 +3,7 @@ import time
 import traceback
 
 import requests
+from requests import ConnectTimeout
 
 from calculations import LOG
 from calculations.common.utils.constants import IMAGE_PATH, NOTIFY_LINK, YYYYMMDD_SLASH
@@ -50,7 +51,7 @@ class LineUtils:
                 "message": ("\n".join(msg))
             }
 
-            response = requests.post(NOTIFY_LINK, headers=headers, params=params, timeout=60)
+            response = requests.post(NOTIFY_LINK, headers=headers, params=params, timeout=180)
 
             """
             200 => success
@@ -58,6 +59,12 @@ class LineUtils:
             """
             LOG.debug(f"Response status: {response.status_code}")
             response.close()
+        except ConnectTimeout as connectTimeout:
+            LOG.warning(f"ConnectTimeout msg: {msg}")
+            CoreException.show_error(connectTimeout, traceback.format_exc())
+            time.sleep(10)
+            # Send notify again
+            self.send_msg(msg)
         except ConnectionResetError as connResetError:
             LOG.warning(f"ConnectionResetError msg: {msg}")
             CoreException.show_error(connResetError, traceback.format_exc())

@@ -77,7 +77,7 @@ class IndustryCalculation(IFinancialDaily):
     def query_data() -> DataFrame:
         """ 抓出有潛力的stock """
         industry_rows = IndustryUtils.readPriceIndex()
-        return DataFrameUtils.genIndustryDf(industry_rows)
+        return DataFrameUtils.gen_industry_df(industry_rows)
 
     @classmethod
     @interceptor

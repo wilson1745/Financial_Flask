@@ -133,3 +133,7 @@ DS_INSERT = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock
 
 DF_INSERT = "INSERT INTO dailyfund (market_date, stock_name, symbol, close, ups_and_downs) " \
             "values(:market_date, :stock_name, :symbol, :close, :ups_and_downs) "
+
+# Multi process
+THREAD = 'threading'
+MULTI = 'multiprocessing'
