@@ -11,14 +11,13 @@ from pandas import DataFrame
 
 from calculations import LOG
 from calculations.common.utils.collection_utils import CollectionUtils
-from calculations.common.utils.constants import CSV_FINAL_PATH, DATA_NOT_EXIST, DS_INSERT, FAIL, SUCCESS
+from calculations.common.utils.constants import CSV_FINAL_PATH, DATA_NOT_EXIST, DS_INSERT, FAIL, SUCCESS, THREAD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
 from calculations.common.utils.line_utils import LineUtils
 from calculations.core.Interceptor import interceptor
 from calculations.resources.interfaces.istocks import IStocks
-from projects.common.constants import THREAD
 
 
 class BeautifulSoup(IStocks):
@@ -56,21 +55,21 @@ class BeautifulSoup(IStocks):
             # log.debug(f"Date range: {date_list}")
 
             """ 1. Download html file by date """
-            for data_date in date_list:
-                """ Save as HTML file """
-                FileUtils.save_to_original_html(data_date)
+            # for data_date in date_list:
+            #     """ Save as HTML file """
+            #     FileUtils.save_to_original_html(data_date)
 
             """ 2. Convert to csv file """
             # # tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
             # # asyncio.run(asyncio.wait(tasks1))
             with parallel_backend(THREAD, n_jobs=-1):
-                Parallel()(delayed(FileUtils.save_to_original_csv)(date) for date in date_list)
+                Parallel()(delayed(FileUtils.save_original_csv)(date) for date in date_list)
 
             """ 3. Convert to MI_INDEX_ALLBUT0999 csv file and return dataframe list """
             # # tasks2 = [save_to_final_csv(data_date) for data_date in date_list]
             # # asyncio.run(asyncio.wait(tasks2))
             with parallel_backend(THREAD, n_jobs=-1):
-                df_list = Parallel()(delayed(FileUtils.save_to_final_csv_return_df)(date) for date in date_list)
+                df_list = Parallel()(delayed(FileUtils.save_final_csv_return_df)(date) for date in date_list)
 
             """ 0. Read STOCK_DAY_ALL csv file directly """
             # tasks3 = [save_data_direct(data_date) for data_date in date_list]
@@ -93,7 +92,7 @@ class BeautifulSoup(IStocks):
     def main(cls):
         """ Main program """
         start = sys.argv[1] if len(sys.argv) > 1 else '20181226'
-        ended = sys.argv[2] if len(sys.argv) > 1 else '20181227'
+        ended = sys.argv[2] if len(sys.argv) > 1 else '20190103'
 
         try:
             df = cls.__main_daily(start, ended)
@@ -106,8 +105,7 @@ class BeautifulSoup(IStocks):
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-
-if __name__ == '__main__':
-    """ ------------------- App Start ------------------- """
-    BeautifulSoup.main()
-    # FileUtils.readTxtFile(None)
+# if __name__ == '__main__':
+#     """ ------------------- App Start ------------------- """
+#     BeautifulSoup.main()
+#     # FileUtils.readTxtFile(None)

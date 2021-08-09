@@ -71,6 +71,7 @@ class DailyStockNotify(IFinancialDaily):
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     DailyStockNotify.main()
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    DailyStockNotify.main()

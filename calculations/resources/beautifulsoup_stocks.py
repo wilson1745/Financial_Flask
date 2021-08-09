@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 import os
-import time
 import traceback
 
 from pandas import DataFrame
@@ -27,28 +26,24 @@ class BeautifulSoupStocks(IStocks, IFinancialDaily):
     @interceptor
     def main_daily(cls) -> DataFrame:
         """ 台股DailyStock抓蟲的主程式 """
-        now = time.time()
         date = DateUtils.today(YYYYMMDD)
 
         lineNotify = LineUtils()
-        # 有資料才使用Line notify
         try:
             """ Save as HTML file """
-            FileUtils.save_to_original_html(date)
+            FileUtils.save_original_html(date)
 
             """ Convert to csv file """
-            FileUtils.save_to_original_csv(date)
+            FileUtils.save_original_csv(date)
 
             """ Save to db with MI_INDEX_ALLBUT0999 csv file """
-            df = FileUtils.save_to_final_csv_return_df(date)
+            df = FileUtils.save_final_csv_return_df(date)
 
             lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
             return df
         except Exception:
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
-        finally:
-            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor
@@ -59,7 +54,7 @@ class BeautifulSoupStocks(IStocks, IFinancialDaily):
 
             """ Save data """
             if df.empty:
-                LOG.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
+                LOG.warning(f"FileUtils.save_final_csv_return_df({DateUtils.today()}) df is None")
             else:
                 super().save_db(DS_INSERT, df)
         except Exception as e:

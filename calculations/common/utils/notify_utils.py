@@ -7,17 +7,17 @@ from pandas import DataFrame
 
 from calculations import LOG
 from calculations.common.utils.constants import CLOSE, CLOSE_Y, D, DOWN_EMO, K, K_D, MARKET_DATE, RSI, RSI_Y, SGNL_B, SGNL_S, STOCK_NAME, SYMBOL, \
-    UP_EMO, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, YYYYMMDD, YYYYMMDD_SLASH
+    UP_EMO, YYYYMMDD, YYYYMMDD_SLASH
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
+from calculations.common.utils.line_utils import LineUtils
 from calculations.core.Interceptor import interceptor
 from calculations.logic import FunctionBollingBand, FunctionKD, FunctionMA, FunctionRSI
-from calculations.common.utils.line_utils import LineUtils
 
 
 class NotifyUtils:
-    """ TODO description """
+    """ Handle the information for line notify """
 
     def __init__(self):
         """ Constructor """
@@ -34,23 +34,30 @@ class NotifyUtils:
             sym = DOWN_EMO
         return f"{sym}{abs(value)}"
 
+    # @classmethod
+    # # @interceptor
+    # def __gen_industry_row_html(cls, row) -> str:
+    #     """ TODO description """
+    #     rowStr = ''
+    #     rowStr += f"\n指數：{row[SYMBOL]}"
+    #     rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
+    #     rowStr += f"\n收盤指數：{row[CLOSE]}"
+    #     rowStr += f"\n漲跌點數：{cls.__msg_arrow(row[UPS_AND_DOWNS])}"
+    #     rowStr += f"\n漲跌百分比(%)：{cls.__msg_arrow(row[UPS_AND_DOWNS_PCT])}%"
+    #     return rowStr
+
     @classmethod
     # @interceptor
-    def __genIndustryRow(cls, row) -> str:
-        """ TODO description """
+    def __gen_industry_row(cls, row) -> str:
+        """ 加速度指標的產業數量 """
         rowStr = ''
-        rowStr += f"\n指數：{row[SYMBOL]}"
-        rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
-        rowStr += f"\n收盤指數：{row[CLOSE]}"
-        rowStr += f"\n漲跌點數：{cls.__msg_arrow(row[UPS_AND_DOWNS])}"
-        rowStr += f"\n漲跌百分比(%)：{cls.__msg_arrow(row[UPS_AND_DOWNS_PCT])}%"
+        rowStr += f"{row[0]}：{row[1]}"
         return rowStr
 
     @classmethod
     # @interceptor
     def __gen_str_row(cls, row, tok: NotifyTok) -> str:
         """ 建立每隻股票的格式 """
-        # row = row.drop(labels=[SYMBOL])
         rowStr = ''
         # 基金不用顯示Symbol
         rowStr += f"\n名稱：{row[STOCK_NAME]} {'' if tok is NotifyTok.FUNDS else ('(' + row[SYMBOL] + ')')}"
@@ -128,25 +135,50 @@ class NotifyUtils:
                 msg.append("\n無資料...")
                 lineNotify.send_msg(msg)
 
+    # @classmethod
+    # @interceptor
+    # def send_industry_from_html(cls, df: DataFrame, lineNotify: LineUtils):
+    #     """ TODO description """
+    #     default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
+    #     msg = [default]
+    #
+    #     if not df.empty:
+    #         for index, row in df.iterrows():
+    #             # FIXME 暫定漲跌百分比 > 0的資料
+    #             if row[UPS_AND_DOWNS_PCT] > 0:
+    #                 # extend => extract whatever types of element inside a list
+    #                 msg.extend([cls.__genIndustryRow(row)])
+    #
+    #                 # 1000 words limit with Line Notify
+    #                 if len(msg) % 9 == 0:
+    #                     lineNotify.send_msg(msg)
+    #                     msg.clear()
+    #                     msg.append(default)
+    #
+    #         # Sending the rest data within 1000 words
+    #         if len(msg) > 1:
+    #             lineNotify.send_msg(msg)
+    #     else:
+    #         msg.append("\n無資料...")
+    #         lineNotify.send_msg(msg)
+
     @classmethod
     @interceptor
-    def send_industry(cls, df: DataFrame, lineNotify: LineUtils):
-        """ TODO description """
-        default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
+    def send_industry(cls, ind_list: list, lineNotify: LineUtils):
+        """ 重送產業數量的通知 """
+        default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}\n"
         msg = [default]
 
-        if not df.empty:
-            for index, row in df.iterrows():
-                # FIXME 暫定漲跌百分比 > 0的資料
-                if row[UPS_AND_DOWNS_PCT] > 0:
-                    # extend => extract whatever types of element inside a list
-                    msg.extend([cls.__genIndustryRow(row)])
+        if len(ind_list) > 0:
+            for row in ind_list:
+                # extend => extract whatever types of element inside a list
+                msg.extend([cls.__gen_industry_row(row)])
 
-                    # 1000 words limit with Line Notify
-                    if len(msg) % 9 == 0:
-                        lineNotify.send_msg(msg)
-                        msg.clear()
-                        msg.append(default)
+                # 1000 words limit with Line Notify
+                if len(msg) % 9 == 0:
+                    lineNotify.send_msg(msg)
+                    msg.clear()
+                    msg.append(default)
 
             # Sending the rest data within 1000 words
             if len(msg) > 1:
@@ -159,10 +191,10 @@ class NotifyUtils:
     @interceptor
     def arrange_notify(cls, df_list: list = None, stock_dict: dict = None) -> dict:
         """ Generate multiple financial indicators for each product """
+
         """ Multi-processing pool: https://www.maxlist.xyz/2020/03/20/multi-processing-pool/ """
         # ex: 設定處理程序數量 (pools = Pool(4))
         pools = ThreadPool(multiprocessing.cpu_count() - 1)
-
         try:
             if df_list is None:
                 LOG.warning("Warning => data_dfs: list = None")

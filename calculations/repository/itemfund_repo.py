@@ -38,13 +38,29 @@ class ItemFundRepo(IOracleRepo):
         datas = super().query(sql=sql)
         return DataFrameUtils.gen_item_df(datas)
 
+    @classmethod
+    @interceptor
+    def find_in_symbols(cls, params: list) -> DataFrame:
+        """ find_in_symbols """
+        bindNames = [":" + str(i + 1) for i in range(len(params))]
+        sql = "SELECT * FROM ITEMFUND d WHERE d.SYMBOL IN (%s) ORDER BY d.SYMBOL ASC " % (",".join(bindNames))
+        datas = super().query(sql=sql, params=params)
+        return DataFrameUtils.gen_item_df(datas)
+
 
 if __name__ == '__main__':
     """ ------------------- App Start ------------------- """
     now = time.time()
     try:
-        result = ItemFundRepo.find_all()
-        # log.debug(result)
+        lists = ["B3ja88k",
+                 "B09%2C007",
+                 "B16%2C019",
+                 "B09%2C005",
+                 "A2Ml9IZ"]
+
+        # result = ItemFundRepo.find_all()
+        result = ItemFundRepo.find_in_symbols(lists)
+        LOG.debug(result)
         # log.debug(list(result.index.values))
     except Exception as main_e:
         CoreException.show_error(main_e, traceback.format_exc())

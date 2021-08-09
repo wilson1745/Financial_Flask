@@ -12,7 +12,7 @@ from calculations.common.utils.constants import CLOSE, D, K, LOWER, MIDDLE, SGNL
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.logic import FunctionKD
-from calculations.repository.dailystock_repo import DailyStockRepo
+from calculations.repository.dailyfund_repo import DailyFundRepo
 
 
 @interceptor
@@ -21,12 +21,12 @@ def GenBollingerBand(df: DataFrame):
     # 創建布林通道： 週期 20日（＝日K月均線）、1個標準差
     # BBAND20 = abstract.BBANDS(df, timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
     df[UPPER], df[MIDDLE], df[LOWER] = talib.BBANDS(df[CLOSE], timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
-    data = df.dropna()
+    df.dropna(inplace=True)
 
 
 @interceptor
 def BuySellSignal(df: DataFrame):
-    """ TODO description """
+    """ 建立買進或賣出信號  """
     # 建立買進信號：KD在低檔（小於25）金叉，且收盤價仍在布林通道中線以下時。
     # df[SGNL_B] = (df[K] < 25) & \
     #                (df[K] > df[D]) & \
@@ -41,18 +41,16 @@ def BuySellSignal(df: DataFrame):
                  (df[CLOSE].shift() > df[UPPER].shift())
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     """ ------------------- App Start ------------------- """
     try:
-        stock_df = DailyStockRepo.find_by_symbol("2324")
-        # result = GetDataKD(stock)
-        # log.debug(result.tail())
+        # stock_df = DailyStockRepo.find_by_symbol("2330")
+        stock_df = DailyFundRepo.find_by_symbol('B16%2C019')
 
         FunctionKD.GenKD(stock_df)
         GenBollingerBand(stock_df)
         BuySellSignal(stock_df)
 
-        # log.debug(stock.tail())
         LOG.debug(stock_df)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

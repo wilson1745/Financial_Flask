@@ -24,15 +24,15 @@ def GetDataKD(data) -> DataFrame:
     Step3:計算D: D = 2/3 X (昨日D值) + 1/3 X (今日K值)
     """
     data_df = data.copy()
-    data_df["min"] = data_df[LOW].rolling(9).min()
-    data_df["max"] = data_df[HIGH].rolling(9).max()
-    data_df["RSV"] = (data_df[CLOSE] - data_df["min"]) / (data_df["max"] - data_df["min"])
+    data_df['min'] = data_df[LOW].rolling(9).min()
+    data_df['max'] = data_df[HIGH].rolling(9).max()
+    data_df['RSV'] = (data_df[CLOSE] - data_df['min']) / (data_df['max'] - data_df['min'])
     data_df = data_df.dropna()
 
     # 計算K
     # K的初始值定為50
     K_list = [50]
-    for num, rsv in enumerate(list(data_df["RSV"])):
+    for num, rsv in enumerate(list(data_df['RSV'])):
         K_yestarday = K_list[num]
         K_today = 2 / 3 * K_yestarday + 1 / 3 * rsv
         K_list.append(K_today)
@@ -51,7 +51,7 @@ def GetDataKD(data) -> DataFrame:
     data_df[[K, D]] = data_df[[K, D]].apply(lambda rs: round(rs * 100, 2))
     # log.debug(data_df)
 
-    use_df = pandas.merge(data, data_df[[K, D]], left_index=True, right_index=True, how="left")
+    use_df = pandas.merge(data, data_df[[K, D]], left_index=True, right_index=True, how='left')
     # use_df = use_df.dropna()
     # log.debug(f"KD data: {use_df}")
 
@@ -67,14 +67,14 @@ def GenKD(data: DataFrame):
     Step3:計算D: D = 2/3 X (昨日D值) + 1/3 X (今日K值)
     """
     data_df = data.copy()
-    data_df["min"] = data_df[LOW].rolling(9).min()
-    data_df["max"] = data_df[HIGH].rolling(9).max()
-    data_df["RSV"] = (data_df[CLOSE] - data_df["min"]) / (data_df["max"] - data_df["min"])
+    data_df['min'] = data_df[LOW].rolling(9).min()
+    data_df['max'] = data_df[HIGH].rolling(9).max()
+    data_df['RSV'] = (data_df[CLOSE] - data_df['min']) / (data_df['max'] - data_df['min'])
     data_df = data_df.dropna()
 
     # 計算K (K的初始值定為50)
     K_list = [50]
-    for num, rsv in enumerate(list(data_df["RSV"])):
+    for num, rsv in enumerate(list(data_df['RSV'])):
         K_yestarday = K_list[num]
         K_today = 2 / 3 * K_yestarday + 1 / 3 * rsv
         K_list.append(K_today)
@@ -92,19 +92,18 @@ def GenKD(data: DataFrame):
     data_df[[K, D]] = data_df[[K, D]].apply(lambda rs: round(rs * 100, 2))
 
     # merge pandas的一種方式
-    # data = pandas.merge(data, data_df[[K, D]], left_index=True, right_index=True, how="left")
+    # data = pandas.merge(data, data_df[[K, D]], left_index=True, right_index=True, how='left')
     # 直接指定column給原索引
     data[[K, D]] = data_df[[K, D]]
     # data = data.dropna()
     # log.debug(f"KD data: {data}")
 
 
-# ------------------- App Start -------------------
-if __name__ == "__main__":
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
     try:
-        # stock = DailyStockRepo.find_by_symbol("2330")
-
-        stock = DailyFundRepo.find_by_symbol('B15%2C086')
+        # stock = DailyStockRepo.find_by_symbol('2330')
+        stock = DailyFundRepo.find_by_symbol('B09%2C012')
 
         GenKD(stock)
         # log.debug(stock.tail())

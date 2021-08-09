@@ -10,6 +10,35 @@ Python界有條不成文的標準：計算密集型任務適合多線程，IO密
 
 多進程： joblib.multiprocessing, multiprocessing.Pool, multiprocessing.apply_async, concurrent.futures.ProcessPoolExecutor
 多線程： joblib.threading, threading.Thread, concurrent.futures.ThreadPoolExecutor
+
+----- 計算密集型 -----
+normal time: 15.1212s
+
+------ 多程序 ------
+joblib multiprocess time: 8.2421s
+pool time: 8.5439s
+async time: 8.3229s
+process_pool time: 8.1722s
+
+----- 多執行緒 -----
+joblib thread time: 21.5191s
+thread time: 21.3865s
+thread_pool time: 22.5104s
+
+
+----- IO 密集型 -----
+normal time: 30.0305s
+
+------ 多程序 ------
+joblib multiprocess time: 5.0345s
+pool time: 5.0188s
+async time: 5.0256s
+process_pool time: 5.0263s
+
+----- 多執行緒 -----
+joblib thread time: 5.0142s
+thread time: 5.0055s
+thread_pool time: 5.0064s
 """
 
 import math

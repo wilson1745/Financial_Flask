@@ -12,6 +12,7 @@ TESE_STOCK_DAY_ALL = "http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?respon
 TWSE_INDUSTRY_INDEX = 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=%s'
 MONEYDJ_URL = 'https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s'
 CNYES_URL = 'https://fund.api.cnyes.com/fund/api/v1/funds/%s/nav?format=table&page=%s'
+INDUSTRY_URL = 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=2'
 
 # FUNDRICH
 FUNDRICH_INDEX = "https://www.fundrich.com.tw/fund/%s.html?id=%s"
@@ -33,7 +34,7 @@ URL_ERROR_TXT_PATH = "../files/logs/URLError_%s.txt"
 HTML_PATH = "../files/scrapy_files/original/html/MI_INDEX_ALLBUT0999_%s.html"
 CSV_PATH = "../files/scrapy_files/original/MI_INDEX_ALLBUT0999_%s.csv"
 CSV_FINAL_PATH = "../files/scrapy_files/STOCK_DAY_ALL_%s.csv"
-INDUSTRY_HTML_PATH = '../files/scrapy_files/INDUSTRY_PUBLIC.html'
+INDUSTRY_HTML_PATH = '../files/scrapy_files/INDUSTRY_PUBLIC_%s.html'
 IMAGE_PATH = "../files/images/%s"
 RISING_SYMBOLS_PATH = "../files/RisingSymbols.txt"
 
@@ -77,6 +78,7 @@ VOLUME = 'volume'
 CREATETIME = 'createtime'
 FIRST_URL = 'first_url'
 SECOND_URL = 'second_url'
+INDUSTRY = 'industry'
 
 POS = 'POS'
 RSI = 'RSI'
@@ -133,3 +135,7 @@ DS_INSERT = "INSERT INTO dailystock (market_date, symbol, stock_name, deal_stock
 
 DF_INSERT = "INSERT INTO dailyfund (market_date, stock_name, symbol, close, ups_and_downs) " \
             "values(:market_date, :stock_name, :symbol, :close, :ups_and_downs) "
+
+# Multi process
+THREAD = 'threading'
+MULTI = 'multiprocessing'
