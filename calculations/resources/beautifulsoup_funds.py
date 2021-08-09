@@ -5,10 +5,9 @@ import os
 import socket
 import time
 import traceback
-import urllib
 from datetime import datetime
 from multiprocessing.pool import ThreadPool
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 
 import pandas as pd
@@ -17,7 +16,7 @@ from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
 from calculations import LOG
-from calculations.common.utils.constants import CHANGE, CHANGE_PERCENT, CLOSE, CNYES_URL, DATA_NOT_EXIST, MARKET_DATE, NAV, STOCK_NAME, \
+from calculations.common.utils.constants import CHANGE, CHANGE_PERCENT, CLOSE, CNYES_URL, DATA_NOT_EXIST, FAIL, MARKET_DATE, NAV, STOCK_NAME, \
     SUCCESS, SYMBOL, TRADE_DATE, UPS_AND_DOWNS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_dailyfund import FundGroup
@@ -59,7 +58,8 @@ class BeautifulsoupFunds(IFinancialDaily):
         try:
             url = CNYES_URL % (df_row.symbol, current_page)
             LOG.debug(url)
-            response = urlopen(url, timeout=180)
+
+            response = urlopen(url, timeout=600)
             res_data = json.loads(response.read())
             datas = res_data['items']['data']
             # log.debug(datas)
@@ -68,20 +68,11 @@ class BeautifulsoupFunds(IFinancialDaily):
                 stream_datas = Parallel()(delayed(cls.__arrange_data)(df_row, data) for data in datas)
 
             return stream_datas
-        except urllib.error.HTTPError as httpError:
-            LOG.error(f"__get_response HTTPError: {httpError}")
-            CoreException.show_error(httpError, traceback.format_exc())
+        except (HTTPError, requests.exceptions.ConnectionError, URLError) as error:
+            LOG.error(f"__get_response HTTPError: {error}")
+            CoreException.show_error(error, traceback.format_exc())
             time.sleep(10)
-            cls.__get_response(df_row, current_page)
-        except requests.exceptions.ConnectionError as connError:
-            LOG.error(f"__get_response ConnectionError: {connError}")
-            CoreException.show_error(connError, traceback.format_exc())
-            time.sleep(10)
-            cls.__get_response(df_row, current_page)
-        except URLError as urlError:
-            LOG.error(f"__get_response URLError: {urlError}")
-            CoreException.show_error(urlError, traceback.format_exc())
-            time.sleep(10)
+            # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止
             cls.__get_response(df_row, current_page)
         except Exception:
             raise
@@ -93,10 +84,10 @@ class BeautifulsoupFunds(IFinancialDaily):
     def __get_page_data(cls, df_row: tuple, start_page: int, end_page: int):
         """ Crawl page data """
         data_lists = []
+
         # Range needs plus one
         for current_page in range(start_page, end_page + 1):
             response_list = cls.__get_response(df_row, current_page)
-
             if response_list is None:
                 LOG.warning('No data exist!')
             else:
@@ -110,7 +101,7 @@ class BeautifulsoupFunds(IFinancialDaily):
         return df
 
     @classmethod
-    def main_old(cls, group: FundGroup):
+    def main_moneydj(cls, group: FundGroup):
         """ Grab history data """
         date = DateUtils.today(YYYYMMDD)
         LOG.info(f"start ({DateUtils.today()}): {date}")
@@ -122,7 +113,7 @@ class BeautifulsoupFunds(IFinancialDaily):
                 LOG.warning(f"itemfund_repo.findAll() is None")
             else:
                 """ Daily or Range """
-                df_list = pools.map(func=FileUtils.fund_html_daily if group is FundGroup.DAILY else FileUtils.fund_html_range,
+                df_list = pools.map(func=FileUtils.fund_html_daily_moneydj if group is FundGroup.DAILY else FileUtils.fund_html_range,
                                     iterable=item_df.itertuples())
                 df = pd.concat(df_list)
 
@@ -144,42 +135,40 @@ class BeautifulsoupFunds(IFinancialDaily):
 
     @classmethod
     @interceptor
-    def main_daily(cls, group: FundGroup) -> DataFrame:
+    def main_daily(cls, group: FundGroup, range_list: list = None) -> DataFrame:
         """ 基金DailyFund抓蟲的主程式 """
-        date = DateUtils.today(YYYYMMDD)
-        LOG.info(f"start ({DateUtils.today()}): {date}")
+
         lineNotify = LineUtils()
-
         try:
-            start_page = 1
-            # Daily or Range
-            end_page = 1 if group is FundGroup.DAILY else 6
+            if group is FundGroup.DAILY:
+                item_df = ItemFundRepo.find_first_url_is_null()
+            else:
+                """ 填入新的基金需要傳遞symbols """
+                if range_list is None:
+                    raise Exception('BeautifulsoupFunds.main_daily: Please fulfill the range_list')
+                else:
+                    item_df = ItemFundRepo.find_in_symbols(range_list)
 
-            item_df = ItemFundRepo.find_first_url_is_null()
             if item_df.empty:
                 raise Exception('ItemFundRepo.find_first_url_is_null() is None')
             else:
                 df_list = []
                 # Use normal loop in case blocking IP
                 for item_row in item_df.itertuples(index=False):
-                    df = cls.__get_page_data(item_row, start_page, end_page)
-                    # Daily or Range
+                    # Daily or Range (start_page = 1, end_page = 1 if group is FundGroup.DAILY else 6)
+                    df = cls.__get_page_data(item_row, 1, 1 if group is FundGroup.DAILY else 6)
                     df_list.append(df.head(1)) if group is FundGroup.DAILY else df_list.append(df)
-
                 # log.debug(df_list)
-                df = pd.concat(df_list)
 
+                df = pd.concat(df_list)
                 if not df.empty:
-                    df = df.drop(columns=[TRADE_DATE, NAV, CHANGE, CHANGE_PERCENT])
-                    # log.debug(df)
+                    df.drop(columns=[TRADE_DATE, NAV, CHANGE, CHANGE_PERCENT], inplace=True)
 
                 lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
                 return df
         except Exception:
-            lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
+            lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
-        finally:
-            LOG.info(f"end ({DateUtils.today()}): {date}")
 
     @classmethod
     @interceptor
@@ -187,6 +176,8 @@ class BeautifulsoupFunds(IFinancialDaily):
         """ Main """
         try:
             df = cls.main_daily(FundGroup.DAILY)
+            # range_list = ["B3ja88k", "B09%2C007", "B16%2C019", "B09%2C005", "A2Ml9IZ"]
+            # df = cls.main_daily(FundGroup.RANGE, range_list)
 
             """ Save data """
             if df.empty:

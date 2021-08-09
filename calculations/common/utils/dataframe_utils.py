@@ -1,17 +1,15 @@
 # -*- coding: UTF-8 -*-
 import csv
-import multiprocessing
 import traceback
-from multiprocessing.pool import ThreadPool
 
 import pandas as pd
-from joblib import parallel_backend, Parallel, delayed
+from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
 from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, HEADERS_DF_E, HEADERS_T, \
-    HIGH, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
+    HIGH, INDUSTRY, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from projects.common.constants import THREAD
@@ -25,7 +23,7 @@ pd.set_option("display.unicode.east_asian_width", True)
 
 
 class DataFrameUtils:
-    """ TODO add description """
+    """ Utils for Pandas Dataframe """
 
     def __init__(self):
         """ Constructor """
@@ -33,7 +31,7 @@ class DataFrameUtils:
 
     @staticmethod
     @interceptor
-    def __industry_row(row):
+    def __industry_row_2(row):
         """ 處理爬蟲完的資料 (Industry) """
         if row:
             row[0] = row[0].replace('--', '0')
@@ -51,6 +49,30 @@ class DataFrameUtils:
         else:
             LOG.warning(constants.DATA_NOT_EXIST % row)
             return None
+
+    @classmethod
+    def __industry_row(cls, row):
+        """ Arrange industry rows """
+        sub_str = ' '
+        # Delete white space
+        row[0] = row[0].replace('\u3000', sub_str)
+        row[0] = row[0][:row[0].index(sub_str) + len(sub_str)]
+        row[0] = row[0].strip()
+
+        if len(row) == 7:
+            if not row[4]:
+                if 'RW' in row[5]:
+                    row[4] = '上市認購(售)權證'
+                elif 'CMX' in row[5]:
+                    row[4] = 'ETN'
+                elif 'EDN' in row[5]:
+                    row[4] = '特別股'
+                elif 'CEO' in row[5]:
+                    row[4] = 'ETF'
+                elif 'EDS' in row[5]:
+                    row[4] = '臺灣存託憑證(TDR)'
+                elif 'CBCIXU' in row[5]:
+                    row[4] = '受益證券-不動產投資信託'
 
     @staticmethod
     @interceptor
@@ -101,14 +123,6 @@ class DataFrameUtils:
     def arrange_html_to_df(cls, rows, date) -> DataFrame:
         """ 處理爬蟲完的資料 """
         try:
-            # df = pd.DataFrame()
-            #
-            # processPools = Pool(multiprocessing.cpu_count() - 1)
-            # results = processPools.map_async(func=cls.__arrangeMiIndexHtml,
-            #                                  iterable=rows[2:],
-            #                                  callback=CoreException.show,
-            #                                  error_callback=CoreException.error)
-
             data_row = cls.__arrange_mi_index_html(rows)
 
             # FIXME 這寫法有點笨...
@@ -126,33 +140,6 @@ class DataFrameUtils:
             df.columns = HEADERS
             # LOG.debug(df)
 
-            return df
-        except Exception:
-            raise
-
-    @classmethod
-    @interceptor
-    def gen_industry_df(cls, industry_rows: list) -> DataFrame:
-        """ 處理爬蟲完的資料(價格指數) """
-        try:
-            with parallel_backend(THREAD, n_jobs=-1):
-                results = Parallel()(delayed(cls.__industry_row)(row) for row in industry_rows)
-
-            # Empty dataFrame
-            df = pd.DataFrame()
-
-            if len(results) > 0:
-                df = pd.DataFrame(results)
-                # FIXME 這寫法有點笨...
-                df.drop([2, 5], axis=1, inplace=True)
-                df.columns = constants.HEADER_INDEX_E
-
-                # Convert dtype
-                df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]] = df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]].apply(pd.to_numeric)
-
-                # Sort by column
-                df = df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False)
-                # log.debug(df)
             return df
         except Exception:
             raise
@@ -230,3 +217,47 @@ class DataFrameUtils:
             df[LOW] = df[CLOSE]
             df[HIGH] = df[CLOSE]
         return df
+
+    @classmethod
+    @interceptor
+    def gen_industry_df(cls, rows: list) -> DataFrame:
+        """ 處理(產業)爬蟲完的資料 """
+        with parallel_backend(THREAD, n_jobs=-1):
+            Parallel()(delayed(cls.__industry_row)(row) for row in rows)
+
+        df = pd.DataFrame(rows)
+        df.dropna(inplace=True)
+        df.drop([0], inplace=True)
+        df.drop([1, 2, 3, 5, 6], axis=1, inplace=True)
+
+        df.index = df[0]
+        df.columns = [SYMBOL, INDUSTRY]
+
+        return df
+
+    @classmethod
+    @interceptor
+    def gen_industry_df_html(cls, industry_rows: list) -> DataFrame:
+        """ 處理爬蟲完的資料(價格指數) """
+        try:
+            with parallel_backend(THREAD, n_jobs=-1):
+                results = Parallel()(delayed(cls.__industry_row)(row) for row in industry_rows)
+
+            # Empty dataFrame
+            df = pd.DataFrame()
+
+            if len(results) > 0:
+                df = pd.DataFrame(results)
+                # FIXME 這寫法有點笨...
+                df.drop([2, 5], axis=1, inplace=True)
+                df.columns = constants.HEADER_INDEX_E
+
+                # Convert dtype
+                df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]] = df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]].apply(pd.to_numeric)
+
+                # Sort by column
+                df = df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False)
+                # log.debug(df)
+            return df
+        except Exception:
+            raise

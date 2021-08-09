@@ -45,7 +45,7 @@ if __name__ == '__main__':
         potentials_dict = pools.apply_async(PotentialStock.main_daily, ())
 
         """ 4. industrial_cal.py """
-        industry_df = pools.apply_async(IndustryCalculation.main_daily, ())
+        industry_list = pools.apply_async(IndustryCalculation.main_daily, ())
 
         # close 和 join 是確保主程序結束後，子程序仍然繼續進行
         pools.close()
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
         NotifyUtils.send_notify(daily_dict.get(), lineNotify)
         NotifyUtils.send_notify(potentials_dict.get(), lineNotify)
-        NotifyUtils.send_industry(industry_df.get(), lineNotify)
+        NotifyUtils.send_industry(industry_list.get(), lineNotify)
 
         lineNotify.send_img(COMPLETE)
 

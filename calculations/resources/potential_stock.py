@@ -6,7 +6,6 @@ https://www.finlab.tw/%E5%8A%A0%E9%80%9F%E5%BA%A6%E6%8C%87%E6%A8%99%E5%AF%A6%E5%
 import collections
 import datetime
 import os
-import time
 import traceback
 
 import pandas as pd
@@ -16,6 +15,7 @@ from pandas import DataFrame, Series
 from calculations import LOG
 from calculations.common.utils.constants import CLOSE, FAIL, SUCCESS, SYMBOL, YYYYMMDD
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
+from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
@@ -80,6 +80,58 @@ class PotentialStock(IFinancialDaily):
     #     # log.debug(constraint)
     #     return constraint
 
+    @classmethod
+    @interceptor
+    def get_potentials(cls) -> list:
+        data_dict: dict = {}
+        dateList = []
+        date = datetime.datetime.now()
+        n_days = 200
+
+        while len(dateList) < n_days:
+            dateStr = datetime.datetime.strftime(date, YYYYMMDD)
+            dateList.append(dateStr)
+            # 減一天
+            date -= datetime.timedelta(days=1)
+
+        dateList.reverse()
+        LOG.debug(f"dateList: {dateList}")
+
+        # FIXME Do not use all my processing power
+        with parallel_backend(THREAD, n_jobs=-1):
+            Parallel()(delayed(cls.__crawl_price)(data_dict, date) for date in dateList)
+
+        # Sort order by market_date
+        data = collections.OrderedDict(sorted(data_dict.items()))
+        # log.debug(f"data: {data}")
+
+        # 扁平化資料面
+        close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
+        close.index = pd.to_datetime(close.index)
+        # log.debug(f"close: {close}")
+
+        # 60 days moving average
+        close60 = close.rolling(60, min_periods=10).mean()
+        # LOG.debug(f"close60: {close60}")
+
+        # 所有的條件做交集(&)
+        rising = (
+                cls.__rising_curve(close60, 5) &
+                cls.__rising_curve(close60, 10) &
+                cls.__rising_curve(close60, 20) &
+                cls.__rising_curve(close60, 60) &
+                cls.__rising_curve(close60, 30) &
+                cls.__rising_curve(close60, 40) &
+                cls.__rising_curve(close60, 50) &
+                (close.iloc[-1] > close60.iloc[-1])
+        )
+        # LOG.debug(f"rising: {rising}")
+
+        # 從rising這條序列中，選取rising為 True的股票，忽略False的股票
+        potentials: list = rising[rising].index
+        LOG.debug(f"Rising symbols: {potentials}")
+        return potentials
+
     @staticmethod
     @interceptor
     def query_data(symbol: str) -> DataFrame:
@@ -92,57 +144,10 @@ class PotentialStock(IFinancialDaily):
     @interceptor
     def main_daily(cls) -> dict:
         """ Potential DailyStock的主程式 """
-        now = time.time()
-        data_dict: dict = {}
 
         lineNotify = LineUtils()
         try:
-            dateList = []
-            date = datetime.datetime.now()
-            n_days = 200
-
-            while len(dateList) < n_days:
-                dateStr = datetime.datetime.strftime(date, YYYYMMDD)
-                dateList.append(dateStr)
-                # 減一天
-                date -= datetime.timedelta(days=1)
-
-            dateList.reverse()
-            LOG.debug(f"dateList: {dateList}")
-
-            # FIXME Do not use all my processing power
-            with parallel_backend(THREAD, n_jobs=-1):
-                Parallel()(delayed(cls.__crawl_price)(data_dict, date) for date in dateList)
-
-            # Sort order by market_date
-            data = collections.OrderedDict(sorted(data_dict.items()))
-            # log.debug(f"data: {data}")
-
-            # 扁平化資料面
-            close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
-            close.index = pd.to_datetime(close.index)
-            # log.debug(f"close: {close}")
-
-            # 60 days moving average
-            close60 = close.rolling(60, min_periods=10).mean()
-            # LOG.debug(f"close60: {close60}")
-
-            # 所有的條件做交集(&)
-            rising = (
-                    cls.__rising_curve(close60, 5) &
-                    cls.__rising_curve(close60, 10) &
-                    cls.__rising_curve(close60, 20) &
-                    cls.__rising_curve(close60, 60) &
-                    cls.__rising_curve(close60, 30) &
-                    cls.__rising_curve(close60, 40) &
-                    cls.__rising_curve(close60, 50) &
-                    (close.iloc[-1] > close60.iloc[-1])
-            )
-            # LOG.debug(f"rising: {rising}")
-
-            # 從rising這條序列中，選取rising為 True的股票，忽略False的股票
-            potentials: list = rising[rising].index
-            LOG.debug(f"Rising symbols: {potentials}")
+            potentials = cls.get_potentials()
 
             # 產生DailyFund的notify訊息
             with parallel_backend(THREAD, n_jobs=-1):
@@ -154,77 +159,6 @@ class PotentialStock(IFinancialDaily):
         except Exception:
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
-        finally:
-            LOG.debug(f"Time consuming: {time.time() - now}")
-
-    @classmethod
-    @interceptor
-    def main_daily_2(cls):
-        """ Potential DailyStock的主程式 """
-        now = time.time()
-        data_dict: dict = {}
-
-        lineNotify = LineUtils()
-        try:
-            dateList = []
-            date = datetime.datetime.now()
-            n_days = 200
-
-            while len(dateList) < n_days:
-                dateStr = datetime.datetime.strftime(date, YYYYMMDD)
-                dateList.append(dateStr)
-                # 減一天
-                date -= datetime.timedelta(days=1)
-
-            dateList.reverse()
-            LOG.debug(f"dateList: {dateList}")
-
-            # FIXME Do not use all my processing power
-            with parallel_backend(THREAD, n_jobs=-1):
-                Parallel()(delayed(cls.__crawl_price)(data_dict, date) for date in dateList)
-
-            # Sort order by market_date
-            data = collections.OrderedDict(sorted(data_dict.items()))
-            # log.debug(f"data: {data}")
-
-            # 扁平化資料面
-            close = pd.DataFrame({k: d[CLOSE] for k, d in data.items()}).transpose()
-            close.index = pd.to_datetime(close.index)
-            # log.debug(f"close: {close}")
-
-            # 60 days moving average
-            close60 = close.rolling(60, min_periods=10).mean()
-            # LOG.debug(f"close60: {close60}")
-
-            start_time = time.time()
-
-            # with parallel_backend(THREAD, n_jobs=-1):
-            #     rising_curves = Parallel()(delayed(cls.__rising_curve)(close60, days) for days in [5, 10, 20, 60, 30, 40, 50])
-
-            # LOG.debug(f"rising_curves: {rising_curves}")
-
-            for days in [5, 10, 20, 60, 30, 40, 50]:
-                cls.__rising_curve(close60, days)
-
-            LOG.debug("{:.4f}s".format(time.time() - start_time))
-
-            # # 所有的條件做交集(&)
-            # rising = (
-            #         cls.__rising_curve(close60, 5) &
-            #         cls.__rising_curve(close60, 10) &
-            #         cls.__rising_curve(close60, 20) &
-            #         cls.__rising_curve(close60, 60) &
-            #         cls.__rising_curve(close60, 30) &
-            #         cls.__rising_curve(close60, 40) &
-            #         cls.__rising_curve(close60, 50) &
-            #         (close.iloc[-1] > close60.iloc[-1])
-            # )
-            # LOG.debug(f"rising: {rising}")
-        except Exception:
-            lineNotify.send_mine(FAIL % os.path.basename(__file__))
-            raise
-        finally:
-            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor
@@ -233,14 +167,12 @@ class PotentialStock(IFinancialDaily):
         try:
             # Get data
             stock_dict = cls.main_daily()
-            # stock_dict = cls.main_daily_2()
 
             # Send notify
-            # NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.RILEY))
+            NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.RILEY))
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-
-if __name__ == '__main__':
-    """ ------------------- App Start ------------------- """
-    PotentialStock.main()
+# if __name__ == '__main__':
+#     """ ------------------- App Start ------------------- """
+#     PotentialStock.main()

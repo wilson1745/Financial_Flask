@@ -20,7 +20,7 @@ from pandas import DataFrame
 from calculations import LOG
 from calculations.common.utils import constants
 from calculations.common.utils.collection_utils import CollectionUtils
-from calculations.common.utils.constants import CLOSE, HEADERS_DF, HTML_PATH, TWSE_MI_INDEX, UPS_AND_DOWNS
+from calculations.common.utils.constants import CLOSE, HEADERS_DF, HTML_PATH, INDUSTRY_HTML_PATH, INDUSTRY_URL, TWSE_MI_INDEX, UPS_AND_DOWNS
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
@@ -42,49 +42,77 @@ class FileUtils:
 
     @classmethod
     @interceptor
-    def save_to_original_html(cls, date: str):
-        """ Get HTML from [www.twse.com.tw] """
-        # log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
-        LOG.debug(f"saveToOriginalHtml: {date}")
-
+    def __save_html(cls, html_path: str, url: str):
+        """ TODO description """
         try:
-            """ 不管如何都儲存成html檔 => 證交所2pm才會有當天資料 """
-            # ex: url = f"https://www.twse.com.tw/exchangeReport/MI_INDEX?response=html&date={date}&type=ALLBUT0999"
-            html_path = (HTML_PATH % date)
-            url = (TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
-            LOG.debug(f"Url: {url}")
-
-            response = urlopen(url, timeout=60)
+            response = urlopen(url, timeout=600)
             webContent = response.read()
 
-            f = open(html_path, "wb")
+            f = open(html_path, 'wb')
             f.write(webContent)
             f.close()
 
             """ 使用urlopen方法太過頻繁，引起遠程主機的懷疑，被網站認定為是攻擊行為。導致urlopen()後，request.read()一直卡死在那裡。最後拋出10054異常。 """
             response.close()
-        except requests.exceptions.ConnectionError as connError:
-            LOG.warning(f"ConnectionError saveToOriginalHtml: {date}")
-            CoreException.show_error(connError, traceback.format_exc())
+        except (requests.exceptions.ConnectionError, URLError) as error:
+            CoreException.show_error(error, traceback.format_exc())
             time.sleep(10)
             # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止
-            cls.save_to_original_html(date)
-        except URLError as urlError:
-            LOG.error(f"__get_response URLError: {urlError}")
-            CoreException.show_error(urlError, traceback.format_exc())
-            time.sleep(10)
-            cls.save_to_original_html(date)
+            cls.__save_html(html_path, url)
         except Exception:
             raise
         finally:
             # Sleep in case the request is blocked
             time.sleep(6)
 
+    @classmethod
+    @interceptor
+    def save_industry_html_return(cls, date_yyyymm: str) -> list:
+        """ Get HTML from [https://isin.twse.com.tw] """
+        LOG.debug(f"save_industry_html: {date_yyyymm}")
+
+        """ 1. Save html """
+        html_path = (INDUSTRY_HTML_PATH % date_yyyymm)
+        url = INDUSTRY_URL
+        LOG.debug(f"Url: {url}")
+        cls.__save_html(html_path, url)
+
+        """ 2. Scrapy html file (直接在網路上爬蟲，tr量太多會抓不到) """
+        soup = BeautifulSoup(open(html_path, 'r'), from_encoding='UTF-8', features="lxml")
+        table = soup.findAll('table')
+        table_last = table[len(table) - 1]
+        rows = table_last.find_all('tr')
+
+        industry_rows = []
+        for index, row in enumerate(rows):
+            rows = []
+            for cell in row.find_all(['td']):
+                rows.append(cell.get_text())
+            industry_rows.append(rows)
+
+            # LOG.debug(industry_rows)
+        return industry_rows
+
+    @classmethod
+    @interceptor
+    def save_original_html(cls, date: str):
+        """ Get HTML from [www.twse.com.tw] """
+        # log.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
+        LOG.debug(f"save_original_html: {date}")
+
+        """ 不管如何都儲存成html檔 => 證交所2pm才會有當天資料 """
+        # ex: url = f"https://www.twse.com.tw/exchangeReport/MI_INDEX?response=html&date={date}&type=ALLBUT0999"
+        html_path = (HTML_PATH % date)
+        url = (TWSE_MI_INDEX % ("html", date, "ALLBUT0999"))
+        LOG.debug(f"Url: {url}")
+
+        cls.__save_html(html_path, url)
+
     @staticmethod
     @interceptor
-    def save_to_original_csv(date: str):
+    def save_original_csv(date: str):
         """ Save CSV """
-        LOG.debug(f"saveToOriginalCsv: {date}")
+        LOG.debug(f"save_original_csv: {date}")
         filepath = (constants.HTML_PATH % date)
 
         if not os.path.isfile(filepath):
@@ -115,7 +143,7 @@ class FileUtils:
 
     @staticmethod
     @interceptor
-    def save_to_final_csv_return_df(date: str) -> DataFrame:
+    def save_final_csv_return_df(date: str) -> DataFrame:
         """ Save final CSV and return pandas dataframe """
         LOG.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
 
@@ -181,7 +209,7 @@ class FileUtils:
 
     @classmethod
     @interceptor
-    def fund_html_daily(cls, row) -> DataFrame:
+    def fund_html_daily_moneydj(cls, row) -> DataFrame:
         """ TODO Get HTML from [https://www.moneydj.com/funddj/%s/%s.djhtm?a=%s] """
         LOG.debug(f"fund_html_daily: {row}")
         try:

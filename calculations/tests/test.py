@@ -8,7 +8,7 @@ from calculations.common.utils.exceptions.core_exception import CoreException
 
 
 def test_ex():
-    stdd = "ddd"
+    # stdd = "ddd"
     raise Exception("...........")
 
 

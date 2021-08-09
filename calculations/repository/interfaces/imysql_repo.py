@@ -92,7 +92,6 @@ class IMysqlRepo:
         ) as conn:
             with conn.cursor() as cursor:
                 try:
-                    now = datetime.datetime.now()
                     # 把Dataframe 匯入到SQL Server:
                     for index, row in stock_data.iterrows():
                         cursor.execute(

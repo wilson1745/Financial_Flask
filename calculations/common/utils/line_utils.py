@@ -16,11 +16,6 @@ from calculations.core.Interceptor import interceptor
 class LineUtils:
     """ Line notify http utils """
 
-    # @interceptor
-    # def __init__(self, notifytok: NotifyTok):
-    #     """ Constructor """
-    #     self.token = notifytok.getValue()
-
     @interceptor
     def __init__(self, *args):
         """ Constructor """
@@ -37,7 +32,7 @@ class LineUtils:
     @interceptor
     def send_msg(self, msg: list, tok: NotifyTok = None):
         """ Sending message through Line client """
-        LOG.debug(f"sendMsg msg: {msg}")
+        LOG.debug(f"send_msg: {msg}")
 
         try:
             # Decide Line token
@@ -59,32 +54,14 @@ class LineUtils:
             """
             LOG.debug(f"Response status: {response.status_code}")
             response.close()
-        except ConnectTimeout as connectTimeout:
-            LOG.warning(f"ConnectTimeout msg: {msg}")
-            CoreException.show_error(connectTimeout, traceback.format_exc())
+        except (ConnectTimeout, ConnectionResetError, requests.exceptions.ConnectionError) as error:
+            LOG.warning(f"send_msg msg: {msg}")
+            CoreException.show_error(error, traceback.format_exc())
             time.sleep(10)
-            # Send notify again
+            # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止 (https://www.cnblogs.com/Neeo/articles/11520952.html#urlliberror)
             self.send_msg(msg)
-        except ConnectionResetError as connResetError:
-            LOG.warning(f"ConnectionResetError msg: {msg}")
-            CoreException.show_error(connResetError, traceback.format_exc())
-            time.sleep(10)
-            # Send notify again
-            self.send_msg(msg)
-        except requests.exceptions.ConnectionError as connError:
-            # FIXME 觀察一陣子
-            """
-            如果遇到沒有發送訊息的話，使用[遞歸]重新進行，直到成功為止 (https://www.cnblogs.com/Neeo/articles/11520952.html#urlliberror)
-            """
-            LOG.warning(f"ConnectionError msg: {msg}")
-            CoreException.show_error(connError, traceback.format_exc())
-            time.sleep(10)
-            # Send notify again
-            self.send_msg(msg)
-        except Exception as ex:
-            CoreException.show_error(ex, traceback.format_exc())
-            time.sleep(10)
-            raise ex
+        except Exception:
+            raise
         finally:
             time.sleep(2)
 
@@ -101,7 +78,8 @@ class LineUtils:
             file = {
                 'imageFile': open((IMAGE_PATH % f"{img}.png"), 'rb')
             }
-            response = requests.post(NOTIFY_LINK, headers=headers, files=file, data=data, timeout=60)
+
+            response = requests.post(NOTIFY_LINK, headers=headers, files=file, data=data, timeout=180)
 
             """
             200 => success
@@ -109,14 +87,12 @@ class LineUtils:
             """
             LOG.debug(f"Response status: {response.status_code}")
             response.close()
-        except requests.exceptions.ConnectionError as connError:
-            CoreException.show_error(connError, traceback.format_exc())
+        except (ConnectTimeout, ConnectionResetError, requests.exceptions.ConnectionError) as error:
+            LOG.warning(f"send_img: {img}")
+            CoreException.show_error(error, traceback.format_exc())
             time.sleep(10)
-            # Send notify again
             self.send_img(img)
-        except Exception as ex:
-            CoreException.show_error(ex, traceback.format_exc())
-            time.sleep(10)
-            raise ex
+        except Exception:
+            raise
         finally:
             time.sleep(2)
