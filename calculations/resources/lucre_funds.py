@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import traceback
@@ -24,6 +25,8 @@ if __name__ == '__main__':
 
     lineNotify = LineUtils(NotifyTok.FUNDS)
     try:
+        lineNotify.send_mine(START % os.path.basename(__file__))
+
         """ 1. beatifulsoup_funds.py """
         df_fund = BeautifulsoupFunds.main_daily(FundGroup.DAILY)
         # Must save today's data

@@ -175,9 +175,10 @@ class BeautifulsoupFunds(IFinancialDaily):
     def main(cls):
         """ Main """
         try:
-            df = cls.main_daily(FundGroup.DAILY)
-            # range_list = ["B3ja88k", "B09%2C007", "B16%2C019", "B09%2C005", "A2Ml9IZ"]
-            # df = cls.main_daily(FundGroup.RANGE, range_list)
+            # df = cls.main_daily(FundGroup.DAILY)
+
+            range_list = ["A1Qq7oT", "B1RDUpY", "B09%2C102", "B09%2C141", "B09%2C023", "B31qCgv"]
+            df = cls.main_daily(FundGroup.RANGE, range_list)
 
             """ Save data """
             if df.empty:
@@ -187,6 +188,7 @@ class BeautifulsoupFunds(IFinancialDaily):
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     BeautifulsoupFunds.main()
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    BeautifulsoupFunds.main()

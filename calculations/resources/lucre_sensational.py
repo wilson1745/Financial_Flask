@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import traceback
@@ -29,6 +30,8 @@ if __name__ == '__main__':
     pools = ThreadPool(CPU_THREAD)
     lineNotify = LineUtils(NotifyTok.RILEY)
     try:
+        lineNotify.send_mine(START % os.path.basename(__file__))
+
         """ 1. beatifulsoup_stocks.py """
         stocks_df = BeautifulSoupStocks.main_daily()
         # Must save today's data => for line notify
