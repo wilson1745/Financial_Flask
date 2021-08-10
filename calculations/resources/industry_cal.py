@@ -1,5 +1,4 @@
 import os
-import time
 import traceback
 
 from pandas import DataFrame
@@ -86,8 +85,6 @@ class IndustryCalculation(IFinancialDaily):
     @interceptor
     def main_daily(cls) -> list:
         """ 台股產業現況的主程式(加速度指標所產生的股票代碼) """
-        now = time.time()
-
         lineNotify = LineUtils()
         try:
             industry_rows = FileUtils.save_industry_html_return(DateUtils.today(YYYYMM))
@@ -104,8 +101,6 @@ class IndustryCalculation(IFinancialDaily):
         except Exception:
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
-        finally:
-            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor
@@ -119,6 +114,7 @@ class IndustryCalculation(IFinancialDaily):
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     IndustryCalculation.main()
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    IndustryCalculation.main()

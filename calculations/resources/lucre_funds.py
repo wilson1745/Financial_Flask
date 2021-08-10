@@ -6,7 +6,7 @@ import traceback
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import LOG
-from calculations.common.utils.constants import COMPLETE, START
+from calculations.common.utils.constants import COMPLETE, START, PRO_START
 from calculations.common.utils.enums.enum_dailyfund import FundGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     lineNotify = LineUtils(NotifyTok.FUNDS)
     try:
-        lineNotify.send_mine(START % os.path.basename(__file__))
+        lineNotify.send_mine(PRO_START % os.path.basename(__file__))
 
         """ 1. beatifulsoup_funds.py """
         df_fund = BeautifulsoupFunds.main_daily(FundGroup.DAILY)

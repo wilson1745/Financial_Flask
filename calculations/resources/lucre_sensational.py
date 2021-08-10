@@ -7,7 +7,7 @@ from multiprocessing.pool import ThreadPool
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import CPU_THREAD, LOG
-from calculations.common.utils.constants import COMPLETE, DS_INSERT, START
+from calculations.common.utils.constants import COMPLETE, DS_INSERT, START, PRO_START
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.line_utils import LineUtils
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     pools = ThreadPool(CPU_THREAD)
     lineNotify = LineUtils(NotifyTok.RILEY)
     try:
-        lineNotify.send_mine(START % os.path.basename(__file__))
+        lineNotify.send_mine(PRO_START % os.path.basename(__file__))
 
         """ 1. beatifulsoup_stocks.py """
         stocks_df = BeautifulSoupStocks.main_daily()

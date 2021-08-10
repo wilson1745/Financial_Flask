@@ -62,7 +62,7 @@ class DataFrameUtils:
                     row[4] = '上市認購(售)權證'
                 elif 'CMX' in row[5]:
                     row[4] = 'ETN'
-                elif 'EDN' in row[5]:
+                elif 'EP' in row[5] and len(row[4]) == 0:
                     row[4] = '特別股'
                 elif 'CEO' in row[5]:
                     row[4] = 'ETF'
