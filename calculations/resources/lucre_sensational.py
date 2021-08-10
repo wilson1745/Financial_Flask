@@ -7,7 +7,7 @@ from multiprocessing.pool import ThreadPool
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import CPU_THREAD, LOG
-from calculations.common.utils.constants import COMPLETE, DS_INSERT, START, PRO_START
+from calculations.common.utils.constants import IMG_COMPLETE, DS_INSERT, IMG_START, START
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.line_utils import LineUtils
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     pools = ThreadPool(CPU_THREAD)
     lineNotify = LineUtils(NotifyTok.RILEY)
     try:
-        lineNotify.send_mine(PRO_START % os.path.basename(__file__))
+        lineNotify.send_mine(START % os.path.basename(__file__))
 
         """ 1. beatifulsoup_stocks.py """
         stocks_df = BeautifulSoupStocks.main_daily()
@@ -55,11 +55,11 @@ if __name__ == '__main__':
         pools.join()
 
         """ Start the process of Line Notify """
-        lineNotify.send_img(START)
+        lineNotify.send_img(IMG_START)
         NotifyUtils.send_notify(daily_dict.get(), lineNotify)
         NotifyUtils.send_notify(potentials_dict.get(), lineNotify)
         NotifyUtils.send_industry(industry_list.get(), lineNotify)
-        lineNotify.send_img(COMPLETE)
+        lineNotify.send_img(IMG_COMPLETE)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:

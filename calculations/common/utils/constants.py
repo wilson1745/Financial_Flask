@@ -117,14 +117,14 @@ HEADER_INDEX_E = [SYMBOL, CLOSE, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT, MARKET_DATE]
 HEADERS_DF = ["日期", "證券名稱", "證券代號", "收盤價", "漲跌價差"]
 HEADERS_DF_E = [MARKET_DATE, STOCK_NAME, SYMBOL, CLOSE, UPS_AND_DOWNS, CREATETIME]
 
-PRO_START = "%s 開始"
+START = "%s 開始"
 SUCCESS = "%s 成功"
 FAIL = "%s 失敗"
 
 # PIC
-START = 'Start'
-COMPLETE = 'Complete'
-ERROR = 'ERROR'
+IMG_START = 'Start'
+IMG_COMPLETE = 'Complete'
+IMG_ERROR = 'ERROR'
 
 # '⇩ ⇧ 🔺  🔻  ▲ ▼  ⬇️⬆ ⬇ 🔼 🔽 ➕ ➖ ⮬ ⮯   🔼 ▲'
 UP_EMO = '🔺'

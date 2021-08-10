@@ -6,7 +6,7 @@ import traceback
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations import LOG
-from calculations.common.utils.constants import COMPLETE, START, PRO_START
+from calculations.common.utils.constants import IMG_COMPLETE, IMG_START, START
 from calculations.common.utils.enums.enum_dailyfund import FundGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     lineNotify = LineUtils(NotifyTok.FUNDS)
     try:
-        lineNotify.send_mine(PRO_START % os.path.basename(__file__))
+        lineNotify.send_mine(START % os.path.basename(__file__))
 
         """ 1. beatifulsoup_funds.py """
         df_fund = BeautifulsoupFunds.main_daily(FundGroup.DAILY)
@@ -39,9 +39,9 @@ if __name__ == '__main__':
         fund_dict = DailyFundNotify.main_daily()
 
         """ Start the process of Line Notify """
-        lineNotify.send_img(START)
+        lineNotify.send_img(IMG_START)
         NotifyUtils.send_notify(fund_dict, lineNotify)
-        lineNotify.send_img(COMPLETE)
+        lineNotify.send_img(IMG_COMPLETE)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
         # TODO send fail image
