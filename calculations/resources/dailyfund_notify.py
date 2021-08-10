@@ -8,7 +8,7 @@ from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
 from calculations import LOG
-from calculations.common.utils.constants import FAIL, SUCCESS
+from calculations.common.utils.constants import FAIL, SUCCESS, THREAD
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -18,7 +18,6 @@ from calculations.core.Interceptor import interceptor
 from calculations.repository.dailyfund_repo import DailyFundRepo
 from calculations.repository.itemfund_repo import ItemFundRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-from projects.common.constants import THREAD
 
 
 class DailyFundNotify(IFinancialDaily):

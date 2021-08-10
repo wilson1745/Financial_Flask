@@ -28,7 +28,7 @@ lengthStoch = 14
 # print(df[CLOSE].to_numpy())
 
 df[RSI] = talib.RSI(df[CLOSE], timeperiod=12)
-df = df.dropna()
+df.dropna(inplace=True)
 # rsi  = tulipy.rsi(df[CLOSE].to_numpy(), 12)
 
 

@@ -1,4 +1,3 @@
-import datetime
 import time
 import traceback
 
@@ -56,6 +55,7 @@ class IMysqlRepo:
     @classmethod
     @interceptor
     def bulk_save(cls, datas: list):
+        """ Execute many (fast save) """
         # 顯示目前系統上的所有SQL driver
         # log.debug(pyodbc.drivers())
         LOG.info("Save data into MySQL DB")
@@ -82,6 +82,7 @@ class IMysqlRepo:
     @staticmethod
     @interceptor
     def save(today, stock_data) -> bool:
+        """ Save """
         # 顯示目前系統上的所有SQL driver
         # log.debug(pyodbc.drivers())
         LOG.info("Save data into MySQL DB")
@@ -110,10 +111,6 @@ class IMysqlRepo:
                             row.ups_and_downs,
                             row.volume
                         )
-
-                        # if index % 100 == 0:
-                        #     time.sleep(1)
-
                         conn.commit()
 
                     return True

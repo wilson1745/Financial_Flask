@@ -13,7 +13,7 @@ from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame, Series
 
 from calculations import LOG
-from calculations.common.utils.constants import CLOSE, FAIL, SUCCESS, SYMBOL, YYYYMMDD
+from calculations.common.utils.constants import CLOSE, FAIL, SUCCESS, SYMBOL, THREAD, YYYYMMDD
 from calculations.common.utils.enums.enum_line_notify import NotifyGroup
 from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -22,7 +22,6 @@ from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core.Interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-from projects.common.constants import THREAD
 
 
 class PotentialStock(IFinancialDaily):
@@ -97,7 +96,7 @@ class PotentialStock(IFinancialDaily):
         dateList.reverse()
         LOG.debug(f"dateList: {dateList}")
 
-        # FIXME Do not use all my processing power
+        # Get stock price from DailyStockRepo
         with parallel_backend(THREAD, n_jobs=-1):
             Parallel()(delayed(cls.__crawl_price)(data_dict, date) for date in dateList)
 
@@ -144,7 +143,6 @@ class PotentialStock(IFinancialDaily):
     @interceptor
     def main_daily(cls) -> dict:
         """ Potential DailyStock的主程式 """
-
         lineNotify = LineUtils()
         try:
             potentials = cls.get_potentials()

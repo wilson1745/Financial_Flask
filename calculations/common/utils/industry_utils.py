@@ -20,51 +20,48 @@ class IndustryUtils:
 
     @staticmethod
     @interceptor
-    def readPriceIndex() -> list:
+    def read_price_index() -> list:
         """ Read HTML """
-        try:
-            isNoFile = True
-            date = datetime.datetime.now()
-            industry_rows = []
+        isNoFile = True
+        date = datetime.datetime.now()
+        industry_rows = []
 
-            # Using recursion to read the latest HTML file
-            while isNoFile:
-                dateStr = DateUtils.datetimefmt(date, constants.YYYYMMDD)
-                filepath = (constants.HTML_PATH % dateStr)
+        # Using recursion to read the latest HTML file
+        while isNoFile:
+            dateStr = DateUtils.datetimefmt(date, constants.YYYYMMDD)
+            filepath = (constants.HTML_PATH % dateStr)
 
-                if not os.path.isfile(filepath):
-                    LOG.warning(constants.FILE_NOT_EXIST % filepath)
-                    # 減一天
-                    date -= datetime.timedelta(days=1)
-                    continue
+            if not os.path.isfile(filepath):
+                LOG.warning(constants.FILE_NOT_EXIST % filepath)
+                # 減一天
+                date -= datetime.timedelta(days=1)
+                continue
+            else:
+                isNoFile = False
+                LOG.debug(f"Reading {filepath}")
+                soup = BeautifulSoup(open(filepath, 'r', encoding='UTF-8'), 'html.parser')
+                table = soup.findAll('table')
+
+                if not table:
+                    LOG.warning(f"Table not exist")
                 else:
-                    isNoFile = False
-                    LOG.debug(f"Reading {filepath}")
-                    soup = BeautifulSoup(open(filepath, 'r', encoding='UTF-8'), 'html.parser')
-                    table = soup.findAll('table')
+                    table_last = table[0]
+                    rows = table_last.find_all('tr')
 
-                    if not table:
-                        LOG.warning(f"Table not exist")
-                    else:
-                        table_last = table[0]
-                        rows = table_last.find_all('tr')
+                    for index, row in enumerate(rows):
+                        rows = []
+                        if index > 1:
+                            for cell in row.find_all(['td']):
+                                rows.append(cell.get_text())
+                            # Add a new column (加上日期)
+                            rows.append(dateStr)
+                            industry_rows.append(rows)
 
-                        for index, row in enumerate(rows):
-                            rows = []
-                            if index > 1:
-                                for cell in row.find_all(['td']):
-                                    rows.append(cell.get_text())
-                                # Add a new column (加上日期)
-                                rows.append(dateStr)
-                                industry_rows.append(rows)
-
-            return industry_rows
-        except Exception:
-            raise
+        return industry_rows
 
     @classmethod
     @interceptor
-    def saveIndustryHtml(cls, mode: str = '2') -> None:
+    def save_industry_html(cls, mode: str = '2') -> None:
         """ Get HTML from [www.twse.com.tw] 本國上市證券國際證券辨識號碼一覽表 """
         LOG.debug(f"readIndustryHtml strMode: {mode}")
 
@@ -90,29 +87,26 @@ class IndustryUtils:
             CoreException.show_error(connError, traceback.format_exc())
             time.sleep(10)
             # again
-            cls.saveIndustryHtml()
+            cls.save_industry_html()
         except Exception:
             raise
 
     @staticmethod
     @interceptor
-    def readHtml():
+    def read_html():
         """ Read HTML """
         filepath = constants.INDUSTRY_HTML_PATH
 
-        try:
-            if not os.path.isfile(filepath):
-                LOG.warning(constants.FILE_NOT_EXIST % filepath)
-            else:
-                LOG.debug(f"Reading {filepath}")
-                soup = BeautifulSoup(open(filepath, 'r'), 'html.parser')
-                table = soup.findAll('table')
+        if not os.path.isfile(filepath):
+            LOG.warning(constants.FILE_NOT_EXIST % filepath)
+        else:
+            LOG.debug(f"Reading {filepath}")
+            soup = BeautifulSoup(open(filepath, 'r'), 'html.parser')
+            table = soup.findAll('table')
 
-                if not table:
-                    LOG.warning(f"Table not exist")
-                else:
-                    table_last = table[len(table) - 1]
-                    rows = table_last.find_all('tr')
-                    LOG.debug(rows[2:10])
-        except Exception:
-            raise
+            if not table:
+                LOG.warning(f"Table not exist")
+            else:
+                table_last = table[len(table) - 1]
+                rows = table_last.find_all('tr')
+                LOG.debug(rows[2:10])

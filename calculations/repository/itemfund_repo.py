@@ -1,13 +1,8 @@
 # -*- coding: UTF-8 -*-
-import time
-import traceback
-
 import pandas as pd
 from pandas import DataFrame
 
-from calculations import LOG
 from calculations.common.utils.dataframe_utils import DataFrameUtils
-from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.core.Interceptor import interceptor
 from calculations.repository.interfaces.ioracle_repo import IOracleRepo
 
@@ -47,22 +42,18 @@ class ItemFundRepo(IOracleRepo):
         datas = super().query(sql=sql, params=params)
         return DataFrameUtils.gen_item_df(datas)
 
-
-if __name__ == '__main__':
-    """ ------------------- App Start ------------------- """
-    now = time.time()
-    try:
-        lists = ["B3ja88k",
-                 "B09%2C007",
-                 "B16%2C019",
-                 "B09%2C005",
-                 "A2Ml9IZ"]
-
-        # result = ItemFundRepo.find_all()
-        result = ItemFundRepo.find_in_symbols(lists)
-        LOG.debug(result)
-        # log.debug(list(result.index.values))
-    except Exception as main_e:
-        CoreException.show_error(main_e, traceback.format_exc())
-    finally:
-        LOG.debug(f"Time consuming: {time.time() - now}")
+# if __name__ == '__main__':
+#     """ ------------------- App Start ------------------- """
+#     try:
+#         lists = ["B3ja88k",
+#                  "B09%2C007",
+#                  "B16%2C019",
+#                  "B09%2C005",
+#                  "A2Ml9IZ"]
+#
+#         # result = ItemFundRepo.find_all()
+#         result = ItemFundRepo.find_in_symbols(lists)
+#         LOG.debug(result)
+#         # log.debug(list(result.index.values))
+#     except Exception as main_e:
+#         CoreException.show_error(main_e, traceback.format_exc())

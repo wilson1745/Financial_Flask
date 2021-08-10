@@ -79,7 +79,7 @@ class IndustryCalculation(IFinancialDaily):
     @interceptor
     def query_data() -> DataFrame:
         """ 從html抓出有潛力的stock """
-        industry_rows = IndustryUtils.readPriceIndex()
+        industry_rows = IndustryUtils.read_price_index()
         return DataFrameUtils.gen_industry_df_html(industry_rows)
 
     @classmethod

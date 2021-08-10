@@ -61,7 +61,7 @@ if __name__ == "__main__":
         # 創建布林通道： 週期 20日（＝日K月均線）、1個標準差
         # BBAND20 = abstract.BBANDS(df, timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
         df['upper'], df['middle'], df['lower'] = talib.BBANDS(df[CLOSE], timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
-        df = df.dropna()
+        df.dropna(inplace=True)
 
         # data = dict(upper=upper, middle=middle, lower=lower)
         # df = pd.DataFrame(data, index=df.index, columns=['upper', 'middle', 'lower']).dropna()

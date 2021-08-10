@@ -100,7 +100,7 @@ def main(group: FundGroup):
             df = pd.concat(df_list)
 
             if not df.empty:
-                df = df.drop(columns=['tradeDate', 'nav', 'change', 'changePercent'])
+                df.drop(columns=['tradeDate', 'nav', 'change', 'changePercent'], inplace=True)
                 LOG.debug(df)
                 DailyFundRepo.check_and_save(df.values.tolist())
             else:
@@ -134,7 +134,7 @@ def main_daily():
             df = pd.concat(df_list)
 
             if not df.empty:
-                df = df.drop(columns=['tradeDate', 'nav', 'change', 'changePercent'])
+                df.drop(columns=['tradeDate', 'nav', 'change', 'changePercent'], inplace=True)
                 LOG.debug(df)
                 # DailyFundRepo.check_and_save(df.values.tolist())
             else:

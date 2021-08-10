@@ -16,8 +16,8 @@ from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
 from calculations import LOG
-from calculations.common.utils.constants import CHANGE, CHANGE_PERCENT, CLOSE, CNYES_URL, DATA_NOT_EXIST, FAIL, MARKET_DATE, NAV, STOCK_NAME, \
-    SUCCESS, SYMBOL, TRADE_DATE, UPS_AND_DOWNS, YYYYMMDD
+from calculations.common.utils.constants import CHANGE, CHANGE_PERCENT, CLOSE, CNYES_URL, DATA_NOT_EXIST, FAIL, MARKET_DATE, \
+    NAV, STOCK_NAME, SUCCESS, SYMBOL, THREAD, TRADE_DATE, UPS_AND_DOWNS, YYYYMMDD
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.enums.enum_dailyfund import FundGroup
 from calculations.common.utils.exceptions.core_exception import CoreException
@@ -27,7 +27,6 @@ from calculations.core.Interceptor import interceptor
 from calculations.repository.dailyfund_repo import DailyFundRepo
 from calculations.repository.itemfund_repo import ItemFundRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
-from projects.common.constants import THREAD
 
 # 設置socket默認的等待時間，在read超時後能自動往下繼續跑
 socket.setdefaulttimeout(10)
@@ -141,7 +140,7 @@ class BeautifulsoupFunds(IFinancialDaily):
         lineNotify = LineUtils()
         try:
             if group is FundGroup.DAILY:
-                item_df = ItemFundRepo.find_first_url_is_null()
+                item_df = ItemFundRepo.find_all()
             else:
                 """ 填入新的基金需要傳遞symbols """
                 if range_list is None:
@@ -150,7 +149,7 @@ class BeautifulsoupFunds(IFinancialDaily):
                     item_df = ItemFundRepo.find_in_symbols(range_list)
 
             if item_df.empty:
-                raise Exception('ItemFundRepo.find_first_url_is_null() is None')
+                raise Exception('ItemFundRepo is None')
             else:
                 df_list = []
                 # Use normal loop in case blocking IP
@@ -175,10 +174,10 @@ class BeautifulsoupFunds(IFinancialDaily):
     def main(cls):
         """ Main """
         try:
-            # df = cls.main_daily(FundGroup.DAILY)
+            df = cls.main_daily(FundGroup.DAILY)
 
-            range_list = ["A1Qq7oT", "B1RDUpY", "B09%2C102", "B09%2C141", "B09%2C023", "B31qCgv"]
-            df = cls.main_daily(FundGroup.RANGE, range_list)
+            # range_list = ["A1Qq7oT", "B1RDUpY", "B09%2C102", "B09%2C141", "B09%2C023", "B31qCgv"]
+            # df = cls.main_daily(FundGroup.RANGE, range_list)
 
             """ Save data """
             if df.empty:

@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
 import os
 import sys
-import time
 import traceback
 
 import pandas
@@ -32,8 +31,8 @@ class BeautifulSoup(IStocks):
     def __read_data_direct(cls, date) -> DataFrame:
         """ Read data through the csv files and generate dataframe """
         filepath = (CSV_FINAL_PATH % date)
-        df = pd.DataFrame()
 
+        df = pd.DataFrame()
         if os.path.isfile(filepath):
             df = pandas.read_csv(filepath)
             new_headers = CollectionUtils.header_daily_stock(df[:1])
@@ -47,7 +46,6 @@ class BeautifulSoup(IStocks):
     @interceptor
     def __main_daily(cls, start: str, ended: str) -> DataFrame:
         """ 台股DailyStock抓蟲的主程式 """
-        now = time.time()
 
         lineNotify = LineUtils()
         try:
@@ -55,9 +53,9 @@ class BeautifulSoup(IStocks):
             # log.debug(f"Date range: {date_list}")
 
             """ 1. Download html file by date """
-            # for data_date in date_list:
-            #     """ Save as HTML file """
-            #     FileUtils.save_to_original_html(data_date)
+            for data_date in date_list:
+                """ Save as HTML file """
+                FileUtils.save_original_html(data_date)
 
             """ 2. Convert to csv file """
             # # tasks1 = [FileUtils.saveToOriginalCsv(data_date) for data_date in date_list]
@@ -84,8 +82,6 @@ class BeautifulSoup(IStocks):
         except Exception:
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
-        finally:
-            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor

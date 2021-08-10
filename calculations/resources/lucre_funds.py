@@ -40,9 +40,7 @@ if __name__ == '__main__':
 
         """ Start the process of Line Notify """
         lineNotify.send_img(START)
-
         NotifyUtils.send_notify(fund_dict, lineNotify)
-
         lineNotify.send_img(COMPLETE)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

@@ -2,9 +2,9 @@ from enum import Enum
 
 
 class NotifyGroup(Enum):
-    SELL = ("sell", "😍 趕快賣：")
+    SELL = ("sell", "😍 趕快賣：\nRSI值 >= 70")
     NORMAL = ("normal", "😳 徘徊中：")
-    BAD = ("bad", "😭 好可憐：")
+    BAD = ("bad", "😭 好可憐：\nRSI值 <= 30")
     POTENTIAL = ("potential", "⛅ 加速度指標：\n篩選「止跌回升」或「加速上漲」")
 
     """ MA cross rate """
@@ -13,9 +13,9 @@ class NotifyGroup(Enum):
 
     """ Bolling band """
     SHORT = ("short", "📉 進場做空：\n昨日收盤價在布林通道上緣，今日收盤價低於布林通道上緣")
-    LONG = ("long", "📈 進場做多：\nKD黃金交叉，收盤價低於布林通道中線")
+    LONG = ("long", "📈 進場做多：\nKD黃金交叉，且今日收盤價低於布林通道中線")
 
-    INDEX = ("index", "💘 產業數量(加速度指標)：")
+    INDEX = ("index", "💘 產業數量：\n加速度指標中的股票產業統計 (ex：2330為半導體業)")
 
     def __new__(cls, *values):
         obj = object.__new__(cls)

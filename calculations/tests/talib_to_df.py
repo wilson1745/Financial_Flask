@@ -17,7 +17,7 @@ pd.set_option("display.unicode.east_asian_width", True)
 symbol = "2330"
 
 df: DataFrame = DailyStockRepo.find_by_symbol(symbol)
-df = DataFrameUtils.df_for_talib(df)
+DataFrameUtils.df_for_talib(df)
 
 # 確認價量資料表 df 的值都是 float 格式
 df = df.astype('float')

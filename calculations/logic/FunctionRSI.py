@@ -2,7 +2,6 @@
 """
 https://pyecontech.com/2019/06/26/%e5%88%9d%e5%ad%b8%e8%80%85%e7%9a%84python%e9%87%91%e8%9e%8d%e5%88%86%e6%9e%90%e6%97%a5%e8%a8%98-ep6-rsi/
 """
-import time
 import traceback
 
 import matplotlib.pyplot as plt
@@ -70,12 +69,11 @@ def GenRSI(data: DataFrame):
     # # log.debug(f"RSI data: {data}")
 
 
-# ------------------- App Start -------------------
-if __name__ == "__main__":
-    now = time.time()
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
     try:
         # Get history data
-        stock = DailyStockRepo.find_by_symbol("2330")
+        stock = DailyStockRepo.find_by_symbol('2330')
 
         # Generate RSI
         GenRSI(stock)
@@ -86,5 +84,3 @@ if __name__ == "__main__":
         plot(stock)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
-    finally:
-        LOG.debug(f"Time consuming: {time.time() - now}")

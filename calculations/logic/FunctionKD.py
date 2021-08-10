@@ -70,7 +70,7 @@ def GenKD(data: DataFrame):
     data_df['min'] = data_df[LOW].rolling(9).min()
     data_df['max'] = data_df[HIGH].rolling(9).max()
     data_df['RSV'] = (data_df[CLOSE] - data_df['min']) / (data_df['max'] - data_df['min'])
-    data_df = data_df.dropna()
+    data_df.dropna(inplace=True)
 
     # 計算K (K的初始值定為50)
     K_list = [50]
@@ -95,7 +95,7 @@ def GenKD(data: DataFrame):
     # data = pandas.merge(data, data_df[[K, D]], left_index=True, right_index=True, how='left')
     # 直接指定column給原索引
     data[[K, D]] = data_df[[K, D]]
-    # data = data.dropna()
+    data.dropna(inplace=True)
     # log.debug(f"KD data: {data}")
 
 

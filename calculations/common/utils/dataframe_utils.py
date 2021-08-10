@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 import csv
-import traceback
 
 import pandas as pd
 from joblib import delayed, Parallel, parallel_backend
@@ -8,11 +7,9 @@ from pandas import DataFrame
 
 from calculations import LOG
 from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, HEADERS_DF_E, HEADERS_T, \
-    HIGH, INDUSTRY, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
-from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.utils.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, \
+    HEADERS_DF_E, HEADERS_T, HIGH, INDUSTRY, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, THREAD, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
 from calculations.core.Interceptor import interceptor
-from projects.common.constants import THREAD
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
@@ -122,86 +119,64 @@ class DataFrameUtils:
     @interceptor
     def arrange_html_to_df(cls, rows, date) -> DataFrame:
         """ 處理爬蟲完的資料 """
-        try:
-            data_row = cls.__arrange_mi_index_html(rows)
+        data_row = cls.__arrange_mi_index_html(rows)
 
-            # FIXME 這寫法有點笨...
-            df = pd.DataFrame(data_row)
-            df.drop([9, 11, 12, 13, 14, 15], axis=1, inplace=True)
+        # FIXME 這寫法有點笨...
+        df = pd.DataFrame(data_row)
+        df.drop([9, 11, 12, 13, 14, 15], axis=1, inplace=True)
+        df.astype(object).where(pd.notnull(df), None)
+        df.fillna(0, inplace=True)
 
-            df.astype(object).where(pd.notnull(df), None)
-            df.fillna(0, inplace=True)
+        # 塞入第一欄[日期] (market_date)
+        df.insert(0, HEADERS[0], date)
+        df.columns = HEADERS
+        # LOG.debug(df)
 
-            # 塞入第一欄[日期] (market_date)
-            df.insert(0, HEADERS[0], date)
-            # log.debug(f"df.columns: {dataFrame.columns}")
-
-            # 先儲存CSV
-            df.columns = HEADERS
-            # LOG.debug(df)
-
-            return df
-        except Exception:
-            raise
+        return df
 
     @staticmethod
     @interceptor
     def list_rows(filepath):
-        try:
-            with open(filepath, encoding="utf-8", errors="ignore") as csvfile:
-                # 讀取 CSV 檔案內容
-                rows = csv.reader(csvfile)
+        with open(filepath, encoding="utf-8", errors="ignore") as csvfile:
+            # 讀取 CSV 檔案內容
+            rows = csv.reader(csvfile)
 
-                # 以迴圈輸出每一列
-                for row in rows:
-                    LOG.debug(row)
-        except Exception:
-            raise
+            # 以迴圈輸出每一列
+            for row in rows:
+                LOG.debug(row)
 
     @staticmethod
     @interceptor
-    def df_for_talib(df: DataFrame) -> DataFrame:
-        try:
-            df = df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1)
-            """ 寫法保留：df欄位變換名稱用 """
-            # df = df.rename(columns={OPENING_PRICE: OPEN, HIGHEST_PRICE: HIGH, LOWEST_PRICE: LOW, CLOSE_PRICE: CLOSE})
-            return df
-        except Exception:
-            raise
+    def df_for_talib(df: DataFrame):
+        df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1, inplace=True)
+        """ 寫法保留：df欄位變換名稱用 """
+        # df.rename(columns={OPENING_PRICE: OPEN, HIGHEST_PRICE: HIGH, LOWEST_PRICE: LOW, CLOSE_PRICE: CLOSE}, inplace=True)
 
     @classmethod
     @interceptor
     def gen_stock_df(cls, rows: list) -> DataFrame:
         """ Generate pandas dataframe """
-        try:
-            df = pd.DataFrame(rows)
-            if df.empty:
-                LOG.warn("No data exist!")
-            else:
-                df.columns = HEADERS_T
-                df.index = pd.to_datetime(df['market_date'])
-                # log.debug(df)
-            return df
-        except Exception as e:
-            CoreException.show_error(e, traceback.format_exc())
-            raise e
+        df = pd.DataFrame(rows)
+        if df.empty:
+            LOG.warn("No data exist!")
+        else:
+            df.columns = HEADERS_T
+            df.index = pd.to_datetime(df['market_date'])
+            # log.debug(df)
+        return df
 
     @classmethod
     @interceptor
     def gen_item_df(cls, rows: list) -> DataFrame:
         """ Generate pandas dataframe """
-        try:
-            df = pd.DataFrame(rows)
-            if df.empty:
-                LOG.warn('No data exist!')
-            else:
-                df.columns = HEADER_ITEMFUND_E
-                df.index = df['symbol']
-                # log.debug(df)
-            return df
-        except Exception as e:
-            CoreException.show_error(e, traceback.format_exc())
-            raise e
+        df = pd.DataFrame(rows)
+        if df.empty:
+            LOG.warn('No data exist!')
+        else:
+            df.columns = HEADER_ITEMFUND_E
+            df.index = df['symbol']
+            # log.debug(df)
+        return df
 
     @classmethod
     @interceptor
@@ -239,25 +214,21 @@ class DataFrameUtils:
     @interceptor
     def gen_industry_df_html(cls, industry_rows: list) -> DataFrame:
         """ 處理爬蟲完的資料(價格指數) """
-        try:
-            with parallel_backend(THREAD, n_jobs=-1):
-                results = Parallel()(delayed(cls.__industry_row)(row) for row in industry_rows)
+        with parallel_backend(THREAD, n_jobs=-1):
+            results = Parallel()(delayed(cls.__industry_row)(row) for row in industry_rows)
 
-            # Empty dataFrame
-            df = pd.DataFrame()
+        # Empty dataFrame
+        df = pd.DataFrame()
+        if len(results) > 0:
+            df = pd.DataFrame(results)
+            # FIXME 這寫法有點笨...
+            df.drop([2, 5], axis=1, inplace=True)
+            df.columns = constants.HEADER_INDEX_E
 
-            if len(results) > 0:
-                df = pd.DataFrame(results)
-                # FIXME 這寫法有點笨...
-                df.drop([2, 5], axis=1, inplace=True)
-                df.columns = constants.HEADER_INDEX_E
+            # Convert dtype
+            df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]] = df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]].apply(pd.to_numeric)
+            # Sort by column
+            df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False, inplace=True)
+            # log.debug(df)
 
-                # Convert dtype
-                df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]] = df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]].apply(pd.to_numeric)
-
-                # Sort by column
-                df = df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False)
-                # log.debug(df)
-            return df
-        except Exception:
-            raise
+        return df

@@ -1,10 +1,8 @@
-import multiprocessing
-from multiprocessing.pool import ThreadPool
-
+from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
 from calculations import LOG
-from calculations.common.utils.constants import DF_INSERT
+from calculations.common.utils.constants import DF_INSERT, THREAD
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.core.Interceptor import interceptor
 from calculations.repository.interfaces.ioracle_repo import IOracleRepo
@@ -37,17 +35,17 @@ class DailyFundRepo(IOracleRepo):
 
     @classmethod
     @interceptor
-    def check_and_save(cls, datas: list):
+    def check_and_save(cls, rows: list):
         """ Check DB data one by one """
-        pools = ThreadPool(multiprocessing.cpu_count() - 1)
-        new_datas = pools.map(func=cls.__check_exist, iterable=datas)
-        LOG.debug(f"check_and_save: {new_datas}")
+        with parallel_backend(THREAD, n_jobs=-1):
+            new_rows = Parallel()(delayed(cls.__check_exist)(row) for row in rows)
 
-        if len(new_datas) > 0:
-            super().bulk_save(DF_INSERT, list(filter(None, new_datas)))
+        if len(new_rows) > 0:
+            LOG.debug(f"check_and_save: {new_rows}")
+            super().bulk_save(DF_INSERT, list(filter(None, new_rows)))
         else:
             LOG.warning(DATA_NOT_EXIST)
 
-# if __name__ == "__main__":
+# if __name__ == '__main__':
 #     """ ------------------- App Start ------------------- """
-#     df = DailyFundRepo.find_by_symbol("B03%2C631")
+#     df = DailyFundRepo.find_by_symbol('B03%2C631')

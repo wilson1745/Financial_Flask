@@ -61,7 +61,7 @@ class NotifyUtils:
         rowStr = ''
         # 基金不用顯示Symbol
         rowStr += f"\n名稱：{row[STOCK_NAME]} {'' if tok is NotifyTok.FUNDS else ('(' + row[SYMBOL] + ')')}"
-        rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
+        rowStr += f"\n資料日期：{DateUtils.strformat(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
         rowStr += f"\n收盤價：{row[CLOSE]} ({cls.__msg_arrow(row[CLOSE_Y])})"
         # RSI(12)
         rowStr += f"\nRSI：{row[RSI]} ({cls.__msg_arrow(row[RSI_Y])})"
@@ -72,7 +72,7 @@ class NotifyUtils:
     @staticmethod
     @interceptor
     def __gen_notify_data(df: DataFrame):
-        """ TODO description """
+        """ Generate indicators (RSI, KD, Bolling, Signal, etc.) """
         if not df.empty:
             """ RSI """
             FunctionRSI.GenRSI(df)
@@ -100,7 +100,6 @@ class NotifyUtils:
             # pd.set_option('mode.chained_assignment', None)
             # row_pre: _iLocIndexer = stock.iloc[-2].copy()
             # row['RSI_Y'] = (row[RSI] - row_pre[RSI]).round(2)
-
             return row
         else:
             return None
@@ -109,9 +108,6 @@ class NotifyUtils:
     @interceptor
     def send_notify(cls, stock_dict: dict, lineNotify: LineUtils):
         """ 預處理股票格式並送出Line Notify """
-        # TODO pool = multiprocessing.Pool(4)
-        # TODO out1, out2, out3 = zip(*pool.map(calc_stuff, range(0, 10 * offset, offset)))
-
         key: NotifyGroup
         for key in stock_dict:
             default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{key.getValue()}"

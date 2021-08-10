@@ -80,7 +80,3 @@ D = 'D'
 # DailyStock headers
 HEADERS = ["日期", "證券代號", "證券名稱", "成交股數", "成交筆數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差"]
 HEADERS_T = [MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, OPEN, HIGH, LOW, CLOSE, UPS_AND_DOWNS, VOLUME, CREATETIME]
-
-# Multi process
-THREAD = 'threading'
-MULTI = 'multiprocessing'

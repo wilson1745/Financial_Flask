@@ -56,19 +56,10 @@ if __name__ == '__main__':
 
         """ Start the process of Line Notify """
         lineNotify.send_img(START)
-
         NotifyUtils.send_notify(daily_dict.get(), lineNotify)
         NotifyUtils.send_notify(potentials_dict.get(), lineNotify)
         NotifyUtils.send_industry(industry_list.get(), lineNotify)
-
         lineNotify.send_img(COMPLETE)
-
-        # daily_dict = DailyStockNotify.main_daily()
-        # potentials_dict = PotentialStock.main_daily()
-        # industry_df = IndustryCalculation.main_daily()
-        # NotifyUtils.send_notify(daily_dict, lineNotify)
-        # NotifyUtils.send_notify(potentials_dict, lineNotify)
-        # NotifyUtils.send_industry(industry_df, lineNotify)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
     finally:

@@ -14,7 +14,8 @@ def KD(data):
     data_df['min'] = data_df['Low'].rolling(9).min()
     data_df['max'] = data_df['High'].rolling(9).max()
     data_df['RSV'] = (data_df['Close'] - data_df['min']) / (data_df['max'] - data_df['min'])
-    data_df = data_df.dropna()
+    data_df.dropna(inplace=True)
+
     # 計算K
     # K的初始值定為50
     K_list = [50]

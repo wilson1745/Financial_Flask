@@ -47,7 +47,7 @@ class OracleConnectionPool(object):
                                           encoding='UTF-8')
         LOG.debug(f"self.pool: {self.pool}")
 
-# if __name__ == "__main__":
+# if __name__ == '__main__':
 #     try:
 #         pool = ConnectionPool()
 #         log.debug(pool)

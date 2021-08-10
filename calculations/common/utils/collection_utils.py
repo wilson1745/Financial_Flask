@@ -3,7 +3,7 @@ from calculations.common.utils.constants import CLOSE, DEAL_PRICE, DEAL_STOCK, H
 
 
 class CollectionUtils:
-    """ TODO Description """
+    """ Arrange objects like python list """
 
     def __init__(self):
         """ Constructor """
@@ -11,7 +11,7 @@ class CollectionUtils:
 
     @staticmethod
     def header_daily_stock(orignal_headers) -> list:
-
+        """ Generate DailyStock headers """
         new_headers = []
 
         for column in orignal_headers:
@@ -50,6 +50,7 @@ class CollectionUtils:
 
     @staticmethod
     def header_fund(orignal_headers) -> list:
+        """ Generate DailyFund headers """
         new_headers = []
 
         for column in orignal_headers:
@@ -69,12 +70,8 @@ class CollectionUtils:
 
 # if __name__ == '__main__':
 #     """ ------------------- App Start ------------------- """
-#     now = time.time()
-#
 #     try:
 #         headers = CollectionUtils.header_daily_stock(HEADERS)
 #         print(headers)
-#     except Exception:
-#         raise
-#     finally:
-#         LOG.debug(f"Time consuming: {time.time() - now}")
+#     except Exception as e:
+#         CoreException.show_error(e, traceback.format_exc())
