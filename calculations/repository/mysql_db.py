@@ -17,7 +17,8 @@ class MysqlConnectionPool(object):
                                                 database='financial_db',
                                                 user='root',
                                                 password='1qaz2wsx')
-        LOG.debug(f"self.pool: {self.pool}")
+
+        LOG.debug(f"MysqlConnectionPool self.pool: {self.pool}")
 
 # if __name__ == '__main__':
 #     pool = MysqlConnectionPool()

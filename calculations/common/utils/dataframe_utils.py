@@ -137,7 +137,7 @@ class DataFrameUtils:
     @staticmethod
     @interceptor
     def list_rows(filepath):
-        with open(filepath, encoding="utf-8", errors="ignore") as csvfile:
+        with open(filepath, encoding='UTF-8', errors='ignore') as csvfile:
             # 讀取 CSV 檔案內容
             rows = csv.reader(csvfile)
 

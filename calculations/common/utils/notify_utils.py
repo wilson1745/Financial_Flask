@@ -61,7 +61,7 @@ class NotifyUtils:
         rowStr = ''
         # 基金不用顯示Symbol
         rowStr += f"\n名稱：{row[STOCK_NAME]} {'' if tok is NotifyTok.FUNDS else ('(' + row[SYMBOL] + ')')}"
-        rowStr += f"\n日期：{DateUtils.strformat(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
+        rowStr += f"\n日期：{DateUtils.str_fmt(row[MARKET_DATE], YYYYMMDD, YYYYMMDD_SLASH)}"
         rowStr += f"\n收盤價：{row[CLOSE]} ({cls.__msg_arrow(row[CLOSE_Y])})"
         # RSI(12)
         rowStr += f"\nRSI：{row[RSI]} ({cls.__msg_arrow(row[RSI_Y])})"

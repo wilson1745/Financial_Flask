@@ -45,7 +45,8 @@ class OracleConnectionPool(object):
                                           # Using connections concurrently in multiple threads
                                           threaded=True,
                                           encoding='UTF-8')
-        LOG.debug(f"self.pool: {self.pool}")
+
+        LOG.debug(f"OracleConnectionPool self.pool: {self.pool}")
 
 # if __name__ == '__main__':
 #     try:

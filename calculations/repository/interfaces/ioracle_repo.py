@@ -52,8 +52,7 @@ class IOracleRepo:
     @interceptor
     def bulk_save(cls, sql: str, datas: list):
         """ Save to Oracle Autonomous DB with bulk insert => fast """
-        start = time.time()
-        LOG.debug(f"stock_data size:{len(datas)}")
+        LOG.debug(f"Stock_data size:{len(datas)}")
 
         # Use the pooled connection
         LOG.debug(f"Current pool: {ORACLE_POOL}")
@@ -68,7 +67,6 @@ class IOracleRepo:
             connection.rollback()
             raise e
         finally:
-            LOG.debug(f"Time: {time.time() - start}")
             LOG.debug(f"Release connection's cursor: {hex(id(cursor))}")
             cursor.close()
 
@@ -80,7 +78,6 @@ class IOracleRepo:
     @interceptor
     def save(self, sql: str, datas: list):
         """ Save to Oracle Autonomous DB by each one => slow """
-        start = time.time()
         LOG.debug(f"stock_data size:{len(datas)}")
         LOG.debug(f"Current pool: {ORACLE_POOL}")
         connection = ORACLE_POOL.acquire()
@@ -98,6 +95,5 @@ class IOracleRepo:
                 connection.rollback()
                 raise e
             finally:
-                LOG.debug(f"Time: {time.time() - start}")
                 LOG.debug(f"Release pool's connection: {hex(id(connection))}")
                 ORACLE_POOL.release(connection)

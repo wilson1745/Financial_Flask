@@ -28,7 +28,7 @@ class IndustryUtils:
 
         # Using recursion to read the latest HTML file
         while isNoFile:
-            dateStr = DateUtils.datetimefmt(date, constants.YYYYMMDD)
+            dateStr = DateUtils.datetime_fmt(date, constants.YYYYMMDD)
             filepath = (constants.HTML_PATH % dateStr)
 
             if not os.path.isfile(filepath):

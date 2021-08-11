@@ -18,3 +18,5 @@ if __name__ == '__main__':
     LOG.info("Project Calculations 作為主程序啟動")
 else:
     LOG.info("Project Calculations 初始化")
+
+# import calculations.core

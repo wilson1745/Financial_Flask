@@ -49,7 +49,7 @@ class BeautifulSoup(IStocks):
 
         lineNotify = LineUtils()
         try:
-            date_list = DateUtils.getDateList(start, ended, "D")
+            date_list = DateUtils.list_date(start, ended, "D")
             # log.debug(f"Date range: {date_list}")
 
             """ 1. Download html file by date """
