@@ -3,7 +3,7 @@ import pandas as pd
 from pandas import DataFrame
 
 from calculations.common.utils.dataframe_utils import DataFrameUtils
-from calculations.core.Interceptor import interceptor
+from calculations.core.interceptor import interceptor
 from calculations.repository.interfaces.ioracle_repo import IOracleRepo
 
 pd.set_option('display.width', None)

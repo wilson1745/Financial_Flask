@@ -1,11 +1,13 @@
 # -*- coding: UTF-8 -*-
 import datetime
+import traceback
 
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils import constants
-from calculations.core.Interceptor import interceptor
+from calculations.common.constants import constants
+from calculations.common.exceptions.core_exception import CoreException
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
 from projects.common.utils.date_utils import DateUtils
 
@@ -70,12 +72,15 @@ def getDayKBarbyNum(sid, daynum):
     return dayK[-daynum:]
 
 
-# ------------------- App Test -------------------
-if __name__ == "__main__":
-    symbol = "2330"
-    year_month = "202102"
-    num = 5
+if __name__ == '__main__':
+    """ ------------------- App Test ------------------- """
+    try:
+        symbol = '2330'
+        year_month = '202102'
+        num = 5
 
-    df = getDayKBar(symbol, year_month)
-    # df = getDayKBarbyNum(symbol, num)
-    LOG.debug(df)
+        df = getDayKBar(symbol, year_month)
+        # df = getDayKBarbyNum(symbol, num)
+        LOG.debug(df)
+    except Exception as e:
+        CoreException.show_error(e, traceback.format_exc())

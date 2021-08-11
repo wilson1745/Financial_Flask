@@ -1,10 +1,10 @@
 from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils.constants import DF_INSERT, THREAD
+from calculations.common.constants.constants import DF_INSERT, THREAD
 from calculations.common.utils.dataframe_utils import DataFrameUtils
-from calculations.core.Interceptor import interceptor
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.repository.interfaces.ioracle_repo import IOracleRepo
 from projects.common.constants import DATA_NOT_EXIST
 
@@ -46,6 +46,8 @@ class DailyFundRepo(IOracleRepo):
         else:
             LOG.warning(DATA_NOT_EXIST)
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     df = DailyFundRepo.find_by_symbol('B03%2C631')
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    df = DailyFundRepo.find_by_symbol('B03%2C631')
+    LOG.debug(df)

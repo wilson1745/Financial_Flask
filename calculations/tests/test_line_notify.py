@@ -1,6 +1,6 @@
 import requests
 
-from calculations.common.utils.constants import NOTIFY_LINK, TOKEN_FUNDS
+from calculations.common.constants.constants import NOTIFY_LINK, TOKEN_FUNDS
 
 headers = {
     "Authorization": "Bearer " + TOKEN_FUNDS,

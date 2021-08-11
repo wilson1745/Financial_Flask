@@ -3,7 +3,7 @@ import pandas as pd
 import talib
 from pandas import DataFrame
 
-from calculations.common.utils.constants import CLOSE, RSI
+from calculations.common.constants.constants import CLOSE, RSI
 from calculations.logic import FunctionKD
 from calculations.repository.dailystock_repo import DailyStockRepo
 
@@ -39,7 +39,7 @@ df.dropna(inplace=True)
 #                            slowd_period=3,
 #                            slowd_matype=MA_Type.SMA)
 
-df = FunctionKD.GetDataKD(df)
+FunctionKD.GenKD(df)
 
 # df['fastK'], df['fastD'] = talib.STOCHF(df[HIGH], df[LOW], df[CLOSE],
 #                                         fastk_period=9,

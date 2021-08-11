@@ -9,10 +9,10 @@ import pandas as pd
 import talib
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils.constants import CLOSE, D, K
-from calculations.common.utils.exceptions.core_exception import CoreException
-from calculations.core.Interceptor import interceptor
+from calculations.common.constants.constants import CLOSE, D, K
+from calculations.common.exceptions.core_exception import CoreException
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.logic import FunctionKD, FunctionRSI
 from calculations.repository.dailystock_repo import DailyStockRepo
 
@@ -25,14 +25,13 @@ pd.set_option("display.unicode.east_asian_width", True)
 
 
 @interceptor
-def GenBollingerBand(data: DataFrame):
+def GenBollingerBand(df_data: DataFrame):
     """ 計算布林通道 """
-
     # 創建布林通道： 週期 20日（＝日K月均線）、1個標準差
     # BBAND20 = abstract.BBANDS(df, timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
-    data['upper'], data['middle'], data['lower'] = talib.BBANDS(data[CLOSE], timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
-    data = data.dropna()
-    print(data)
+    df_data['upper'], df_data['middle'], df_data['lower'] = talib.BBANDS(df_data[CLOSE], timeperiod=20, nbdevup=1, nbdevdn=1, matype=2)
+    df_data.dropna(inplace=True)
+    LOG.debug(df_data)
 
 
 if __name__ == "__main__":

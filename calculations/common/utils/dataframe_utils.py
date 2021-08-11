@@ -5,18 +5,18 @@ import pandas as pd
 from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils import constants
-from calculations.common.utils.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, \
+from calculations.common.constants import constants
+from calculations.common.constants.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, \
     HEADERS_DF_E, HEADERS_T, HIGH, INDUSTRY, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, THREAD, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
-from calculations.core.Interceptor import interceptor
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 
-pd.set_option("display.width", None)
+pd.set_option('display.width', None)
 pd.set_option('display.max_colwidth', None)
-pd.set_option("display.max_columns", None)
-pd.set_option("display.max_rows", None)
-pd.set_option("display.unicode.ambiguous_as_wide", True)
-pd.set_option("display.unicode.east_asian_width", True)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.unicode.ambiguous_as_wide', True)
+pd.set_option('display.unicode.east_asian_width', True)
 
 
 class DataFrameUtils:
@@ -162,7 +162,6 @@ class DataFrameUtils:
         else:
             df.columns = HEADERS_T
             df.index = pd.to_datetime(df['market_date'])
-            # log.debug(df)
         return df
 
     @classmethod
@@ -175,7 +174,6 @@ class DataFrameUtils:
         else:
             df.columns = HEADER_ITEMFUND_E
             df.index = df['symbol']
-            # log.debug(df)
         return df
 
     @classmethod
@@ -221,7 +219,6 @@ class DataFrameUtils:
         df = pd.DataFrame()
         if len(results) > 0:
             df = pd.DataFrame(results)
-            # FIXME 這寫法有點笨...
             df.drop([2, 5], axis=1, inplace=True)
             df.columns = constants.HEADER_INDEX_E
 
@@ -229,6 +226,5 @@ class DataFrameUtils:
             df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]] = df[[UPS_AND_DOWNS, UPS_AND_DOWNS_PCT]].apply(pd.to_numeric)
             # Sort by column
             df.sort_values(by=[UPS_AND_DOWNS_PCT], axis=0, ascending=False, inplace=True)
-            # log.debug(df)
 
         return df

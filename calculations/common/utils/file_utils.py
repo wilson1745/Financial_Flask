@@ -17,13 +17,13 @@ import requests
 from bs4 import BeautifulSoup
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils import constants
+from calculations.common.constants import constants
+from calculations.common.constants.constants import CLOSE, HEADERS_DF, HTML_PATH, INDUSTRY_HTML_PATH, INDUSTRY_URL, TWSE_MI_INDEX, UPS_AND_DOWNS
+from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.collection_utils import CollectionUtils
-from calculations.common.utils.constants import CLOSE, HEADERS_DF, HTML_PATH, INDUSTRY_HTML_PATH, INDUSTRY_URL, TWSE_MI_INDEX, UPS_AND_DOWNS
 from calculations.common.utils.dataframe_utils import DataFrameUtils
-from calculations.common.utils.exceptions.core_exception import CoreException
-from calculations.core.Interceptor import interceptor
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from projects.common.utils.date_utils import DateUtils
 
 pd.set_option("display.width", None)
@@ -38,12 +38,12 @@ socket.setdefaulttimeout(10)
 
 
 class FileUtils:
-    """ TODO description """
+    """ 讀取、寫入HTML文件 """
 
     @classmethod
     @interceptor
     def __save_html(cls, html_path: str, url: str):
-        """ TODO description """
+        """ Get response from url and save it """
         try:
             response = urlopen(url, timeout=600)
             webContent = response.read()
@@ -68,7 +68,7 @@ class FileUtils:
     @classmethod
     @interceptor
     def save_industry_html_return(cls, date_yyyymm: str) -> list:
-        """ Get HTML from [https://isin.twse.com.tw] """
+        """ Get HTML from [https://isin.twse.com.tw] and return read data """
         LOG.debug(f"save_industry_html: {date_yyyymm}")
 
         """ 1. Save html """

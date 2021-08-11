@@ -1,5 +1,5 @@
-from calculations.common.utils.constants import CLOSE, DEAL_PRICE, DEAL_STOCK, HIGH, LOW, MARKET_DATE, OPEN, STOCK_NAME, SYMBOL, \
-    UPS_AND_DOWNS, VOLUME
+from calculations.common.constants.constants import CLOSE, DEAL_PRICE, DEAL_STOCK, HIGH, LOW, MARKET_DATE, OPEN, \
+    STOCK_NAME, SYMBOL, UPS_AND_DOWNS, VOLUME
 
 
 class CollectionUtils:

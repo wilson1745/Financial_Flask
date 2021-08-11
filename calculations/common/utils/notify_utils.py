@@ -5,14 +5,14 @@ from multiprocessing.pool import ThreadPool
 
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils.constants import CLOSE, CLOSE_Y, D, DOWN_EMO, K, K_D, MARKET_DATE, RSI, RSI_Y, SGNL_B, SGNL_S, STOCK_NAME, SYMBOL, \
-    UP_EMO, YYYYMMDD, YYYYMMDD_SLASH
+from calculations.common.constants.constants import CLOSE, CLOSE_Y, D, DOWN_EMO, K, K_D, MARKET_DATE, RSI, RSI_Y, SGNL_B, SGNL_S, \
+    STOCK_NAME, SYMBOL, UP_EMO, YYYYMMDD, YYYYMMDD_SLASH
+from calculations.common.enums.enum_line_notify import NotifyGroup
+from calculations.common.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.date_utils import DateUtils
-from calculations.common.utils.enums.enum_line_notify import NotifyGroup
-from calculations.common.utils.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.line_utils import LineUtils
-from calculations.core.Interceptor import interceptor
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.logic import FunctionBollingBand, FunctionKD, FunctionMA, FunctionRSI
 
 
@@ -26,7 +26,7 @@ class NotifyUtils:
     @staticmethod
     # @interceptor
     def __msg_arrow(value: float) -> str:
-        """ TODO description """
+        """ Set emoji """
         sym = ''
         if value > 0:
             sym = UP_EMO
@@ -85,16 +85,16 @@ class NotifyUtils:
             FunctionBollingBand.BuySellSignal(df)
 
             """ MA cross rate """
-            stock = FunctionMA.GetCross(df, 5, 15)
+            FunctionMA.GetCross(df, 5, 15)
 
             # Yesterday's CLOSE cross
-            stock[CLOSE_Y] = (stock.iloc[-1][CLOSE] - stock.iloc[-2][CLOSE]).round(2)
+            df[CLOSE_Y] = (df.iloc[-1][CLOSE] - df.iloc[-2][CLOSE]).round(2)
             # Yesterday's RSI cross
-            stock[RSI_Y] = (stock.iloc[-1][RSI] - stock.iloc[-2][RSI]).round(2)
+            df[RSI_Y] = (df.iloc[-1][RSI] - df.iloc[-2][RSI]).round(2)
             # KD cross
-            stock[K_D] = (stock.iloc[-1][K] - stock.iloc[-1][D]).round(2)
+            df[K_D] = (df.iloc[-1][K] - df.iloc[-1][D]).round(2)
             # 取得當天含有RSI和KD值的最後一筆資料 (row: _iLocIndexer)
-            row = stock.iloc[-1].copy()
+            row = df.iloc[-1].copy()
 
             # Pandas SettingwithCopy 警告解决方案 (https://zhuanlan.zhihu.com/p/41202576)
             # pd.set_option('mode.chained_assignment', None)

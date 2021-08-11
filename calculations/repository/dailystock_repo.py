@@ -2,11 +2,11 @@
 import pandas as pd
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils.constants import SYMBOL
+from calculations.common.constants.constants import SYMBOL
 from calculations.common.utils.dataframe_utils import DataFrameUtils
-from calculations.common.utils.enums.enum_yes_no import YesNo
-from calculations.core.Interceptor import interceptor
+from calculations.common.enums.enum_yes_no import YesNo
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.repository.interfaces.ioracle_repo import IOracleRepo
 
 pd.set_option("display.width", None)

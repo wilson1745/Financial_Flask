@@ -1,20 +1,19 @@
 # -*- coding: UTF-8 -*-
 import os
-import time
 import traceback
 from datetime import datetime
 
 from joblib import delayed, Parallel, parallel_backend
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils.constants import FAIL, RILEY_STOCKS, SUCCESS, THREAD
-from calculations.common.utils.enums.enum_line_notify import NotifyGroup
-from calculations.common.utils.enums.enum_notifytok import NotifyTok
-from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.constants.constants import FAIL, RILEY_STOCKS, SUCCESS, THREAD
+from calculations.common.enums.enum_line_notify import NotifyGroup
+from calculations.common.enums.enum_notifytok import NotifyTok
+from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
-from calculations.core.Interceptor import interceptor
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
 
@@ -37,7 +36,6 @@ class DailyStockNotify(IFinancialDaily):
     @interceptor
     def main_daily(cls) -> dict:
         """ 通知的主程式 """
-        now = time.time()
 
         lineNotify = LineUtils()
         try:
@@ -54,8 +52,6 @@ class DailyStockNotify(IFinancialDaily):
         except Exception:
             lineNotify.send_mine(FAIL % os.path.basename(__file__))
             raise
-        finally:
-            LOG.debug(f"Time consuming: {time.time() - now}")
 
     @classmethod
     @interceptor

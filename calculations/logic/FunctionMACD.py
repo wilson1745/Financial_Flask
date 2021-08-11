@@ -8,7 +8,7 @@ import requests
 import talib
 from bs4 import BeautifulSoup
 
-from calculations.core.Interceptor import interceptor
+from calculations.core.interceptor import interceptor
 
 
 @interceptor

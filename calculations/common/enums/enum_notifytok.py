@@ -1,9 +1,10 @@
 from enum import Enum
 
 
-class YesNo(Enum):
-    Y = ("Y", "是")
-    N = ("N", "否")
+class NotifyTok(Enum):
+    MINE = ('個人', 'kgVHUTkyLWsCfcnMxbsHmsptVPkG5afkZY2NO0I5sDX')
+    RILEY = ('Riley', 'hlFjUiKkT9jWw1FfnLAVgnwaWJ4CY5DzIg7J33X2vdc')
+    FUNDS = ('基金', '38rUaL90s5WlYdMwGTM1YKOQo69ZXBODzboJRmEr4aE')
 
     def __new__(cls, *values):
         obj = object.__new__(cls)

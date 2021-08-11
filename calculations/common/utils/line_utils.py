@@ -5,12 +5,12 @@ import traceback
 import requests
 from requests import ConnectTimeout
 
-from calculations import LOG
-from calculations.common.utils.constants import IMAGE_PATH, NOTIFY_LINK, YYYYMMDD_SLASH
+from calculations.common.constants.constants import IMAGE_PATH, NOTIFY_LINK, YYYYMMDD_SLASH
+from calculations.common.enums.enum_notifytok import NotifyTok
+from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.date_utils import DateUtils
-from calculations.common.utils.enums.enum_notifytok import NotifyTok
-from calculations.common.utils.exceptions.core_exception import CoreException
-from calculations.core.Interceptor import interceptor
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 
 
 class LineUtils:

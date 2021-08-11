@@ -5,8 +5,8 @@ https://pyecontech.com/2019/06/18/%e5%88%9d%e5%ad%b8%e8%80%85%e7%9a%84python%e9%
 """
 import matplotlib.pyplot as plt
 
-from calculations.common.utils.constants import CLOSE, MARKET_DATE, SYMBOL
-from calculations.core.Interceptor import interceptor
+from calculations.common.constants.constants import CLOSE, MARKET_DATE, SYMBOL
+from calculations.core.interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
 
 

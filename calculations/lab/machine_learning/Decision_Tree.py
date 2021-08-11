@@ -4,7 +4,7 @@ import pydotplus
 from sklearn import datasets, tree
 from sklearn.model_selection import train_test_split
 
-from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.exceptions.core_exception import CoreException
 
 if __name__ == "__main__":
     """ ------------------- App Start ------------------- """

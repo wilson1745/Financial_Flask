@@ -1,34 +1,36 @@
 import os
 import sys
-import time
 import traceback
 from multiprocessing.pool import ThreadPool
 
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
-from calculations import CPU_THREAD, LOG
-from calculations.common.utils.constants import IMG_COMPLETE, DS_INSERT, IMG_START, START
-from calculations.common.utils.enums.enum_notifytok import NotifyTok
-from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.constants.constants import DS_INSERT, IMG_COMPLETE, IMG_START, START
+from calculations.common.enums.enum_notifytok import NotifyTok
+from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
+from calculations.core import CPU_THREAD
+from calculations.core.interceptor import interceptor
 from calculations.resources.beautifulsoup_stocks import BeautifulSoupStocks
 from calculations.resources.dailystock_notify import DailyStockNotify
 from calculations.resources.industry_cal import IndustryCalculation
 from calculations.resources.interfaces.istocks import IStocks
 from calculations.resources.potential_stock import PotentialStock
 
-if __name__ == '__main__':
+
+@interceptor
+def main():
     """
-    1. BeautifulSoupStocks.main_daily() -> return dataframe
-    2. line_notify: line_notify.sendNotify(stockDict) -> return dict
-    3. potential_stock: line_notify.arrangeNotify(potentials, NotifyGroup.getPotentialGroup()) -> return list
-    4. industrial_cal: line_notify.sendIndustry(df) -> return dataframe
-    """
-    now = time.time()
+        1. BeautifulSoupStocks.main_daily() -> return dataframe
+        2. line_notify: line_notify.sendNotify(stockDict) -> return dict
+        3. potential_stock: line_notify.arrangeNotify(potentials, NotifyGroup.getPotentialGroup()) -> return list
+        4. industrial_cal: line_notify.sendIndustry(df) -> return dataframe
+        """
 
     pools = ThreadPool(CPU_THREAD)
     lineNotify = LineUtils(NotifyTok.RILEY)
+    # lineNotify = LineUtils()
     try:
         lineNotify.send_mine(START % os.path.basename(__file__))
 
@@ -62,5 +64,7 @@ if __name__ == '__main__':
         lineNotify.send_img(IMG_COMPLETE)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
-    finally:
-        LOG.debug(f"Time consuming: {time.time() - now}")
+
+
+if __name__ == '__main__':
+    main()

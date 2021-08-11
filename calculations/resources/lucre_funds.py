@@ -1,27 +1,28 @@
 import os
 import sys
-import time
 import traceback
 
 sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
-from calculations import LOG
-from calculations.common.utils.constants import IMG_COMPLETE, IMG_START, START
-from calculations.common.utils.enums.enum_dailyfund import FundGroup
-from calculations.common.utils.enums.enum_notifytok import NotifyTok
-from calculations.common.utils.exceptions.core_exception import CoreException
+from calculations.common.constants.constants import IMG_COMPLETE, IMG_START, START
+from calculations.common.enums.enum_dailyfund import FundGroup
+from calculations.common.enums.enum_notifytok import NotifyTok
+from calculations.common.exceptions.core_exception import CoreException
+from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.repository.dailyfund_repo import DailyFundRepo
 from calculations.resources.beautifulsoup_funds import BeautifulsoupFunds
 from calculations.resources.dailyfund_notify import DailyFundNotify
-from calculations.common.utils.line_utils import LineUtils
 
-if __name__ == '__main__':
+
+@interceptor
+def main():
     """
     1. BeautifulsoupFunds.main_daily(FundGroup.DAILY) -> return dataframe
     2. DailyFundNotify.main_daily() -> return dict
     """
-    now = time.time()
 
     lineNotify = LineUtils(NotifyTok.FUNDS)
     try:
@@ -45,5 +46,7 @@ if __name__ == '__main__':
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
         # TODO send fail image
-    finally:
-        LOG.debug(f"Time consuming: {time.time() - now}")
+
+
+if __name__ == '__main__':
+    main()

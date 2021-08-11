@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 import talib
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils.constants import CLOSE, RSI
-from calculations.common.utils.exceptions.core_exception import CoreException
-from calculations.core.Interceptor import interceptor
+from calculations.common.constants.constants import CLOSE, RSI
+from calculations.common.exceptions.core_exception import CoreException
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
 
 
@@ -30,10 +30,10 @@ def cal_D(num):
 
 
 @interceptor
-def plot(data):
+def plot(df: DataFrame):
     """ Render plot """
     plt.figure(figsize=(10, 10))
-    data[RSI].plot()
+    df[RSI].plot()
     plt.plot(stock.index, [70] * len(stock.index))
     plt.plot(stock.index, [30] * len(stock.index))
     plt.legend()
@@ -41,10 +41,11 @@ def plot(data):
 
 
 @interceptor
-def GenRSI(data: DataFrame):
+def GenRSI(df: DataFrame):
     """ 清理資料 成交股數、開盤價、最高價、最低價、收盤價的資料，並使用Date當作索引值 """
     # New
-    data[RSI] = talib.RSI(data[CLOSE], timeperiod=12).round(2)
+    df[RSI] = talib.RSI(df[CLOSE], timeperiod=12).round(2)
+    df.dropna(inplace=True)
 
     # Old
     # # stock.index = pd.to_datetime(stock["market_date"])

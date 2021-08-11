@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class FundGroup(Enum):
-    DAILY = ("daily", "單日")
-    RANGE = ("range", "週期")
+    DAILY = ('daily', '單日')
+    RANGE = ('range', '週期')
 
     def __new__(cls, *values):
         obj = object.__new__(cls)

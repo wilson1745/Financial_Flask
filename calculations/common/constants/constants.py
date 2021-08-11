@@ -1,5 +1,7 @@
 """ Common """
 
+INIT = '__init__.py'
+
 FILE_ALREADY_EXIST = "File %s already exist"
 FILE_NOT_EXIST = "File %s does not exist"
 DATA_ALREADY_EXIST = "Data %s already exist"

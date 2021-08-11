@@ -7,14 +7,17 @@ import platform
 
 import cx_Oracle
 
-from calculations import LOG
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 
 
 class OracleConnectionPool(object):
     """ 連線池 """
 
+    @interceptor
     def __init__(self):
         """ 2021/04/28 Using path by OS """
+        LOG.info("Initialize OracleDB's AdwPool")
         self.system_os = platform.system()
         LOG.debug(f"self.system_os: {self.system_os}")
 

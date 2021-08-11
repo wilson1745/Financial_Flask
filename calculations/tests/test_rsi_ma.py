@@ -21,7 +21,7 @@ SlowPeriod = 15
 # 進場判斷
 df = DailyStockRepo.find_by_symbol(Sid)
 
-df = FunctionMA.GetCross(df, FastPeriod, SlowPeriod)
+FunctionMA.GetCross(df, FastPeriod, SlowPeriod)
 
 # df['ma5'] = df['close_price'].rolling(window=5, center=False).mean()
 # df['ma15'] = df['close_price'].rolling(window=15, center=False).mean()

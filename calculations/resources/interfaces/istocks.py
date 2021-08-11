@@ -1,6 +1,6 @@
 from pandas import DataFrame
 
-from calculations.core.Interceptor import interceptor
+from calculations.core.interceptor import interceptor
 from calculations.repository.dailystock_repo import DailyStockRepo
 from calculations.repository.interfaces.imysql_repo import IMysqlRepo
 

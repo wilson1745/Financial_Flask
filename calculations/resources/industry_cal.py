@@ -3,17 +3,17 @@ import traceback
 
 from pandas import DataFrame
 
-from calculations import LOG
-from calculations.common.utils.constants import FAIL, RISING_SYMBOLS_PATH, SUCCESS, YYYYMM
+from calculations.common.constants.constants import FAIL, RISING_SYMBOLS_PATH, SUCCESS, YYYYMM
+from calculations.common.enums.enum_notifytok import NotifyTok
+from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.date_utils import DateUtils
-from calculations.common.utils.enums.enum_notifytok import NotifyTok
-from calculations.common.utils.exceptions.core_exception import CoreException
 from calculations.common.utils.file_utils import FileUtils
 from calculations.common.utils.industry_utils import IndustryUtils
 from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
-from calculations.core.Interceptor import interceptor
+from calculations.core import LOG
+from calculations.core.interceptor import interceptor
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
 from calculations.resources.potential_stock import PotentialStock
 
@@ -58,11 +58,11 @@ class IndustryCalculation(IFinancialDaily):
 
     @staticmethod
     @interceptor
-    def __count_industry(industry_df: DataFrame, potential_list: list) -> list:
+    def __count_industry(df: DataFrame, potential_list: list) -> list:
         """ 計算產業數，並依數量排序 """
         ind_dict = {}
         for symbol in potential_list:
-            r = industry_df.loc[symbol]
+            r = df.loc[symbol]
             # LOG.debug(r.industry)
 
             if r.industry not in ind_dict:
@@ -70,9 +70,7 @@ class IndustryCalculation(IFinancialDaily):
             else:
                 ind_dict[r.industry] += 1
 
-        result = sorted(ind_dict.items(), key=lambda x: x[1], reverse=True)
-        # LOG.debug(result)
-        return result
+        return sorted(ind_dict.items(), key=lambda x: x[1], reverse=True)
 
     @staticmethod
     @interceptor
@@ -88,9 +86,7 @@ class IndustryCalculation(IFinancialDaily):
         lineNotify = LineUtils()
         try:
             industry_rows = FileUtils.save_industry_html_return(DateUtils.today(YYYYMM))
-
             industry_df = DataFrameUtils.gen_industry_df(industry_rows)
-
             potential_list = PotentialStock.get_potentials()
 
             ind_list = cls.__count_industry(industry_df, potential_list)
