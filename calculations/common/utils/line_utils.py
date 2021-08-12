@@ -55,7 +55,7 @@ class LineUtils:
             LOG.debug(f"Response status: {response.status_code}")
             response.close()
         except (ConnectTimeout, ConnectionResetError, requests.exceptions.ConnectionError) as error:
-            LOG.warning(f"send_msg msg: {msg}")
+            LOG.warning(f"Request error msg: {msg}")
             CoreException.show_error(error, traceback.format_exc())
             time.sleep(10)
             # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止 (https://www.cnblogs.com/Neeo/articles/11520952.html#urlliberror)

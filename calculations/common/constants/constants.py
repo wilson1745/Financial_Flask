@@ -126,7 +126,7 @@ FAIL = "%s 失敗"
 # PIC
 IMG_START = 'Start'
 IMG_COMPLETE = 'Complete'
-IMG_ERROR = 'ERROR'
+IMG_ERROR = 'Error'
 
 # '⇩ ⇧ 🔺  🔻  ▲ ▼  ⬇️⬆ ⬇ 🔼 🔽 ➕ ➖ ⮬ ⮯   🔼 ▲'
 UP_EMO = '🔺'

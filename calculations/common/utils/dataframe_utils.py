@@ -3,10 +3,11 @@ import csv
 
 import pandas as pd
 from joblib import delayed, Parallel, parallel_backend
+from numpy import iterable
 from pandas import DataFrame
 
 from calculations.common.constants import constants
-from calculations.common.constants.constants import CLOSE, CREATETIME, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, \
+from calculations.common.constants.constants import CLOSE, CREATETIME, DATA_NOT_EXIST, DEAL_PRICE, DEAL_STOCK, HEADER_ITEMFUND_E, HEADERS, \
     HEADERS_DF_E, HEADERS_T, HIGH, INDUSTRY, LOW, MARKET_DATE, STOCK_NAME, SYMBOL, THREAD, UPS_AND_DOWNS, UPS_AND_DOWNS_PCT
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
@@ -56,6 +57,7 @@ class DataFrameUtils:
         row[0] = row[0][:row[0].index(sub_str) + len(sub_str)]
         row[0] = row[0].strip()
 
+        # 不要擷取非資料的表頭
         if len(row) == 7:
             if not row[4]:
                 if 'RW' in row[5]:
@@ -95,31 +97,23 @@ class DataFrameUtils:
                     row[10] = row[9] + row[10]
                 # log.debug(row)
         else:
-            LOG.warning(constants.DATA_NOT_EXIST % row)
+            LOG.warning(DATA_NOT_EXIST % row)
 
     @classmethod
     @interceptor
-    def __arrange_mi_index_html(cls, rows: list) -> list:
+    def arrange_html_to_df(cls, rows: iterable, date) -> DataFrame:
         """ 處理爬蟲完的資料 """
-        data_row = []
+        # 刪除第一行的header
+        data_row = list(rows)[1:]
 
-        # 輸出每一列(刪除前2行的資訊)
-        for index, row in enumerate(rows):
-            # log.debug(f"{index}: {value}")
-            if index > 1:
-                data_row.append(row)
-        # data_row = rows[2:]
-
+        # 預處理每行資料
         with parallel_backend(THREAD, n_jobs=-1):
             Parallel()(delayed(cls.__dailys_tock_row)(row) for row in data_row)
-
-        return data_row
-
-    @classmethod
-    @interceptor
-    def arrange_html_to_df(cls, rows, date) -> DataFrame:
-        """ 處理爬蟲完的資料 """
-        data_row = cls.__arrange_mi_index_html(rows)
+        # for index, row in enumerate(rows):
+        #     # log.debug(f"{index}: {value}")
+        #     if index > 1:
+        #         cls.__dailys_tock_row(row)
+        #         data_row.append(row)
 
         # FIXME 這寫法有點笨...
         df = pd.DataFrame(data_row)
@@ -130,24 +124,22 @@ class DataFrameUtils:
         # 塞入第一欄[日期] (market_date)
         df.insert(0, HEADERS[0], date)
         df.columns = HEADERS
-        # LOG.debug(df)
 
         return df
 
     @staticmethod
     @interceptor
-    def list_rows(filepath):
-        with open(filepath, encoding='UTF-8', errors='ignore') as csvfile:
+    def list_rows(path: str):
+        """ TODO description """
+        with open(path, encoding='UTF-8', errors='ignore') as csvfile:
             # 讀取 CSV 檔案內容
             rows = csv.reader(csvfile)
-
-            # 以迴圈輸出每一列
-            for row in rows:
-                LOG.debug(row)
+            LOG.debug(list(rows)[2:])
 
     @staticmethod
     @interceptor
     def df_for_talib(df: DataFrame):
+        """ TODO description """
         df.drop([MARKET_DATE, STOCK_NAME, SYMBOL, DEAL_STOCK, DEAL_PRICE, UPS_AND_DOWNS, CREATETIME], axis=1, inplace=True)
         """ 寫法保留：df欄位變換名稱用 """
         # df.rename(columns={OPENING_PRICE: OPEN, HIGHEST_PRICE: HIGH, LOWEST_PRICE: LOW, CLOSE_PRICE: CLOSE}, inplace=True)
@@ -161,7 +153,7 @@ class DataFrameUtils:
             LOG.warn("No data exist!")
         else:
             df.columns = HEADERS_T
-            df.index = pd.to_datetime(df['market_date'])
+            df.index = pd.to_datetime(df[MARKET_DATE])
         return df
 
     @classmethod
@@ -173,7 +165,7 @@ class DataFrameUtils:
             LOG.warn('No data exist!')
         else:
             df.columns = HEADER_ITEMFUND_E
-            df.index = df['symbol']
+            df.index = df[SYMBOL]
         return df
 
     @classmethod

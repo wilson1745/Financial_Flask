@@ -15,10 +15,12 @@ import pandas
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from numpy import iterable
 from pandas import DataFrame
 
 from calculations.common.constants import constants
-from calculations.common.constants.constants import CLOSE, HEADERS_DF, HTML_PATH, INDUSTRY_HTML_PATH, INDUSTRY_URL, TWSE_MI_INDEX, UPS_AND_DOWNS
+from calculations.common.constants.constants import CLOSE, CSV_PATH, DATA_NOT_EXIST, FILE_NOT_EXIST, HEADERS, HEADERS_DF, HTML_PATH, \
+    INDUSTRY_HTML_PATH, INDUSTRY_URL, TWSE_MI_INDEX, UPS_AND_DOWNS
 from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.collection_utils import CollectionUtils
 from calculations.common.utils.dataframe_utils import DataFrameUtils
@@ -67,6 +69,39 @@ class FileUtils:
 
     @classmethod
     @interceptor
+    def __write_stock_csv(cls, path: str, rows: iterable):
+        """ TODO description """
+        with open(path, 'w', newline='', encoding='UTF-8') as f:
+            writer = csv.writer(f)
+            for index, row in enumerate(rows):
+                csv_row = []
+                for cell in row.find_all(['td']):
+                    csv_row.append(cell.get_text())
+                # 寫入資料
+                writer.writerow(csv_row)
+
+                # if not index == 1:
+                #     for cell in row.find_all(['td']):
+                #         csv_row.append(cell.get_text())
+                #     writer.writerow(csv_row)
+
+    @classmethod
+    @interceptor
+    def __read_stock_csv_to_df(cls, path: str, date: str) -> DataFrame:
+        """ TODO description """
+        with open(path, errors='ignore', encoding='UTF-8') as csvfile:
+            # 讀取 CSV 檔案內容
+            read_rows = csv.reader(csvfile)
+            # 轉換html至csv格式的dataframe
+            df = DataFrameUtils.arrange_html_to_df(read_rows, date)
+            # # (暫時不需要再儲存) Save CSV file
+            # df.to_csv((constants.CSV_FINAL_PATH % date), index=False, header=True)
+            # 產生headers
+            df.columns = CollectionUtils.header_daily_stock(HEADERS)
+        return df
+
+    @classmethod
+    @interceptor
     def save_industry_html_return(cls, date_yyyymm: str) -> list:
         """ Get HTML from [https://isin.twse.com.tw] and return read data """
         LOG.debug(f"save_industry_html: {date_yyyymm}")
@@ -108,65 +143,35 @@ class FileUtils:
 
         cls.__save_html(html_path, url)
 
-    @staticmethod
+    @classmethod
     @interceptor
-    def save_original_csv(date: str):
+    def save_original_csv(cls, date: str):
         """ Save CSV """
+        LOG.debug(f"{inspect.currentframe().f_code.co_filename}.{inspect.currentframe().f_code.co_name}: {date}")
         LOG.debug(f"save_original_csv: {date}")
-        filepath = (constants.HTML_PATH % date)
 
+        filepath = (HTML_PATH % date)
         if not os.path.isfile(filepath):
-            LOG.warning(constants.FILE_NOT_EXIST % filepath)
+            LOG.warning(FILE_NOT_EXIST % filepath)
         else:
             LOG.debug(f"Reading {filepath}")
+            # Start scrapy the html file
             soup = BeautifulSoup(open(filepath, 'r', encoding='UTF-8'), 'html.parser')
-            # table = soup.findAll("table", {"class":"wikitable"})[0]
-            table = soup.findAll('table')
+            tables = soup.findAll('table')
 
-            if not table:
-                LOG.warning(f"Table not exist, maybe there is no data on {date}")
+            if not tables:
+                LOG.warning(DATA_NOT_EXIST % date)
             else:
-                table_last = table[len(table) - 1]
+                table_last = tables[len(tables) - 1]
                 rows = table_last.find_all('tr')
-                # rows = table_9.findAll("tbody")
+                # 去除非相關的headers
+                rows = rows[2:]
 
-                csv_filepath = (constants.CSV_PATH % date)
-                with open(csv_filepath, 'w', newline='', encoding='UTF-8') as f:
-                    writer = csv.writer(f)
-                    for index, row in enumerate(rows):
-                        csv_row = []
+                csv_filepath = (CSV_PATH % date)
+                cls.__write_stock_csv(csv_filepath, rows)
+                df = cls.__read_stock_csv_to_df(csv_filepath, date)
 
-                        if not index == 1:
-                            for cell in row.find_all(['td']):
-                                csv_row.append(cell.get_text())
-                            writer.writerow(csv_row)
-
-    @staticmethod
-    @interceptor
-    def save_final_csv_return_df(date: str) -> DataFrame:
-        """ Save final CSV and return pandas dataframe """
-        LOG.debug(f"{inspect.currentframe().f_code.co_name}: {date}")
-
-        # Empty dataFrame
-        df = pandas.DataFrame()
-        filepath = (constants.CSV_PATH % date)
-
-        if not os.path.isfile(filepath):
-            LOG.warning(constants.FILE_NOT_EXIST % filepath)
-        else:
-            LOG.debug(f"Reading {filepath}")
-            with open(filepath, errors='ignore', encoding='UTF-8') as csvfile:
-                # 讀取 CSV 檔案內容
-                rows = csv.reader(csvfile)
-
-                # 轉換html至csv格式的dataframe
-                df = DataFrameUtils.arrange_html_to_df(rows, date)
-
-                # Save CSV file
-                df.to_csv((constants.CSV_FINAL_PATH % date), index=False, header=True)
-                df.columns = CollectionUtils.header_daily_stock(constants.HEADERS)
-
-        return df
+                return df
 
     @staticmethod
     @interceptor

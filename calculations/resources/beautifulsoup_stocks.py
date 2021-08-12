@@ -34,10 +34,10 @@ class BeautifulSoupStocks(IStocks, IFinancialDaily):
             FileUtils.save_original_html(date)
 
             """ Convert to csv file """
-            FileUtils.save_original_csv(date)
+            df = FileUtils.save_original_csv(date)
 
-            """ Save to db with MI_INDEX_ALLBUT0999 csv file """
-            df = FileUtils.save_final_csv_return_df(date)
+            # """ Save to db with MI_INDEX_ALLBUT0999 csv file """
+            # df = FileUtils.save_final_csv_return_df(date)
 
             lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
             return df

@@ -67,8 +67,8 @@ class BeautifulsoupFunds(IFinancialDaily):
                 stream_datas = Parallel()(delayed(cls.__arrange_data)(df_row, data) for data in datas)
 
             return stream_datas
-        except (HTTPError, requests.exceptions.ConnectionError, URLError) as error:
-            LOG.error(f"__get_response HTTPError: {error}")
+        except (URLError, HTTPError, requests.exceptions.ConnectionError) as error:
+            LOG.error(f"__get_response error: {error}")
             CoreException.show_error(error, traceback.format_exc())
             time.sleep(10)
             # (FIXME 觀察一陣子)使用[遞歸]重新進行，直到成功為止
@@ -152,12 +152,16 @@ class BeautifulsoupFunds(IFinancialDaily):
                 raise Exception('ItemFundRepo is None')
             else:
                 df_list = []
-                # Use normal loop in case blocking IP
+
+                # # Use normal loop in case blocking IP
                 for item_row in item_df.itertuples(index=False):
                     # Daily or Range (start_page = 1, end_page = 1 if group is FundGroup.DAILY else 6)
                     df = cls.__get_page_data(item_row, 1, 1 if group is FundGroup.DAILY else 6)
                     df_list.append(df.head(1)) if group is FundGroup.DAILY else df_list.append(df)
                 # log.debug(df_list)
+
+                # for row in item_df.values.tolist():
+                #     print(row)
 
                 df = pd.concat(df_list)
                 if not df.empty:
@@ -175,15 +179,14 @@ class BeautifulsoupFunds(IFinancialDaily):
         """ Main """
         try:
             df = cls.main_daily(FundGroup.DAILY)
-
-            # range_list = ["A1Qq7oT", "B1RDUpY", "B09%2C102", "B09%2C141", "B09%2C023", "B31qCgv"]
+            # range_list = ["B16%2C019"]
             # df = cls.main_daily(FundGroup.RANGE, range_list)
 
-            """ Save data """
-            if df.empty:
-                LOG.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
-            else:
-                DailyFundRepo.check_and_save(df.values.tolist())
+            # """ Save data """
+            # if df.empty:
+            #     LOG.warning(f"FileUtils.saveToFinalCsvAndReturnDf({DateUtils.today()}) df is None")
+            # else:
+            #     DailyFundRepo.check_and_save(df.values.tolist())
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
