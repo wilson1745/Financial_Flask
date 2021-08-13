@@ -8,7 +8,7 @@ from calculations.common.constants.constants import DS_INSERT, FAIL, SUCCESS, YY
 from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.file_utils import FileUtils
-from calculations.common.utils.line_utils import LineUtils
+from calculations.common.utils.http_utils import HttpUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
 from calculations.resources.interfaces.ifinancial_daily import IFinancialDaily
@@ -28,7 +28,7 @@ class BeautifulSoupStocks(IStocks, IFinancialDaily):
         """ 台股DailyStock抓蟲的主程式 """
         date = DateUtils.today(YYYYMMDD)
 
-        lineNotify = LineUtils()
+        lineNotify = HttpUtils()
         try:
             """ Save as HTML file """
             FileUtils.save_original_html(date)

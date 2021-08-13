@@ -13,7 +13,12 @@ class CoreException:
     @staticmethod
     def show_error(e: Exception, trace: str):
         """ show_error """
-        LOG.error(f"Exception: {e}, TraceBack: {trace}")
+        LOG.error(f"\nException: {e} \nTraceBack: {trace}")
+
+    @staticmethod
+    def show_warn(e: Exception, trace: str):
+        """ show_warn """
+        LOG.warning(f"\nWarning: {e} \nTraceBack: {trace}")
 
     @staticmethod
     def show(get_result):

@@ -16,7 +16,7 @@ from calculations.common.constants.constants import CLOSE, FAIL, SUCCESS, SYMBOL
 from calculations.common.enums.enum_line_notify import NotifyGroup
 from calculations.common.enums.enum_notifytok import NotifyTok
 from calculations.common.exceptions.core_exception import CoreException
-from calculations.common.utils.line_utils import LineUtils
+from calculations.common.utils.http_utils import HttpUtils
 from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
@@ -143,7 +143,7 @@ class PotentialStock(IFinancialDaily):
     @interceptor
     def main_daily(cls) -> dict:
         """ Potential DailyStock的主程式 """
-        lineNotify = LineUtils()
+        lineNotify = HttpUtils()
         try:
             potentials = cls.get_potentials()
 
@@ -167,7 +167,7 @@ class PotentialStock(IFinancialDaily):
             stock_dict = cls.main_daily()
 
             # Send notify
-            NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.RILEY))
+            NotifyUtils.send_notify(stock_dict, HttpUtils(NotifyTok.RILEY))
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 

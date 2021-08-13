@@ -9,8 +9,8 @@ from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.file_utils import FileUtils
+from calculations.common.utils.http_utils import HttpUtils
 from calculations.common.utils.industry_utils import IndustryUtils
-from calculations.common.utils.line_utils import LineUtils
 from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
@@ -83,11 +83,14 @@ class IndustryCalculation(IFinancialDaily):
     @interceptor
     def main_daily(cls) -> list:
         """ 台股產業現況的主程式(加速度指標所產生的股票代碼) """
-        lineNotify = LineUtils()
+        lineNotify = HttpUtils()
         try:
             industry_rows = FileUtils.save_industry_html_return(DateUtils.today(YYYYMM))
+            # LOG.debug(f"industry_rows: {industry_rows}")
             industry_df = DataFrameUtils.gen_industry_df(industry_rows)
+            # LOG.debug(f"industry_df: {industry_df}")
             potential_list = PotentialStock.get_potentials()
+            # LOG.debug(f"potential_list: {potential_list}")
 
             ind_list = cls.__count_industry(industry_df, potential_list)
             LOG.debug(f"ind_list: {ind_list}")
@@ -106,7 +109,7 @@ class IndustryCalculation(IFinancialDaily):
             industry_df = cls.main_daily()
 
             """ 送出Line Notify """
-            NotifyUtils.send_industry(industry_df, LineUtils(NotifyTok.RILEY))
+            NotifyUtils.send_industry(industry_df, HttpUtils(NotifyTok.RILEY))
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 

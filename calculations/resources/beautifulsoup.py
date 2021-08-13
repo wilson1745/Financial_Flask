@@ -13,7 +13,7 @@ from calculations.common.exceptions.core_exception import CoreException
 from calculations.common.utils.collection_utils import CollectionUtils
 from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.file_utils import FileUtils
-from calculations.common.utils.line_utils import LineUtils
+from calculations.common.utils.http_utils import HttpUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
 from calculations.resources.interfaces.istocks import IStocks
@@ -47,7 +47,7 @@ class BeautifulSoup(IStocks):
     def __main_daily(cls, start: str, ended: str) -> DataFrame:
         """ 台股DailyStock抓蟲的主程式 """
 
-        lineNotify = LineUtils()
+        lineNotify = HttpUtils()
         try:
             date_list = DateUtils.list_date(start, ended, "D")
             # log.debug(f"Date range: {date_list}")
