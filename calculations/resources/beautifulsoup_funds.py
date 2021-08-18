@@ -121,9 +121,12 @@ class BeautifulsoupFunds(IFinancialDaily):
     def main(cls):
         """ Main """
         try:
-            df = cls.main_daily(FundGroup.DAILY)
-            # range_list = ["B16%2C019"]
-            # df = cls.main_daily(FundGroup.RANGE, range_list)
+            # df = cls.main_daily(FundGroup.DAILY)
+            range_list = ["B20%2C073",
+                          "B03%2C013",
+                          "B03%2C506",
+                          "B03%2C577"]
+            df = cls.main_daily(FundGroup.RANGE, range_list)
 
             """ Save data """
             if df.empty:
