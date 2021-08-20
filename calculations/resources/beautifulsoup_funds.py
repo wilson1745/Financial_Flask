@@ -103,7 +103,8 @@ class BeautifulsoupFunds(IFinancialDaily):
                 for item_row in item_df.itertuples(index=False):
                     # Daily or Range (start_page = 1, end_page = 1 if group is FundGroup.DAILY else 6)
                     df = cls.__get_page_data(item_row, 1, 1 if group is FundGroup.DAILY else 6)
-                    df_list.append(df.head(1)) if group is FundGroup.DAILY else df_list.append(df)
+                    # head(5) => 抓取5天的資料去比對，防止資料庫沒有收入前一天的資料
+                    df_list.append(df.head(5)) if group is FundGroup.DAILY else df_list.append(df)
                 # log.debug(df_list)
 
                 df = pd.concat(df_list)
@@ -122,10 +123,7 @@ class BeautifulsoupFunds(IFinancialDaily):
         """ Main """
         try:
             # df = cls.main_daily(FundGroup.DAILY)
-            range_list = ["B20%2C073",
-                          "B03%2C013",
-                          "B03%2C506",
-                          "B03%2C577"]
+            range_list = ["B15%2C086"]
             df = cls.main_daily(FundGroup.RANGE, range_list)
 
             """ Save data """
