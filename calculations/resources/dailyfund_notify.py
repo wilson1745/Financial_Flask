@@ -68,6 +68,7 @@ class DailyFundNotify(IFinancialDaily):
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     DailyFundNotify.main()
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    DailyFundNotify.main()
