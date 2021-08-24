@@ -87,3 +87,7 @@ class DailyStockRepo(IOracleRepo):
             df.index = df[SYMBOL]
 
         return df
+
+# if __name__ == '__main__':
+#     df = DailyStockRepo.find_by_symbol("6138")
+#     print(df)

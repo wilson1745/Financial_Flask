@@ -166,7 +166,6 @@ class NotifyUtils:
                 LOG.warning("Warning => data_dfs: list = None")
             else:
                 results = pools.map(func=cls.__gen_notify_data, iterable=df_list)
-                # results = list(filter(None, results))
 
                 # results = pools.starmap_async(genNotifyData,
                 #                                      zip(dfs, repeat(pool)),
@@ -183,7 +182,7 @@ class NotifyUtils:
                     if not NotifyGroup.POTENTIAL in stock_dict:
                         """ Riley's stocks (from http_utils.py) """
                         for row in results:
-                            print(row)
+                            # print(row)
                             if (row[RSI]) >= 70:
                                 # 趕快賣
                                 stock_dict[NotifyGroup.SELL].append(row)

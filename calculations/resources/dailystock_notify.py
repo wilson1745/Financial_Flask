@@ -45,6 +45,9 @@ class DailyStockNotify(IFinancialDaily):
             # 產生DailyStock的notify訊息
             with parallel_backend(THREAD, n_jobs=-1):
                 df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in symbols)
+
+            """ (Important) Using filter() to remove None values in list """
+            df_list = list(filter(lambda df: not df.empty, df_list))
             stocks_dict = NotifyUtils.arrange_notify(df_list, NotifyGroup.getLineGroup())
 
             lineNotify.send_mine(SUCCESS % os.path.basename(__file__))
@@ -66,7 +69,6 @@ class DailyStockNotify(IFinancialDaily):
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-
-if __name__ == '__main__':
-    """ ------------------- App Start ------------------- """
-    DailyStockNotify.main()
+# if __name__ == '__main__':
+#     """ ------------------- App Start ------------------- """
+#     DailyStockNotify.main()
