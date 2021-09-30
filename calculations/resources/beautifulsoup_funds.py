@@ -123,7 +123,13 @@ class BeautifulsoupFunds(IFinancialDaily):
         """ Main """
         try:
             # df = cls.main_daily(FundGroup.DAILY)
-            range_list = ["B15%2C086"]
+            range_list = ["B19%2C098",
+                          "B1J42yt",
+                          "B09%2C325",
+                          "B1qJzxf",
+                          "B1Tx9hU",
+                          "A18044",
+                          "B33%2C120"]
             df = cls.main_daily(FundGroup.RANGE, range_list)
 
             """ Save data """
