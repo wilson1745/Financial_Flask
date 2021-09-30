@@ -8,7 +8,7 @@ from calculations.common.constants.constants import IMG_COMPLETE, IMG_START, STA
 from calculations.common.enums.enum_dailyfund import FundGroup
 from calculations.common.enums.enum_notifytok import NotifyTok
 from calculations.common.exceptions.core_exception import CoreException
-from calculations.common.utils.line_utils import LineUtils
+from calculations.common.utils.http_utils import HttpUtils
 from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
@@ -24,7 +24,7 @@ def main():
     2. DailyFundNotify.main_daily() -> return dict
     """
 
-    lineNotify = LineUtils(NotifyTok.FUNDS)
+    lineNotify = HttpUtils(NotifyTok.FUNDS)
     try:
         lineNotify.send_mine(START % os.path.basename(__file__))
 
@@ -41,7 +41,9 @@ def main():
 
         """ Start the process of Line Notify """
         lineNotify.send_img(IMG_START)
+
         NotifyUtils.send_notify(fund_dict, lineNotify)
+
         lineNotify.send_img(IMG_COMPLETE)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())

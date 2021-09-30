@@ -10,7 +10,7 @@ from calculations.common.constants.constants import FAIL, SUCCESS, THREAD
 from calculations.common.enums.enum_line_notify import NotifyGroup
 from calculations.common.enums.enum_notifytok import NotifyTok
 from calculations.common.exceptions.core_exception import CoreException
-from calculations.common.utils.line_utils import LineUtils
+from calculations.common.utils.http_utils import HttpUtils
 from calculations.common.utils.notify_utils import NotifyUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
@@ -38,11 +38,11 @@ class DailyFundNotify(IFinancialDaily):
     def main_daily(cls) -> dict:
         """ 基金通知的主程式 """
 
-        lineNotify = LineUtils()
+        lineNotify = HttpUtils()
         try:
             item_df = ItemFundRepo.find_all()
             symbols = list(item_df.index.values)
-            LOG.debug(f"Symbols: {symbols}")
+            LOG.debug(f"ItemFund Symbols: {symbols}")
 
             # 產生DailyFund的notify訊息
             with parallel_backend(THREAD, n_jobs=-1):
@@ -64,10 +64,11 @@ class DailyFundNotify(IFinancialDaily):
             stock_dict = cls.main_daily()
 
             # Send notify
-            NotifyUtils.send_notify(stock_dict, LineUtils(NotifyTok.FUNDS))
+            NotifyUtils.send_notify(stock_dict, HttpUtils(NotifyTok.FUNDS))
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     DailyFundNotify.main()
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    DailyFundNotify.main()

@@ -3,8 +3,8 @@ import pandas as pd
 from pandas import DataFrame
 
 from calculations.common.constants.constants import SYMBOL
-from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.common.enums.enum_yes_no import YesNo
+from calculations.common.utils.dataframe_utils import DataFrameUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
 from calculations.repository.interfaces.ioracle_repo import IOracleRepo
@@ -87,3 +87,7 @@ class DailyStockRepo(IOracleRepo):
             df.index = df[SYMBOL]
 
         return df
+
+# if __name__ == '__main__':
+#     df = DailyStockRepo.find_by_symbol("6138")
+#     print(df)

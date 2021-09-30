@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import multiprocessing
 # from multiprocessing import Pool
 from multiprocessing.pool import ThreadPool
 
@@ -10,8 +9,8 @@ from calculations.common.constants.constants import CLOSE, CLOSE_Y, D, DOWN_EMO,
 from calculations.common.enums.enum_line_notify import NotifyGroup
 from calculations.common.enums.enum_notifytok import NotifyTok
 from calculations.common.utils.date_utils import DateUtils
-from calculations.common.utils.line_utils import LineUtils
-from calculations.core import LOG
+from calculations.common.utils.http_utils import HttpUtils
+from calculations.core import CPU_THREAD, LOG
 from calculations.core.interceptor import interceptor
 from calculations.logic import FunctionBollingBand, FunctionKD, FunctionMA, FunctionRSI
 
@@ -47,7 +46,6 @@ class NotifyUtils:
     #     return rowStr
 
     @classmethod
-    # @interceptor
     def __gen_industry_row(cls, row) -> str:
         """ 加速度指標的產業數量 """
         rowStr = ''
@@ -55,7 +53,6 @@ class NotifyUtils:
         return rowStr
 
     @classmethod
-    # @interceptor
     def __gen_str_row(cls, row, tok: NotifyTok) -> str:
         """ 建立每隻股票的格式 """
         rowStr = ''
@@ -106,7 +103,7 @@ class NotifyUtils:
 
     @classmethod
     @interceptor
-    def send_notify(cls, stock_dict: dict, lineNotify: LineUtils):
+    def send_notify(cls, stock_dict: dict, lineNotify: HttpUtils):
         """ 預處理股票格式並送出Line Notify """
         key: NotifyGroup
         for key in stock_dict:
@@ -131,36 +128,9 @@ class NotifyUtils:
                 msg.append("\n無資料...")
                 lineNotify.send_msg(msg)
 
-    # @classmethod
-    # @interceptor
-    # def send_industry_from_html(cls, df: DataFrame, lineNotify: LineUtils):
-    #     """ TODO description """
-    #     default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}"
-    #     msg = [default]
-    #
-    #     if not df.empty:
-    #         for index, row in df.iterrows():
-    #             # FIXME 暫定漲跌百分比 > 0的資料
-    #             if row[UPS_AND_DOWNS_PCT] > 0:
-    #                 # extend => extract whatever types of element inside a list
-    #                 msg.extend([cls.__genIndustryRow(row)])
-    #
-    #                 # 1000 words limit with Line Notify
-    #                 if len(msg) % 9 == 0:
-    #                     lineNotify.send_msg(msg)
-    #                     msg.clear()
-    #                     msg.append(default)
-    #
-    #         # Sending the rest data within 1000 words
-    #         if len(msg) > 1:
-    #             lineNotify.send_msg(msg)
-    #     else:
-    #         msg.append("\n無資料...")
-    #         lineNotify.send_msg(msg)
-
     @classmethod
     @interceptor
-    def send_industry(cls, ind_list: list, lineNotify: LineUtils):
+    def send_industry(cls, ind_list: list, lineNotify: HttpUtils):
         """ 重送產業數量的通知 """
         default = f"{DateUtils.default_msg(YYYYMMDD_SLASH)}{NotifyGroup.INDEX.getValue()}\n"
         msg = [default]
@@ -190,13 +160,12 @@ class NotifyUtils:
 
         """ Multi-processing pool: https://www.maxlist.xyz/2020/03/20/multi-processing-pool/ """
         # ex: 設定處理程序數量 (pools = Pool(4))
-        pools = ThreadPool(multiprocessing.cpu_count() - 1)
+        pools = ThreadPool(CPU_THREAD)
         try:
             if df_list is None:
                 LOG.warning("Warning => data_dfs: list = None")
             else:
                 results = pools.map(func=cls.__gen_notify_data, iterable=df_list)
-                # results = list(filter(None, results))
 
                 # results = pools.starmap_async(genNotifyData,
                 #                                      zip(dfs, repeat(pool)),
@@ -211,9 +180,9 @@ class NotifyUtils:
                 # 包含Key資料的dictionary
                 if len(results) > 0:
                     if not NotifyGroup.POTENTIAL in stock_dict:
-                        """ Riley's stocks (from line_utils.py) """
+                        """ Riley's stocks (from http_utils.py) """
                         for row in results:
-                            print(row)
+                            # print(row)
                             if (row[RSI]) >= 70:
                                 # 趕快賣
                                 stock_dict[NotifyGroup.SELL].append(row)
