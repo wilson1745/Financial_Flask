@@ -46,6 +46,11 @@ class NotifyUtils:
     #     return rowStr
 
     @classmethod
+    def __async_lambda(cls, lambda_func, datas):
+        """ 使用apply_async搭配lambda functional programing """
+        return list(filter(lambda_func, datas))
+
+    @classmethod
     def __gen_industry_row(cls, row) -> str:
         """ 加速度指標的產業數量 """
         rowStr = ''
@@ -156,6 +161,106 @@ class NotifyUtils:
     @classmethod
     @interceptor
     def arrange_notify(cls, df_list: list = None, stock_dict: dict = None) -> dict:
+        """ Generate multiple financial indicators for each product """
+
+        """ Multi-processing pool: https://www.maxlist.xyz/2020/03/20/multi-processing-pool/ """
+        # ex: 設定處理程序數量 (pools = Pool(4))
+        pools = ThreadPool(CPU_THREAD)
+        try:
+            if df_list is None:
+                LOG.warning("Warning => data_dfs: list = None")
+            else:
+                results = pools.map(func=cls.__gen_notify_data, iterable=df_list)
+
+                # results = pools.starmap_async(genNotifyData,
+                #                                      zip(dfs, repeat(pool)),
+                #                                      callback=CoreException.show,
+                #                                      error_callback=CoreException.show_error)
+
+                # results = pools.map_async(func=genNotifyData,
+                #                                  iterable=dfs,
+                #                                  callback=CoreException.show,
+                #                                  error_callback=CoreException.error)
+
+                # 包含Key資料的dictionary
+                if len(results) > 0:
+                    if not NotifyGroup.POTENTIAL in stock_dict:
+                        """ Riley's stocks (from http_utils.py) """
+                        # pools = ThreadPool(CPU_THREAD)
+                        #
+                        # stock_dict[NotifyGroup.SELL].extend(
+                        #     pools.apply_async(cls.__async_lambda, (lambda r: r[RSI] >= 70, results)).get())
+                        # stock_dict[NotifyGroup.BAD].extend(
+                        #     pools.apply_async(cls.__async_lambda, (lambda r: r[RSI] <= 30, results)).get())
+                        # stock_dict[NotifyGroup.LONG].extend(
+                        #     pools.apply_async(cls.__async_lambda, (lambda r: 70 > r[RSI] > 30 and r[SGNL_B], results)).get())
+                        # stock_dict[NotifyGroup.SHORT].extend(
+                        #     pools.apply_async(cls.__async_lambda, (lambda r: 70 > r[RSI] > 30 and r[SGNL_S], results)).get())
+                        # stock_dict[NotifyGroup.NORMAL].extend(
+                        #     pools.apply_async(cls.__async_lambda, (lambda r: 70 > r[RSI] > 30 and not r[SGNL_B] and not r[SGNL_S], results)).get())
+                        #
+                        # pools.close()
+                        # pools.join()
+
+                        # 趕快賣
+                        stock_dict[NotifyGroup.SELL].extend(list(filter(lambda r: r[RSI] >= 70, results)))
+                        # 好可憐
+                        stock_dict[NotifyGroup.BAD].extend(list(filter(lambda r: r[RSI] <= 30, results)))
+                        # 進場做多
+                        stock_dict[NotifyGroup.LONG].extend(list(filter(lambda r: 70 >= r[RSI] >= 30 and r[SGNL_B], results)))
+                        # 進場做空
+                        stock_dict[NotifyGroup.SHORT].extend(list(filter(lambda r: 70 >= r[RSI] >= 30 and r[SGNL_S], results)))
+                        # """ MA cross rate """
+                        # 進場做多
+                        # stock_dict[NotifyGroup.LONG].extend(list(filter(lambda r: r[RSI] >= 50 and r[POS] > 0, results)))
+                        # 進場做空
+                        # stock_dict[NotifyGroup.SHORT].extend(list(filter(lambda r: r[RSI] < 50 and r[POS] < 0, results)))
+                        # 徘徊不定
+                        stock_dict[NotifyGroup.NORMAL].extend(list(filter(lambda r: 70 >= r[RSI] >= 30 and not r[SGNL_B] and not r[SGNL_S], results)))
+
+                        # for row in results:
+                        #     # print(row)
+                        #     if (row[RSI]) >= 70:
+                        #         # 趕快賣
+                        #         stock_dict[NotifyGroup.SELL].append(row)
+                        #     elif row[RSI] <= 30:
+                        #         # 好可憐
+                        #         stock_dict[NotifyGroup.BAD].append(row)
+                        #     else:
+                        #         """ KD, BollingBand """
+                        #         if row[SGNL_B]:
+                        #             # 進場做多
+                        #             stock_dict[NotifyGroup.LONG].append(row)
+                        #         elif row[SGNL_S]:
+                        #             # 進場做空
+                        #             stock_dict[NotifyGroup.SHORT].append(row)
+                        #
+                        #         # """ MA cross rate """
+                        #         # if row[RSI] >= 50 and row[POS] > 0:
+                        #         #     # 進場做多
+                        #         #     stockDict[NotifyGroup.LONG].append(row)
+                        #         # elif row[RSI] < 50 and row[POS] < 0:
+                        #         #     # 進場做空
+                        #         #     stockDict[NotifyGroup.SHORT].append(row)
+                        #
+                        #         else:
+                        #             # 徘徊不定
+                        #             stock_dict[NotifyGroup.NORMAL].append(row)
+                    else:
+                        """ Portential stocks (from potential_stock.py) """
+                        stock_dict[NotifyGroup.POTENTIAL].extend(results)
+
+                    return stock_dict
+        except Exception:
+            raise
+        finally:
+            """ 關閉process的pool並等待所有process結束 """
+            pools.close()
+            # pools.join()
+
+    @classmethod
+    @interceptor
+    def arrange_notify_2(cls, df_list: list = None, stock_dict: dict = None) -> dict:
         """ Generate multiple financial indicators for each product """
 
         """ Multi-processing pool: https://www.maxlist.xyz/2020/03/20/multi-processing-pool/ """
