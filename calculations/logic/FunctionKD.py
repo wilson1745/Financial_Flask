@@ -27,6 +27,8 @@ def GenKD(df: DataFrame):
     data_df['RSV'] = (data_df[CLOSE] - data_df['min']) / (data_df['max'] - data_df['min'])
     data_df.dropna(inplace=True)
 
+    # today_multi = lambda x, y: 2 / 3 * x + 1 / 3 * y
+
     # 計算K (K的初始值定為50)
     K_list = [50]
     for num, rsv in enumerate(list(data_df['RSV'])):

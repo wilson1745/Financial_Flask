@@ -167,10 +167,11 @@ class PotentialStock(IFinancialDaily):
             stock_dict = cls.main_daily()
 
             # Send notify
-            NotifyUtils.send_notify(stock_dict, HttpUtils(NotifyTok.RILEY))
+            NotifyUtils.send_notify(stock_dict, HttpUtils(NotifyTok.MINE))
         except Exception as e:
             CoreException.show_error(e, traceback.format_exc())
 
-# if __name__ == '__main__':
-#     """ ------------------- App Start ------------------- """
-#     PotentialStock.main()
+
+if __name__ == '__main__':
+    """ ------------------- App Start ------------------- """
+    PotentialStock.main()

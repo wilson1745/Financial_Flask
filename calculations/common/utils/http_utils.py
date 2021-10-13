@@ -63,21 +63,26 @@ class HttpUtils:
 
     @classmethod
     @interceptor
-    def url_open(cls, url: str) -> HTTPResponse:
+    def url_open(cls, url: str, error_sum=0) -> HTTPResponse:
         """ Common for making request and get response (Manage the socket error together) """
         try:
             LOG.debug(f"Url: {url}")
+            # 預防urllib.error.URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
             ssl._create_default_https_context = ssl._create_unverified_context
             response = urlopen(url, timeout=600)
-            # response = urlopen(url, timeout=600, context=context)
-
             return response
         # except (socket.error, URLError, HTTPError, requests.exceptions.ConnectionError, ConnectTimeout, ConnectionResetError) as error:
         except socket.error as e:
+            # FIXME if the connection error happends too many times, stop the process
+            if error_sum > 20:
+                raise e
+            else:
+                error_sum += 1
+
             CoreException.show_warn(e, traceback.format_exc())
             """ Add 'return' if the function has to return object, or it will return None """
             time.sleep(10)
-            return cls.url_open(url)
+            return cls.url_open(url, error_sum)
         except Exception:
             raise
         finally:
