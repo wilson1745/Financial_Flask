@@ -62,6 +62,18 @@ class FileUtils:
 
     @classmethod
     @interceptor
+    def __write_stock_csv_2(cls, path: str, rows: iterable):
+        """ FIXME (Lambda) Write data to CSV """
+        with open(path, 'w', newline='', encoding='UTF-8') as f:
+            writer = csv.writer(f)
+            for index, row in enumerate(rows):
+                csv_row = []
+                csv_row.extend(list(map(lambda cel: cel.get_text(), row.find_all(['td']))))
+                # 寫入資料
+                writer.writerow(csv_row)
+
+    @classmethod
+    @interceptor
     def __read_stock_csv_to_df(cls, path: str, date: str) -> DataFrame:
         """ Read CSV and generate dataframe """
         with open(path, errors='ignore', encoding='UTF-8') as csvfile:

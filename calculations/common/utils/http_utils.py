@@ -67,10 +67,9 @@ class HttpUtils:
         """ Common for making request and get response (Manage the socket error together) """
         try:
             LOG.debug(f"Url: {url}")
+            # 預防urllib.error.URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
             ssl._create_default_https_context = ssl._create_unverified_context
             response = urlopen(url, timeout=600)
-            # response = urlopen(url, timeout=600, context=context)
-
             return response
         # except (socket.error, URLError, HTTPError, requests.exceptions.ConnectionError, ConnectTimeout, ConnectionResetError) as error:
         except socket.error as e:
