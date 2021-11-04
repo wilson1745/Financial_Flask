@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+
 import pandas as pd
 from pandas import DataFrame
 
@@ -19,9 +20,9 @@ class ItemFundRepo(IOracleRepo):
 
     @classmethod
     @interceptor
-    def find_all(cls) -> DataFrame:
+    def find_all_act(cls) -> DataFrame:
         """ find_all """
-        sql = f"SELECT * FROM ITEMFUND i ORDER BY i.SYMBOL ASC "
+        sql = f"SELECT * FROM ITEMFUND i WHERE i.ACT_FLG = 'Y' ORDER BY i.SYMBOL ASC "
         datas = super().query(sql=sql)
         return DataFrameUtils.gen_item_df(datas)
 
@@ -51,8 +52,8 @@ class ItemFundRepo(IOracleRepo):
 #                  "B09%2C005",
 #                  "A2Ml9IZ"]
 #
-#         # result = ItemFundRepo.find_all()
-#         result = ItemFundRepo.find_in_symbols(lists)
+#         result = ItemFundRepo.find_all_act()
+#         # result = ItemFundRepo.find_in_symbols(lists)
 #         LOG.debug(result)
 #         # log.debug(list(result.index.values))
 #     except Exception as main_e:

@@ -40,7 +40,7 @@ class DailyFundNotify(IFinancialDaily):
 
         lineNotify = HttpUtils()
         try:
-            item_df = ItemFundRepo.find_all()
+            item_df = ItemFundRepo.find_all_act()
             symbols = list(item_df.index.values)
             LOG.debug(f"ItemFund Symbols: {symbols}")
 

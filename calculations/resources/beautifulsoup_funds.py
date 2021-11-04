@@ -86,7 +86,7 @@ class BeautifulsoupFunds(IFinancialDaily):
         try:
             # Daily or Range
             if group is FundGroup.DAILY:
-                item_df = ItemFundRepo.find_all()
+                item_df = ItemFundRepo.find_all_act()
             else:
                 """ 填入新的基金需要傳遞symbols """
                 if range_list is None:
