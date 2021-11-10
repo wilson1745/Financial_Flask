@@ -98,7 +98,8 @@ class FileUtils:
         cls.__save_html(html_path, INDUSTRY_URL)
 
         """ 2. Scrapy html file (直接在網路上的網頁爬蟲，tr量太多會抓不到。建議下載網頁來爬) """
-        soup = BeautifulSoup(open(html_path, 'r'), from_encoding='UTF-8', features="lxml")
+        # soup = BeautifulSoup(open(html_path, 'r'), from_encoding='UTF-8', features="lxml")
+        soup = BeautifulSoup(open(html_path, 'r'), from_encoding='UTF-8', features="html.parser")
         table = soup.findAll('table')
         table_last = table[len(table) - 1]
         rows = table_last.find_all('tr')
