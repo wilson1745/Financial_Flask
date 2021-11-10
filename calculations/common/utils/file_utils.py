@@ -13,10 +13,10 @@ from calculations.common.constants.constants import CSV_PATH, DATA_NOT_EXIST, FI
     INDUSTRY_HTML_PATH, INDUSTRY_URL, TWSE_MI_INDEX
 from calculations.common.utils.collection_utils import CollectionUtils
 from calculations.common.utils.dataframe_utils import DataFrameUtils
+from calculations.common.utils.date_utils import DateUtils
 from calculations.common.utils.http_utils import HttpUtils
 from calculations.core import LOG
 from calculations.core.interceptor import interceptor
-from projects.common.utils.date_utils import DateUtils
 
 pd.set_option("display.width", None)
 pd.set_option('display.max_colwidth', None)
