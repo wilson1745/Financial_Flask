@@ -2,10 +2,14 @@
 """
 https://hahow.in/creations/5b175848567cc1001e401c0c
 """
+import os
+import sys
 import traceback
 
 import talib
 from pandas import DataFrame
+
+sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations.common.constants.constants import CLOSE, D, K, LOWER, MIDDLE, SGNL_B, SGNL_S, UPPER
 from calculations.common.exceptions.core_exception import CoreException
@@ -54,3 +58,5 @@ if __name__ == '__main__':
         LOG.debug(stock_df)
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
+    finally:
+        os.system("pause")
