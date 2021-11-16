@@ -1,8 +1,12 @@
 import os
-import sys
 import traceback
 
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
+""" 
+參考下列連結(於python的site-packages產生.pth檔，在檔案中加入path)
+https://medium.com/@arnaud.bertrand/modifying-python-s-search-path-with-pth-files-2a41a4143574 
+"""
+# import sys
+# sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations.common.constants.constants import IMG_COMPLETE, IMG_START, START
 from calculations.common.enums.enum_dailyfund import FundGroup

@@ -29,9 +29,13 @@ class OracleConnectionPool(object):
             """ Using client directly """
             # cx_Oracle.init_oracle_client(lib_dir=Constants.ORACLE_CLIENT_PATH,
             # config_dir=Constants.ORACLE_CLIENT_NETWORK_PATH)
-        elif self.system_os == 'Darwin' or self.system_os == 'Linux':
+        elif self.system_os == 'Darwin':
             cx_Oracle.init_oracle_client(lib_dir='/Users/WilsonLo/Downloads/instantclient_19_8',
                                          config_dir='/Users/WilsonLo/oracle/Wallet_financialDB')
+        elif self.system_os == 'Linux':
+            oracle_client_path = "/opt/oracle/instantclient_19_8"
+            cx_Oracle.init_oracle_client(lib_dir=oracle_client_path,
+                                         config_dir=oracle_client_path + "/network/admin")
         else:
             raise Exception(f"Unknown system: {self.system_os}")
 
