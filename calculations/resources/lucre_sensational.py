@@ -1,9 +1,6 @@
 import os
-import sys
 import traceback
 from multiprocessing.pool import ThreadPool
-
-sys.path.append("C:\\Users\\wilso\\PycharmProjects\\Financial_Flask")
 
 from calculations.common.constants.constants import DS_INSERT, IMG_COMPLETE, IMG_START, START, NONE_DATA
 from calculations.common.enums.enum_notifytok import NotifyTok
