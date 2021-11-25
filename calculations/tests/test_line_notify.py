@@ -7,7 +7,7 @@ headers = {
     "Content-Type": "application/x-www-form-urlencoded"
 }
 params = {
-    "message": "\nHAHAHAHAHA"
+    "message": "\nTest Line Notify (From Wilon's Oracle cloud server!) hehe~~"
 }
 
 response = requests.post(NOTIFY_LINK, headers=headers, params=params, timeout=60)
