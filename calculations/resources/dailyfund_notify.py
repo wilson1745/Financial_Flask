@@ -42,11 +42,12 @@ class DailyFundNotify(IFinancialDaily):
         try:
             item_df = ItemFundRepo.find_all_act()
             symbols = list(item_df.index.values)
-            LOG.debug(f"ItemFund Symbols: {symbols}")
+            LOG.debug(f"ItemFund Symbols: {symbols} at {datetime.now()} ")
 
             # 產生DailyFund的notify訊息
             with parallel_backend(THREAD, n_jobs=-1):
                 df_list = Parallel()(delayed(cls.query_data)(symbol) for symbol in symbols)
+                # df_list = Parallel()(delayed(DailyFundRepo.find_by_symbol)(symbol) for symbol in symbols)
             stocks_dict = NotifyUtils.arrange_notify(df_list, NotifyGroup.getLineGroup())
 
             lineNotify.send_mine(SUCCESS % os.path.basename(__file__))

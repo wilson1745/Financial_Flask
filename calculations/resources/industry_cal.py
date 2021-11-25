@@ -85,7 +85,8 @@ class IndustryCalculation(IFinancialDaily):
         """ 台股產業現況的主程式(加速度指標所產生的股票代碼) """
         lineNotify = HttpUtils()
         try:
-            industry_rows = FileUtils.save_industry_html_return(DateUtils.today(YYYYMM))
+            # industry_rows = FileUtils.save_industry_html_return(DateUtils.today(YYYYMM))
+            industry_rows = FileUtils.gen_industry_rows()
             # LOG.debug(f"industry_rows: {industry_rows}")
             industry_df = DataFrameUtils.gen_industry_df(industry_rows)
             # LOG.debug(f"industry_df: {industry_df}")

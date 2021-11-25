@@ -109,11 +109,6 @@ class DataFrameUtils:
         # 預處理每行資料
         with parallel_backend(THREAD, n_jobs=-1):
             Parallel()(delayed(cls.__dailys_tock_row)(row) for row in data_row)
-        # for index, row in enumerate(rows):
-        #     # log.debug(f"{index}: {value}")
-        #     if index > 1:
-        #         cls.__dailys_tock_row(row)
-        #         data_row.append(row)
 
         # FIXME 這寫法有點笨...
         df = pd.DataFrame(data_row)

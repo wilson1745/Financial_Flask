@@ -4,6 +4,7 @@ import os
 
 import pandas
 import pandas as pd
+import requests
 from bs4 import BeautifulSoup
 from numpy import iterable
 from pandas import DataFrame
@@ -90,7 +91,10 @@ class FileUtils:
     @classmethod
     @interceptor
     def save_industry_html_return(cls, date_yyyymm: str) -> list:
-        """ Get HTML from [https://isin.twse.com.tw] and return read data """
+        """
+        本國上市證券國際證券辨識號碼一覽表
+        Get HTML from [https://isin.twse.com.tw] and return read data
+        """
         LOG.debug(f"save_industry_html_return: {date_yyyymm}")
 
         """ 1. Save html """
@@ -154,6 +158,40 @@ class FileUtils:
                 df = cls.__read_stock_csv_to_df(csv_filepath, date)
 
                 return df
+
+    @classmethod
+    @interceptor
+    def gen_industry_rows(cls) -> list:
+        """
+        本國上市證券國際證券辨識號碼一覽表
+        Get HTML from [https://isin.twse.com.tw] and return read data
+
+        # 有價證券代號及名稱
+        # 國際證券辨識號碼(ISIN Code)
+        # 上市日
+        # 市場別
+        # 產業別
+        # CFICode
+        # 備註
+        """
+
+        # 本國上市證券國際證券辨識號碼一覽表
+        response = requests.get(INDUSTRY_URL)
+
+        """ 1. Scrapy from html text (直接在網路上的網頁爬蟲) """
+        soup = BeautifulSoup(response.text, 'html.parser')
+        table = soup.findAll('table')
+        table_last = table[len(table) - 1]
+        rows = table_last.find_all('tr')
+
+        industry_rows = []
+        for index, row in enumerate(rows):
+            rows = []
+            for cell in row.find_all(['td']):
+                rows.append(cell.get_text())
+            industry_rows.append(rows)
+
+        return industry_rows
 
     @staticmethod
     @interceptor
