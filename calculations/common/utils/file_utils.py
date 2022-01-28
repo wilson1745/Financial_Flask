@@ -135,6 +135,8 @@ class FileUtils:
     def save_original_csv(cls, date: str):
         """ Save CSV """
         LOG.debug(f"save_original_csv: {date}")
+        # Empty dataFrame
+        df = pd.DataFrame()
 
         filepath = (HTML_PATH % date)
         if not os.path.isfile(filepath):
@@ -157,7 +159,7 @@ class FileUtils:
                 cls.__write_stock_csv(csv_filepath, rows)
                 df = cls.__read_stock_csv_to_df(csv_filepath, date)
 
-                return df
+        return df
 
     @classmethod
     @interceptor
@@ -199,8 +201,8 @@ class FileUtils:
         """ Get data from CSV directly """
         # Empty dataFrame
         df = pandas.DataFrame()
-        filepath = (constants.CSV_FINAL_PATH % date)
 
+        filepath = (constants.CSV_FINAL_PATH % date)
         if not os.path.isfile(filepath):
             LOG.warning(constants.DATA_NOT_EXIST % date)
         else:
