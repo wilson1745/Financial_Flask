@@ -5,6 +5,7 @@ https://hahow.in/creations/5b175848567cc1001e401c0c
 import os
 import sys
 import traceback
+import matplotlib.pyplot as plt
 
 import talib
 from pandas import DataFrame
@@ -49,14 +50,21 @@ if __name__ == '__main__':
     """ ------------------- App Start ------------------- """
     try:
         # stock_df = DailyStockRepo.find_by_symbol("2330")
-        stock_df = DailyFundRepo.find_by_symbol('B16%2C019')
+        stock_df = DailyFundRepo.find_by_symbol('B1qJzxf')
 
         FunctionKD.GenKD(stock_df)
         GenBollingerBand(stock_df)
         BuySellSignal(stock_df)
 
         LOG.debug(stock_df)
+
+        ax = plt.gca()
+        stock_df.plot(kind='line', x='market_date', y='close', ax=ax)
+        stock_df.plot(kind='line', x='market_date', y='upper', color='red', ax=ax)
+        stock_df.plot(kind='line', x='market_date', y='middle', color='green', ax=ax)
+        stock_df.plot(kind='line', x='market_date', y='lower', color='red', ax=ax)
+        plt.show()
     except Exception as e:
         CoreException.show_error(e, traceback.format_exc())
-    finally:
-        os.system("pause")
+    # finally:
+    #     os.system("pause")

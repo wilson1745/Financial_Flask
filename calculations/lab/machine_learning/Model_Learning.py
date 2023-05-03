@@ -11,6 +11,7 @@ import pandas as pd
 from pandas import DataFrame
 from sklearn.metrics import auc, confusion_matrix, roc_curve
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
+from talib import abstract
 
 from calculations.common.constants import constants
 from calculations.common.utils.dataframe_utils import DataFrameUtils
@@ -22,9 +23,9 @@ from calculations.repository.dailystock_repo import DailyStockRepo
 if __name__ == "__main__":
     """ ------------------- App Start ------------------- """
     try:
-        symbol = "6116"
+        symbol = "2330"
         start = "20210101"
-        end = "20210504"
+        end = "20220210"
         # end = DateUtils.today(Constants.YYYYMMDD)
         filePath = f"./files/{symbol}_{DateUtils.today(constants.YYYYMMDD)}"
 
